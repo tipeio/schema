@@ -1,5 +1,5 @@
 import { Model } from './model'
-import { Schema } from '../schema-types/types'
+import { Schema } from '../schema/types'
 
 export class Document extends Model {
   readonly modelType = 'Document'

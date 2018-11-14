@@ -1,4 +1,4 @@
-import { Schema } from '../schema-types/types'
+import { Schema } from '../schema/types'
 export abstract class Model {
   schema: Schema
   name: string
