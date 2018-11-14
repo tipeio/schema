@@ -15,7 +15,7 @@ before_install:
 install:
   - yarn --ignore-engines
 script:
-  - yarn test
+  - yarn ci
 # after_success:
 #   - npm run build
 #   - npm run travis-deploy-once "npm run semantic-release"
