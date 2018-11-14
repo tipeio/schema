@@ -1,4 +1,4 @@
-import { type } from '../index';
+import { type } from '../type';
 
 describe('schema-types', () => {
   describe('type', () => {
