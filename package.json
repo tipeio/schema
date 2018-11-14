@@ -19,6 +19,11 @@
     "test:watch": "jest --watch",
     "ci": "yarn lint && yarn test --coverage --no-cache"
   },
+  "husky": {
+    "hooks": {  
+      "pre-commit": "lint-staged"
+    }
+  },
   "lint-staged": {
     "{src,test}/**/*.ts": [
       "yarn lint",
