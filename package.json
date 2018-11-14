@@ -20,18 +20,20 @@
     "ci": "yarn lint && yarn test --coverage --no-cache"
   },
   "devDependencies": {
+    "@types/jest": "^23.3.9",
     "husky": "^1.1.4",
     "jest": "^23.6.0",
     "lint-staged": "^8.0.4",
     "prettier": "^1.15.2",
     "ts-jest": "^23.10.4",
+    "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.16.0",
     "tslint-config-standard": "^8.0.1",
     "typescript": "^3.1.6"
   },
   "jest": {
     "transform": {
-      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+      ".(ts|tsx)": "ts-jest"
     },
     "testEnvironment": "node",
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
