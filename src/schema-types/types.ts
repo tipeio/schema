@@ -22,7 +22,7 @@ export interface SchemaTypeFunction {
   (config: SchemaTypeConfig): SchemaTypeFinal
 }
 
-export type SchemaFields = {
+export type Schema = {
   [fieldName: string]: SchemaTypeFinal
 }
 
