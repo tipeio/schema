@@ -10,17 +10,17 @@ import {
   SchemaTypeFinal
 } from './types'
 
-export const isValidComponentForType = (type: string, component: string): Boolean => {
+export const isValidComponentForType = (type: string, component: string): boolean => {
   const components = validComponentsForTypes[type]
 
   if (!components.length) {
     return false
   }
 
-  return !! components.find(c => c === component)
+  return Boolean(components.find(c => c === component))
 }
 
-export const isObjectType = (type: string): Boolean => (
+export const isObjectType = (type: string): boolean => (
   type === validUserTypes.shape
   || type === validUserTypes.document
   || type === validUserTypes.page
