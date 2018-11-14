@@ -19,6 +19,13 @@
     "test:watch": "jest --watch",
     "ci": "yarn lint && yarn test --coverage --no-cache"
   },
+  "lint-staged": {
+    "{src,test}/**/*.ts": [
+      "yarn lint",
+      "prettier --write",
+      "git add"
+    ]
+  },
   "devDependencies": {
     "@types/jest": "^23.3.9",
     "husky": "^1.1.4",
