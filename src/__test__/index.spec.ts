@@ -1,4 +1,5 @@
 import { add } from '../index'
+
 describe('add', () => {
   test('should add', () => {
     const result = add(1, 2)
