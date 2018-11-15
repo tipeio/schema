@@ -1,10 +1,10 @@
 import {
-  Components,
-  TypeMap,
-  ValidComponentsMap,
+  IComponents,
+  ITypeMap,
+  IValidComponentsMap,
   EveryComponent,
-  ComponentsMap
-} from '../schema/types'
+  IComponentsMap
+} from '../types'
 
 export const componentsList: EveryComponent[] = [
   'range',
@@ -18,12 +18,15 @@ export const componentsList: EveryComponent[] = [
   'document'
 ]
 
-export const componentsMap = componentsList.reduce((m, c) => {
-  m[c] = c
-  return m
-}, {} as ComponentsMap)
+export const componentsMap = componentsList.reduce(
+  (m, c) => {
+    m[c] = c
+    return m
+  },
+  {} as IComponentsMap
+)
 
-export const defaultComponents: Components = {
+export const defaultComponents: IComponents = {
   number: 'range',
   string: 'simpletext',
   shape: 'shape',
@@ -33,7 +36,7 @@ export const defaultComponents: Components = {
   boolean: 'toggle'
 }
 
-export const validUserTypes: TypeMap = {
+export const validUserTypes: ITypeMap = {
   string: 'string',
   number: 'number',
   date: 'date',
@@ -43,7 +46,7 @@ export const validUserTypes: TypeMap = {
   document: 'document'
 }
 
-export const validComponentsForTypes: ValidComponentsMap = {
+export const validComponentsForTypes: IValidComponentsMap = {
   [validUserTypes.string]: [componentsMap.markdown, componentsMap.simpletext],
   [validUserTypes.number]: [componentsMap.range],
   [validUserTypes.boolean]: [componentsMap.toggle],

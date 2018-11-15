@@ -75,10 +75,6 @@
       "!src/**/*.d.ts"
     ]
   },
-  "prettier": {
-    "semi": false,
-    "singleQuote": true
-  },
   "release": {
     "verifyConditions": [
       "@semantic-release/changelog",
