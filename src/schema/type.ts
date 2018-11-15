@@ -7,7 +7,8 @@ import {
 import {
   SchemaTypeFunction,
   SchemaTypeConfig,
-  SchemaTypeFinal
+  SchemaTypeFinal,
+  EveryComponent
 } from './types'
 
 export const isValidComponentForType = (type: string, component: string): boolean => {
@@ -17,7 +18,7 @@ export const isValidComponentForType = (type: string, component: string): boolea
     return false
   }
 
-  return Boolean(components.find(c => c === component))
+  return Boolean(components.find((c: EveryComponent) => c === component))
 }
 
 export const isObjectType = (type: string): boolean => (
