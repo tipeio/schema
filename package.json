@@ -1,6 +1,6 @@
 {
   "name": "@tipe/schema",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "repository": "https://github.com/tipeio/schema.git",
   "author": "Tipe",
   "license": "MIT",
