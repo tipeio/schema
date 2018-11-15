@@ -1,5 +1,7 @@
 import { Schema } from '../schema/types'
-export abstract class Model {
+import { ModelInterface } from './types'
+
+export abstract class Model implements ModelInterface {
   schema: Schema
   name: string
 
