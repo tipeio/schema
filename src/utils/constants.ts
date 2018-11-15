@@ -4,7 +4,7 @@ import {
   IValidComponentsMap,
   EveryComponent,
   IComponentsMap
-} from '../schema/types'
+} from '../types'
 
 export const componentsList: EveryComponent[] = [
   'range',

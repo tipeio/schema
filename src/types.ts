@@ -3,6 +3,7 @@ export interface ISchemaTypeFinal {
   required: boolean
   array: boolean
   component: Component | RefComponent
+  displayName?: string
   ref?: string
   default?: any
   description?: string
@@ -10,6 +11,7 @@ export interface ISchemaTypeFinal {
 
 export interface ISchemaTypeConfig {
   type: SchemaType
+  displayName?: string
   ref?: string
   component?: Component
   description?: string
@@ -23,7 +25,9 @@ export type SchemaTypeFunction = (config: ISchemaTypeConfig) => ISchemaTypeFinal
 export interface ISchema {
   [fieldName: string]: ISchemaTypeFinal
 }
-
+export interface IUserSchema {
+  [fieldName: string]: ISchemaTypeConfig
+}
 export interface ITypeMap {
   [type: string]: SchemaType
 }
@@ -62,3 +66,19 @@ export type NumberType = string
 export type ShapeType = string
 export type DocumentType = string
 export type AssetType = string
+
+export interface IModel {
+  schema: ISchema
+  name: string
+}
+export interface IModelValidation {
+  model: string
+  error: string
+}
+
+export type ModelValidator = (model: IModel, models: IModel[]) => IModelValidation[]
+
+export interface IPreparedSchema {
+  errors: IModelValidation[]
+  models: IModel[]
+}

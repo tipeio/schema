@@ -9,7 +9,7 @@ import {
   ISchemaTypeConfig,
   ISchemaTypeFinal,
   EveryComponent
-} from './types'
+} from '../types'
 
 export const isValidComponentForType = (
   schemaType: string,
@@ -29,7 +29,7 @@ export const isObjectType = (schemaType: string): boolean =>
   schemaType === validUserTypes.document ||
   schemaType === validUserTypes.page
 
-export const type: SchemaTypeFunction = (
+export const field: SchemaTypeFunction = (
   config: ISchemaTypeConfig
 ): ISchemaTypeFinal => {
   const schemaType = validUserTypes[config.type]
@@ -63,9 +63,9 @@ export const type: SchemaTypeFunction = (
 
   return {
     ...config,
-    schemaType,
     component,
     array,
-    required
+    required,
+    type: schemaType
   }
 }
