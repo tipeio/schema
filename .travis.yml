@@ -16,9 +16,9 @@ install:
   - yarn --ignore-engines
 script:
   - yarn ci
-# after_success:
-#   - npm run build
-#   - npm run travis-deploy-once "npm run semantic-release"
+after_success:
+  - yarn build
+  - yarn travis-deploy-once "npm run semantic-release"
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
