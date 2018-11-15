@@ -4,7 +4,7 @@ import {
   ValidComponentsMap,
   EveryComponent,
   ComponentsMap
-} from '../schema-types/types'
+} from '../schema/types'
 
 export const componentsList: EveryComponent[] = [
   'range',

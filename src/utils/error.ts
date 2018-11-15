@@ -1,2 +1,2 @@
-import * as errorEx from 'error-ex'
+import errorEx from 'error-ex'
 export const InvalidSchemaError = errorEx('InvalidSchema')

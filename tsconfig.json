@@ -11,6 +11,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "declarationDir": "dist/_types",
+    "esModuleInterop": true,
     "outDir": "dist",
     "typeRoots": [
       "node_modules/@types"
