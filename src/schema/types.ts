@@ -1,4 +1,4 @@
-export type SchemaTypeFinal = {
+export interface ISchemaTypeFinal {
   type: SchemaType
   required: boolean
   array: boolean
@@ -8,7 +8,7 @@ export type SchemaTypeFinal = {
   description?: string
 }
 
-export type SchemaTypeConfig = {
+export interface ISchemaTypeConfig {
   type: SchemaType
   ref?: string
   component?: Component
@@ -18,33 +18,43 @@ export type SchemaTypeConfig = {
   default?: any
 }
 
-export interface SchemaTypeFunction {
-  (config: SchemaTypeConfig): SchemaTypeFinal
+export type SchemaTypeFunction = (config: ISchemaTypeConfig) => ISchemaTypeFinal
+
+export interface ISchema {
+  [fieldName: string]: ISchemaTypeFinal
 }
 
-export type Schema = {
-  [fieldName: string]: SchemaTypeFinal
-}
-
-export type TypeMap = {
+export interface ITypeMap {
   [type: string]: SchemaType
 }
 
-export type ValidComponentsMap = {
+export interface IValidComponentsMap {
   [type: string]: EveryComponent[]
 }
 
-export type ComponentsMap = {
+export interface IComponentsMap {
   [type: string]: EveryComponent
 }
 
-export type Component = 'markdown' | 'simpletext' | 'calendar' | 'range' | 'color' | 'toggle'
+export type Component =
+  | 'markdown'
+  | 'simpletext'
+  | 'calendar'
+  | 'range'
+  | 'color'
+  | 'toggle'
 export type RefComponent = 'asset' | 'document' | 'shape'
-export type Components = {
+export interface IComponents {
   [name: string]: Component | RefComponent
 }
 export type EveryComponent = Component | RefComponent
-export type SchemaType = StringType | NumberType | BooleanType | DateType | ShapeType | DocumentType
+export type SchemaType =
+  | StringType
+  | NumberType
+  | BooleanType
+  | DateType
+  | ShapeType
+  | DocumentType
 export type StringType = string
 export type DateType = string
 export type BooleanType = string

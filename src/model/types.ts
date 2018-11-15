@@ -1,14 +1,12 @@
-import { Schema } from '../schema/types'
+import { ISchema } from '../schema/types'
 
-export interface ModelInterface {
-  schema: Schema
+export interface IModelInterface {
+  schema: ISchema
   name: string
 }
-export type ModelValidation = {
+export interface IModelValidation {
   model: string
   error: string
 }
 
-export interface ModelValidator {
-  (model: ModelInterface, models: ModelInterface[]): ModelValidation[]
-}
+export type ModelValidator = (model: IModelInterface, models: IModelInterface[]) => IModelValidation[]

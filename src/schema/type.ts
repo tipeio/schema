@@ -6,13 +6,16 @@ import {
 } from '../utils'
 import {
   SchemaTypeFunction,
-  SchemaTypeConfig,
-  SchemaTypeFinal,
+  ISchemaTypeConfig,
+  ISchemaTypeFinal,
   EveryComponent
 } from './types'
 
-export const isValidComponentForType = (type: string, component: string): boolean => {
-  const components = validComponentsForTypes[type]
+export const isValidComponentForType = (
+  schemaType: string,
+  component: string
+): boolean => {
+  const components = validComponentsForTypes[schemaType]
 
   if (!components.length) {
     return false
@@ -21,43 +24,46 @@ export const isValidComponentForType = (type: string, component: string): boolea
   return Boolean(components.find((c: EveryComponent) => c === component))
 }
 
-export const isObjectType = (type: string): boolean => (
-  type === validUserTypes.shape
-  || type === validUserTypes.document
-  || type === validUserTypes.page
-)
+export const isObjectType = (schemaType: string): boolean =>
+  schemaType === validUserTypes.shape ||
+  schemaType === validUserTypes.document ||
+  schemaType === validUserTypes.page
 
-export const type: SchemaTypeFunction = (config: SchemaTypeConfig): SchemaTypeFinal => {
-  const type = validUserTypes[config.type]
+export const type: SchemaTypeFunction = (
+  config: ISchemaTypeConfig
+): ISchemaTypeFinal => {
+  const schemaType = validUserTypes[config.type]
 
-  if (!type) {
+  if (!schemaType) {
     throw new InvalidSchemaError(`"${config.type}" is not a valid type`)
   }
-  
+
   // object types need a reference to the schema they are referencing
-  if (isObjectType(type) && !config.ref) {
-    throw new InvalidSchemaError(`Must supply "ref" for type "${type}"`)
+  if (isObjectType(schemaType) && !config.ref) {
+    throw new InvalidSchemaError(`Must supply "ref" for type "${schemaType}"`)
   }
 
-  const component = config.component || defaultComponents[type]
+  const component = config.component || defaultComponents[schemaType]
 
-  if (!isValidComponentForType(type, component)) {
-    throw new InvalidSchemaError(`Component "${component}" is not compatible with type "${type}"`)
+  if (!isValidComponentForType(schemaType, component)) {
+    throw new InvalidSchemaError(
+      `Component "${component}" is not compatible with type "${schemaType}"`
+    )
   }
-  
+
   // can't set defaults on object types
-  if (isObjectType(type) && config.default !== undefined) {
-    console.log(`Default will be ignored for type "${type}"`)
+  if (isObjectType(schemaType) && config.default !== undefined) {
+    console.log(`Default will be ignored for type "${schemaType}"`)
     delete config.default
   }
-  
+
   // optional boolean options converted to for sure booleans
   const array = Boolean(config.isList)
   const required = Boolean(config.required)
-  
+
   return {
     ...config,
-    type,
+    schemaType,
     component,
     array,
     required

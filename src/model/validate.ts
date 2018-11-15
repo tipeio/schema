@@ -1,8 +1,8 @@
-import { ModelInterface, ModelValidator, ModelValidation } from './types'
-import {isString} from 'lodash'
+import { IModelInterface, ModelValidator, IModelValidation } from './types'
+import { isString } from 'lodash'
 
 export const dupeModelValidation: ModelValidator = (model, models) => {
-  const errors: ModelValidation[] = []
+  const errors: IModelValidation[] = []
   const modelWithSameName = models.filter(m => m.name === model.name)
 
   if (modelWithSameName.length) {
@@ -15,10 +15,9 @@ export const dupeModelValidation: ModelValidator = (model, models) => {
   return errors
 }
 
+export const modelNameValidation: ModelValidator = model => {
+  const errors: IModelValidation[] = []
 
-export const modelNameValidation: ModelValidator = (model) => {
-  const errors: ModelValidation[] = []
-  
   if (!model.name) {
     errors.push({
       model: model.name,
@@ -36,7 +35,7 @@ export const modelNameValidation: ModelValidator = (model) => {
 
     return errors
   }
-  
+
   if (!/^[a-z]+$/i.test(model.name)) {
     errors.push({
       model: model.name,
@@ -54,13 +53,16 @@ export const modelNameValidation: ModelValidator = (model) => {
   return errors
 }
 
-export const validateModels = (models: ModelInterface[]): ModelValidation[] => {
-  return models.reduce((result, model) => {
-    let errors = []
-    
-    errors.push(...modelNameValidation(model, models))
-    errors.push(...dupeModelValidation(model, models))
-    result.push(...errors)
-    return result
-  }, [] as ModelValidation[])
+export const validateModels = (models: IModelInterface[]): IModelValidation[] => {
+  return models.reduce(
+    (result, model) => {
+      const errors = []
+
+      errors.push(...modelNameValidation(model, models))
+      errors.push(...dupeModelValidation(model, models))
+      result.push(...errors)
+      return result
+    },
+    [] as IModelValidation[]
+  )
 }

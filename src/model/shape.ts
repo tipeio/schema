@@ -1,10 +1,10 @@
 import { Model } from './model'
-import { Schema } from '../schema/types'
+import { ISchema } from '../schema/types'
 
 export class Shape extends Model {
-  readonly modelType = 'Shape'
+  public readonly modelType = 'Shape'
 
-  constructor(name: string, schema: Schema) {
+  constructor(name: string, schema: ISchema) {
     super(name, schema)
   }
 }
