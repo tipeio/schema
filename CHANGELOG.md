@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/tipeio/schema/compare/v1.1.0...v1.1.1) (2018-11-16)
+
+
+### Bug Fixes
+
+* **fields:** export ([2ce6978](https://github.com/tipeio/schema/commit/2ce6978))
+
 # [1.1.0](https://github.com/tipeio/schema/compare/v1.0.0...v1.1.0) (2018-11-16)
 
 
