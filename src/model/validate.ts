@@ -6,8 +6,7 @@ export const normalizeFieldName = (name: string): string => {
 }
 
 export const schemaFieldNameValidation: ModelValidator = (model) => {
-  const schema = model.schema
-  const fields: string[] = Object.keys(schema)
+  const fields = Object.keys(model.fields)
   const errors: IModelValidation[] = []
   
   fields.forEach(field => {
