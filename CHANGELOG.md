@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/tipeio/schema/compare/v1.1.2...v1.2.0) (2018-11-16)
+
+
+### Features
+
+* **constants:** add system constants ([e06e266](https://github.com/tipeio/schema/commit/e06e266))
+
 ## [1.1.2](https://github.com/tipeio/schema/compare/v1.1.1...v1.1.2) (2018-11-16)
 
 
