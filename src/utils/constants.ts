@@ -3,8 +3,19 @@ import {
   ITypeMap,
   IValidComponentsMap,
   EveryComponent,
-  IComponentsMap
+  IComponentsMap,
+  ITypes
 } from '../types'
+
+export const types: ITypes = {
+  string: 'String',
+  number: 'Number',
+  boolean: 'Boolean',
+  date: 'Date',
+  document: 'Document',
+  shape: 'Shape',
+  page: 'Page'
+}
 
 export const componentsList: EveryComponent[] = [
   'range',
@@ -27,28 +38,28 @@ export const componentsMap = componentsList.reduce(
 )
 
 export const defaultComponents: IComponents = {
-  number: 'range',
-  string: 'simpletext',
-  shape: 'shape',
-  date: 'calendar',
-  document: 'document',
-  asset: 'asset',
-  boolean: 'toggle'
+  [types.number]: 'range',
+  [types.string]: 'simpletext',
+  [types.shape]: 'shape',
+  [types.date]: 'calendar',
+  [types.document]: 'document',
+  [types.boolean]: 'toggle'
 }
 
 export const validUserTypes: ITypeMap = {
-  string: 'string',
-  number: 'number',
-  date: 'date',
-  boolean: 'boolean',
-  asset: 'asset',
-  shape: 'shape',
-  document: 'document'
+  [types.string]: types.string,
+  [types.number]: types.number,
+  [types.date]: types.date,
+  [types.boolean]: types.boolean,
+  [types.shape]: types.shape,
+  [types.document]: types.document
 }
 
 export const validComponentsForTypes: IValidComponentsMap = {
-  [validUserTypes.string]: [componentsMap.markdown, componentsMap.simpletext],
-  [validUserTypes.number]: [componentsMap.range],
-  [validUserTypes.boolean]: [componentsMap.toggle],
-  [validUserTypes.date]: [componentsMap.calendar]
+  [types.string]: [componentsMap.markdown, componentsMap.simpletext],
+  [types.number]: [componentsMap.range],
+  [types.boolean]: [componentsMap.toggle],
+  [types.date]: [componentsMap.calendar],
+  [types.shape]: [componentsMap.shape],
+  [types.document]: [componentsMap.document]
 }

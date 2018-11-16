@@ -1,6 +1,7 @@
 import { modelNameValidation, dupeModelValidation, validateModels } from '../validate'
 import { IModel } from '../../types'
 import { Document } from '../document'
+import { types } from '../../utils'
 
 describe('validate', () => {
   describe('modelNameValidation', () => {
@@ -114,11 +115,11 @@ describe('validate', () => {
   describe('validateModels', () => {
     test('runs validations on all models in order', () => {
       const Author = new Document('Author', {
-        _name: {type: 'string'}
+        _name: {type: types.string}
       })
 
       const Asset = new Document('Asset', {
-        url: {type: 'string', required: true}
+        url: {type: types.string, required: true}
       })
 
       const models = [Author, Asset]
