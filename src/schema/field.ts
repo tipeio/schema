@@ -2,7 +2,8 @@ import {
   InvalidSchemaError,
   validUserTypes,
   defaultComponents,
-  validComponentsForTypes
+  validComponentsForTypes,
+  types
 } from '../utils'
 import {
   SchemaTypeFunction,
@@ -12,10 +13,10 @@ import {
 } from '../types'
 
 export const isValidComponentForType = (
-  schemaType: string,
+  fieldType: string,
   component: string
 ): boolean => {
-  const components = validComponentsForTypes[schemaType]
+  const components = validComponentsForTypes[fieldType] || []
 
   if (!components.length) {
     return false
@@ -24,36 +25,36 @@ export const isValidComponentForType = (
   return Boolean(components.find((c: EveryComponent) => c === component))
 }
 
-export const isObjectType = (schemaType: string): boolean =>
-  schemaType === validUserTypes.shape ||
-  schemaType === validUserTypes.document ||
-  schemaType === validUserTypes.page
+export const isObjectType = (fieldType: string): boolean =>
+  fieldType === types.shape ||
+  fieldType === types.document ||
+  fieldType === types.page
 
 export const field: SchemaTypeFunction = (
   config: ISchemaTypeConfig
 ): ISchemaTypeFinal => {
-  const schemaType = validUserTypes[config.type]
+  const fieldType = validUserTypes[config.type]
 
-  if (!schemaType) {
+  if (!fieldType) {
     throw new InvalidSchemaError(`"${config.type}" is not a valid type`)
   }
 
   // object types need a reference to the schema they are referencing
-  if (isObjectType(schemaType) && !config.ref) {
-    throw new InvalidSchemaError(`Must supply "ref" for type "${schemaType}"`)
+  if (isObjectType(fieldType) && !config.ref) {
+    throw new InvalidSchemaError(`Must supply "ref" for type "${fieldType}"`)
   }
 
-  const component = config.component || defaultComponents[schemaType]
+  const component = config.component || defaultComponents[fieldType]
 
-  if (!isValidComponentForType(schemaType, component)) {
+  if (!isValidComponentForType(fieldType, component)) {
     throw new InvalidSchemaError(
-      `Component "${component}" is not compatible with type "${schemaType}"`
+      `Component "${component}" is not compatible with type "${fieldType}"`
     )
   }
 
   // can't set defaults on object types
-  if (isObjectType(schemaType) && config.default !== undefined) {
-    console.log(`Default will be ignored for type "${schemaType}"`)
+  if (isObjectType(fieldType) && config.default !== undefined) {
+    console.log(`Default will be ignored for type "${fieldType}"`)
     delete config.default
   }
 
@@ -66,6 +67,6 @@ export const field: SchemaTypeFunction = (
     component,
     array,
     required,
-    type: schemaType
+    type: fieldType
   }
 }

@@ -82,3 +82,13 @@ export interface IPreparedSchema {
   errors: IModelValidation[]
   models: IModel[]
 }
+
+export interface ITypes {
+  string: 'String'
+  number: 'Number'
+  boolean: 'Boolean'
+  date: 'Date'
+  document: 'Document'
+  shape: 'Shape'
+  page: 'Page'
+}
