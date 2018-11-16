@@ -1,4 +1,5 @@
-export interface ISchemaTypeFinal {
+import { field } from './schema/field'
+export interface IFieldNormalized {
   type: SchemaType
   required: boolean
   array: boolean
@@ -9,7 +10,7 @@ export interface ISchemaTypeFinal {
   description?: string
 }
 
-export interface ISchemaTypeConfig {
+export interface IUserFieldConfig {
   type: SchemaType
   displayName?: string
   ref?: string
@@ -20,13 +21,13 @@ export interface ISchemaTypeConfig {
   default?: any
 }
 
-export type SchemaTypeFunction = (config: ISchemaTypeConfig) => ISchemaTypeFinal
+export type SchemaTypeFunction = (config: IUserFieldConfig) => IFieldNormalized
 
-export interface ISchema {
-  [fieldName: string]: ISchemaTypeFinal
+export interface IFields {
+  [fieldName: string]: IFieldNormalized
 }
 export interface IUserSchema {
-  [fieldName: string]: ISchemaTypeConfig
+  [fieldName: string]: IUserFieldConfig
 }
 export interface ITypeMap {
   [type: string]: SchemaType
@@ -68,7 +69,7 @@ export type DocumentType = string
 export type AssetType = string
 
 export interface IModel {
-  schema: ISchema
+  fields: IFields
   name: string
 }
 export interface IModelValidation {

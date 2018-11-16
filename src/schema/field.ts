@@ -7,8 +7,8 @@ import {
 } from '../utils'
 import {
   SchemaTypeFunction,
-  ISchemaTypeConfig,
-  ISchemaTypeFinal,
+  IUserFieldConfig,
+  IFieldNormalized,
   EveryComponent
 } from '../types'
 
@@ -31,8 +31,8 @@ export const isObjectType = (fieldType: string): boolean =>
   fieldType === types.page
 
 export const field: SchemaTypeFunction = (
-  config: ISchemaTypeConfig
-): ISchemaTypeFinal => {
+  config: IUserFieldConfig
+): IFieldNormalized => {
   const fieldType = validUserTypes[config.type]
 
   if (!fieldType) {

@@ -1,11 +1,11 @@
-import { ISchema, IModel, IUserSchema } from '../types'
+import { IFields, IModel, IUserSchema } from '../types'
 import { field } from '../schema'
 export abstract class Model implements IModel {
-  public schema: ISchema
+  public fields: IFields
   public name: string
 
-  constructor(name: string, schema: IUserSchema) {
-    this.schema = this.transformSchemaFields(schema)
+  constructor(name: string, fields: IUserSchema) {
+    this.fields = this.transformSchemaFields(fields)
     this.name = name
   }
   
@@ -13,11 +13,11 @@ export abstract class Model implements IModel {
    * normalize user schema fields for processing
    * @param schema user schema object
    */
-  private transformSchemaFields(schema: IUserSchema): ISchema {
-    return Object.keys(schema)
+  private transformSchemaFields(fields: IUserSchema): IFields {
+    return Object.keys(fields)
       .reduce((s, fieldName) => {
-        s[fieldName] = field(schema[fieldName])
+        s[fieldName] = field(fields[fieldName])
         return s
-      }, {} as ISchema)
+      }, {} as IFields)
   }
 }

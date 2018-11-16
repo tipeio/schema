@@ -1,16 +1,16 @@
-import { IModel, ISchemaTypeFinal, ISchema  } from '../types'
+import { IModel, IFieldNormalized, IFields  } from '../types'
 
 const addDisplayNameToFields = (model: IModel): IModel => {
-  const schema = Object.keys(model.schema)
+  const fields = Object.keys(model.fields)
     .reduce((m, name: string) => {
-      const field: ISchemaTypeFinal = model.schema[name]
+      const field: IFieldNormalized = model.fields[name]
       const displayName = field.displayName || name
 
       m[name] = {...field, displayName}
       return m
-    }, {} as ISchema)
-  
-  return {...model, schema}
+    }, {} as IFields)
+    
+    return {...model, fields}
 }
 
 export const transformSchema = (models: IModel[]): IModel[] => {
