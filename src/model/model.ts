@@ -13,7 +13,7 @@ export abstract class Model implements IModel {
    * normalize user schema fields for processing
    * @param schema user schema object
    */
-  private transformSchemaFields(fields: IUserSchema): IFields {
+  protected transformSchemaFields(fields: IUserSchema): IFields {
     return Object.keys(fields)
       .reduce((s, fieldName) => {
         s[fieldName] = field(fields[fieldName])
