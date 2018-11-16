@@ -17,6 +17,16 @@ export const types: ITypes = {
   page: 'Page'
 }
 
+export const models = {
+  asset: 'TipeAsset',
+  user: 'TipeUser',
+  meta: 'TipeMeta'
+}
+
+export const fields = {
+  meta: 'meta_info'
+}
+
 export const componentsList: EveryComponent[] = [
   'range',
   'simpletext',
@@ -29,7 +39,7 @@ export const componentsList: EveryComponent[] = [
   'document'
 ]
 
-export const componentsMap = componentsList.reduce(
+export const components = componentsList.reduce(
   (m, c) => {
     m[c] = c
     return m
@@ -56,10 +66,10 @@ export const validUserTypes: ITypeMap = {
 }
 
 export const validComponentsForTypes: IValidComponentsMap = {
-  [types.string]: [componentsMap.markdown, componentsMap.simpletext],
-  [types.number]: [componentsMap.range],
-  [types.boolean]: [componentsMap.toggle],
-  [types.date]: [componentsMap.calendar],
-  [types.shape]: [componentsMap.shape],
-  [types.document]: [componentsMap.document]
+  [types.string]: [components.markdown, components.simpletext],
+  [types.number]: [components.range],
+  [types.boolean]: [components.toggle],
+  [types.date]: [components.calendar],
+  [types.shape]: [components.shape],
+  [types.document]: [components.document]
 }

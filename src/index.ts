@@ -1,5 +1,4 @@
-
 export * from './model'
 export * from './schema'
 export * from './prepare'
-export { types } from './utils'
+export { types, components, models } from './utils'

@@ -1,15 +1,21 @@
 import { IModel, ModelValidator, IModelValidation } from '../types'
-import { isString } from 'lodash'
+import { models, fields } from '../utils'
+import { isString, map } from 'lodash'
 
 export const normalizeFieldName = (name: string): string => {
   return name.toLocaleLowerCase()
 }
 
+export const reservedNameRegex = (names: {[key: string]: string}): RegExp => {
+  const reservedModels = map(names, m => m).join('|')
+  return new RegExp(`^(${reservedModels})$`, 'i')
+}
+
 export const schemaFieldNameValidation: ModelValidator = (model) => {
-  const fields = Object.keys(model.fields)
+  const modelFields = Object.keys(model.fields)
   const errors: IModelValidation[] = []
   
-  fields.forEach(field => {
+  modelFields.forEach(field => {
     if (!isString(field)) {
       errors.push({
         model: model.name,
@@ -36,9 +42,9 @@ export const schemaFieldNameValidation: ModelValidator = (model) => {
   return errors
 }
 
-export const dupeModelValidation: ModelValidator = (model, models) => {
+export const dupeModelValidation: ModelValidator = (model, modelList) => {
   const errors: IModelValidation[] = []
-  const modelWithSameName = models.filter(m => m.name === model.name)
+  const modelWithSameName = modelList.filter(m => m.name === model.name)
   
   // account for the same model in the list of models
   if (modelWithSameName.length > 1) {
@@ -80,8 +86,9 @@ export const modelNameValidation: ModelValidator = model => {
     })
   }
   
-  // can use these names, just not alone
-  if (/^(asset|document|shape|page)$/i.test(model.name)) {
+  
+  const reg = reservedNameRegex(models)
+  if (reg.test(model.name)) {
     errors.push({
       model: model.name,
       error: `Invalid Model name "${model.name}". Reserved name.`
@@ -91,14 +98,14 @@ export const modelNameValidation: ModelValidator = model => {
   return errors
 }
 
-export const validateModels = (models: IModel[]): IModelValidation[] => {
-  return models.reduce(
+export const validateModels = (modelList: IModel[]): IModelValidation[] => {
+  return modelList.reduce(
     (result, model) => {
       const errors = []
 
-      errors.push(...modelNameValidation(model, models))
-      errors.push(...dupeModelValidation(model, models))
-      errors.push(...schemaFieldNameValidation(model, models))
+      errors.push(...modelNameValidation(model, modelList))
+      errors.push(...dupeModelValidation(model, modelList))
+      errors.push(...schemaFieldNameValidation(model, modelList))
       result.push(...errors)
       return result
     },

@@ -1,7 +1,7 @@
-import { modelNameValidation, dupeModelValidation, validateModels } from '../validate'
+import { modelNameValidation, dupeModelValidation, validateModels, schemaFieldNameValidation } from '../validate'
 import { IModel } from '../../types'
 import { Document } from '../document'
-import { types } from '../../utils'
+import { types, models, fields } from '../../utils'
 
 describe('validate', () => {
   describe('modelNameValidation', () => {
@@ -64,18 +64,15 @@ describe('validate', () => {
 
     test('checks if name is reserved name', () => {
       const invalid: string[] = [
-        'page',
-        'Page',
-        'PAGE',
-        'asset',
-        'Asset',
-        'ASSET',
-        'document',
-        'Document',
-        'DOCUMENT',
-        'shape',
-        'Shape',
-        'SHAPE'
+        models.asset,
+        models.meta,
+        models.user,
+        models.asset.toLocaleLowerCase(),
+        models.meta.toLocaleLowerCase(),
+        models.asset.toLocaleLowerCase(),
+        models.asset.toUpperCase(),
+        models.meta.toUpperCase(),
+        models.asset.toUpperCase(),
       ]
 
       const model = {} as IModel
@@ -88,9 +85,9 @@ describe('validate', () => {
       })
 
       const validNames = [
-        'HomePage',
-        'VideoAsset',
-        'DocumentThing'
+        models.asset + 'yooo',
+        models.meta + 'uoi',
+        'sadf' + models.user
       ]
 
       validNames.forEach(name => {
@@ -104,9 +101,9 @@ describe('validate', () => {
   describe('dupeModelValidation', () => {
     test('checks for model dupes', () => {
       const model = { name: 'Author' } as IModel
-      const models = [model, { ...model }]
+      const modelList = [model, { ...model }]
 
-      const errors = dupeModelValidation(model, models)
+      const errors = dupeModelValidation(model, modelList)
       expect(errors).toHaveLength(1)
       expect(errors[0].error).toMatch(/unique/)
     })
@@ -118,16 +115,29 @@ describe('validate', () => {
         _name: {type: types.string}
       })
 
-      const Asset = new Document('Asset', {
+      const Asset = new Document(models.asset, {
         url: {type: types.string, required: true}
       })
 
-      const models = [Author, Asset]
-      const errors = validateModels(models)
+      const modelList = [Author, Asset]
+      const errors = validateModels(modelList)
 
       expect(errors).toHaveLength(2)
       expect(errors[0].model).toBe('Author')
-      expect(errors[1].model).toBe('Asset')
+      expect(errors[1].model).toBe(models.asset)
+    })
+  })
+
+  describe('schemaFieldValidatio', () => {
+    test('checks if name a string', () => {
+      const invalid = {
+        fields: {
+          [123]: {}
+        }
+      } as unknown as IModel
+      
+      const errors = schemaFieldNameValidation(invalid, [invalid])
+      expect(errors).toHaveLength(2)
     })
   })
 })
