@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/tipeio/schema/compare/v1.2.0...v1.2.1) (2018-11-16)
+
+
+### Bug Fixes
+
+* **models:** remove system ([1f39847](https://github.com/tipeio/schema/commit/1f39847))
+
 # [1.2.0](https://github.com/tipeio/schema/compare/v1.1.2...v1.2.0) (2018-11-16)
 
 
