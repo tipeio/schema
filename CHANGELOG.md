@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/tipeio/schema/compare/v1.0.0...v1.1.0) (2018-11-16)
+
+
+### Features
+
+* **fields:** add types ([edee72b](https://github.com/tipeio/schema/commit/edee72b))
+
 # 1.0.0 (2018-11-15)
 
 
