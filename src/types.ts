@@ -1,33 +1,17 @@
-import { field } from './schema/field'
-export interface IFieldNormalized {
-  type: SchemaType
-  required: boolean
-  array: boolean
-  component: Component | RefComponent
-  displayName?: string
-  ref?: string
-  default?: any
-  description?: string
-}
-
-export interface IUserFieldConfig {
-  type: SchemaType
-  displayName?: string
-  ref?: string
-  component?: Component
-  description?: string
+export interface IField {
+  type: SchemaType | IFields
+  name?: string
   required?: boolean
-  isList?: boolean
+  array?: boolean
+  component?: Component | RefComponent
+  displayName?: string
+  ref?: string
   default?: any
+  description?: string
 }
-
-export type SchemaTypeFunction = (config: IUserFieldConfig) => IFieldNormalized
 
 export interface IFields {
-  [fieldName: string]: IFieldNormalized
-}
-export interface IUserSchema {
-  [fieldName: string]: IUserFieldConfig
+  [fieldName: string]: IField
 }
 export interface ITypeMap {
   [type: string]: SchemaType
@@ -48,36 +32,35 @@ export type Component =
   | 'range'
   | 'color'
   | 'toggle'
+
 export type RefComponent = 'asset' | 'document' | 'shape'
 export interface IComponents {
   [name: string]: Component | RefComponent
 }
 export type EveryComponent = Component | RefComponent
 export type SchemaType =
-  | StringType
-  | NumberType
-  | BooleanType
-  | DateType
-  | ShapeType
-  | DocumentType
-export type StringType = string
-export type DateType = string
-export type BooleanType = string
-export type NumberType = string
-export type ShapeType = string
-export type DocumentType = string
-export type AssetType = string
+  | 'String'
+  | 'Date'
+  | 'Boolean'
+  | 'Number'
+  | 'Shape'
+  | 'Document'
 
 export interface IModel {
   fields: IFields
   name: string
+  modelType: string
+  normalizeFields(fields: IFields): IFields
 }
 export interface IModelValidation {
   model: string
   error: string
 }
 
-export type ModelValidator = (model: IModel, models: IModel[]) => IModelValidation[]
+export type ModelValidator = (
+  model: IModel,
+  models: IModel[]
+) => IModelValidation[]
 
 export interface IPreparedSchema {
   errors: IModelValidation[]
@@ -91,5 +74,4 @@ export interface ITypes {
   date: 'Date'
   document: 'Document'
   shape: 'Shape'
-  page: 'Page'
 }

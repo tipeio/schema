@@ -1,7 +1,12 @@
-import { modelNameValidation, dupeModelValidation, validateModels, schemaFieldNameValidation } from '../validate'
 import { IModel } from '../../types'
 import { Document } from '../document'
-import { types, models, fields } from '../../utils'
+import { types, models } from '../../utils'
+import {
+  modelNameValidation,
+  dupeModelValidation,
+  validateModels,
+  schemaFieldValidation
+} from '../validate'
 
 describe('validate', () => {
   describe('modelNameValidation', () => {
@@ -72,7 +77,7 @@ describe('validate', () => {
         models.asset.toLocaleLowerCase(),
         models.asset.toUpperCase(),
         models.meta.toUpperCase(),
-        models.asset.toUpperCase(),
+        models.asset.toUpperCase()
       ]
 
       const model = {} as IModel
@@ -112,32 +117,59 @@ describe('validate', () => {
   describe('validateModels', () => {
     test('runs validations on all models in order', () => {
       const Author = new Document('Author', {
-        _name: {type: types.string}
+        _name: { type: types.string }
       })
 
       const Asset = new Document(models.asset, {
-        url: {type: types.string, required: true}
+        url: { type: types.string, required: true }
       })
 
       const modelList = [Author, Asset]
       const errors = validateModels(modelList)
 
-      expect(errors).toHaveLength(2)
+      expect(errors).toHaveLength(4)
       expect(errors[0].model).toBe('Author')
-      expect(errors[1].model).toBe(models.asset)
+      expect(errors[2].model).toBe(models.asset)
     })
   })
 
   describe('schemaFieldValidatio', () => {
-    test('checks if name a string', () => {
-      const invalid = {
+    test('checks if name starts with a letter', () => {
+      const invalid = ({
+        name: 'Author',
         fields: {
-          [123]: {}
+          ['_name']: {}
         }
-      } as unknown as IModel
-      
-      const errors = schemaFieldNameValidation(invalid, [invalid])
-      expect(errors).toHaveLength(2)
+      } as unknown) as IModel
+
+      const errors = schemaFieldValidation(invalid, [invalid])
+      const error = errors.find(e => /first char/i.test(e.error))
+      expect(error).toBeTruthy()
+    })
+
+    test('checks if name is alpha numeric snake_case', () => {
+      const invalid = ({
+        name: 'Author',
+        fields: {
+          ['first_name']: {},
+          ['last4']: {}
+        }
+      } as unknown) as IModel
+
+      const errors = schemaFieldValidation(invalid, [invalid])
+      const error = errors.find(e => /alpha numeric snake_case/i.test(e.error))
+      expect(error).not.toBeTruthy()
+    })
+
+    test('checks if field is a valid type', () => {
+      const invalid = ({
+        name: 'Author',
+        fields: {
+          name: {
+            type: 'int'
+          }
+        }
+      } as unknown) as IModel
     })
   })
 })
