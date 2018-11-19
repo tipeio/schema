@@ -1,10 +1,12 @@
 {
   "extends": [
     "tslint:recommended",
+    "tslint-plugin-prettier",
     "tslint-config-standard",
     "tslint-config-prettier"
   ],
   "rules": {
+    "prettier": true,
     "ordered-imports": false,
     "only-arrow-functions": false,
     "object-literal-sort-keys": false,

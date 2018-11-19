@@ -13,8 +13,7 @@ export const types: ITypes = {
   boolean: 'Boolean',
   date: 'Date',
   document: 'Document',
-  shape: 'Shape',
-  page: 'Page'
+  shape: 'Shape'
 }
 
 export const models = {
@@ -61,8 +60,7 @@ export const validUserTypes: ITypeMap = {
   [types.number]: types.number,
   [types.date]: types.date,
   [types.boolean]: types.boolean,
-  [types.shape]: types.shape,
-  [types.document]: types.document
+  [types.shape]: types.shape
 }
 
 export const validComponentsForTypes: IValidComponentsMap = {

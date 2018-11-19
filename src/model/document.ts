@@ -1,5 +1,6 @@
 import { Model } from './model'
+import { types } from '../utils'
 
 export class Document extends Model {
-  public readonly modelType = 'Document'
+  public readonly modelType = types.shape
 }

@@ -1,5 +1,5 @@
 import { Document } from './model'
-import {models, types} from './utils'
+import { models, types } from './utils'
 
 export const Asset = new Document(models.asset, {
   url: {
