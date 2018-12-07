@@ -1,5 +1,6 @@
 import { IFields, IModel } from '../types'
 import { reduce } from 'lodash'
+import { defaultComponents } from '../utils/constants'
 export abstract class Model implements IModel {
   public fields: IFields
   public name: string
@@ -17,9 +18,14 @@ export abstract class Model implements IModel {
         final[name] = {
           ...field,
           name,
-          displayName: name || field.displayName,
+          displayName: field.displayName || name,
           required: Boolean(field.required),
-          array: Boolean(field.array)
+          array: Boolean(field.array),
+          component: field.component || defaultComponents[field.type as string],
+          type:
+            typeof field.type === 'object'
+              ? this.normalizeFields(field.type)
+              : field.type
         }
         return final
       },

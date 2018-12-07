@@ -671,10 +671,6 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
-"@types/es6-collections@^0.5.31":
-  version "0.5.31"
-  resolved "https://registry.npmjs.org/@types/es6-collections/-/es6-collections-0.5.31.tgz#faad21c930cd0ea7f71f51b9e5b555796c5ab23f"
-
 "@types/jest@^23.3.9":
   version "23.3.9"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-23.3.9.tgz#c16b55186ee73ae65e001fbee69d392c51337ad1"

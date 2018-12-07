@@ -60,12 +60,14 @@ export const validUserTypes: ITypeMap = {
   [types.number]: types.number,
   [types.date]: types.date,
   [types.boolean]: types.boolean,
-  [types.shape]: types.shape
+  [types.shape]: types.shape,
+  [types.markdown]: types.markdown
 }
 
 export const validComponentsForTypes: IValidComponentsMap = {
   [types.string]: [components.simpletext],
   [types.markdown]: [components.markdown],
+  [types.number]: [components.numberselect],
   [types.boolean]: [components.toggle],
   [types.date]: [components.calendar],
   [types.shape]: [components.shape]
