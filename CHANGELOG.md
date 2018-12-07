@@ -1,3 +1,11 @@
+## [1.2.4](https://github.com/tipeio/schema/compare/v1.2.3...v1.2.4) (2018-12-07)
+
+
+### Bug Fixes
+
+* **schema:** add default components ([46636b8](https://github.com/tipeio/schema/commit/46636b8))
+* **test:** fix tests ([1440a5f](https://github.com/tipeio/schema/commit/1440a5f))
+
 ## [1.2.3](https://github.com/tipeio/schema/compare/v1.2.2...v1.2.3) (2018-12-07)
 
 
