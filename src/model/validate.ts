@@ -8,7 +8,6 @@
  *   - must have fields
  *
  * Field Validations
- *   - names must be strings
  *   - names must start with alpha char
  *   - names can only be snake case
  *   - shape types cannot ref other shape types
@@ -16,13 +15,13 @@
  *   - object types cannot have fields that ref shape types
  */
 
+import { isString, map, filter, reduce, forEach } from 'lodash'
 import {
   IModel,
   ModelValidator,
   IModelValidation,
   SchemaType,
-  IFields,
-  EveryComponent
+  IFields
 } from '../types'
 import {
   models,
@@ -30,7 +29,6 @@ import {
   validUserTypes,
   validComponentsForTypes
 } from '../utils'
-import { isString, map, filter } from 'lodash'
 
 export const normalizeFieldName = (name: string): string => {
   return name.toLocaleLowerCase()
@@ -46,9 +44,11 @@ export const isValidType = (type: SchemaType): boolean => {
 }
 
 export const isNestedObject = (fields: IFields): boolean => {
-  return !!filter(fields, field => {
+  const results = filter(fields, field => {
     return typeof field.type !== 'string'
-  }).length
+  })
+
+  return !!results.length
 }
 
 export const isValidComponentForType = (
@@ -61,7 +61,7 @@ export const isValidComponentForType = (
     return false
   }
 
-  return Boolean(components.find((c: EveryComponent) => c === component))
+  return Boolean(components.find((c: string) => c === component))
 }
 
 export const schemaFieldValidation: ModelValidator = (model, modelList) => {
@@ -112,24 +112,52 @@ export const schemaFieldValidation: ModelValidator = (model, modelList) => {
           model: model.name,
           error: `Invalid field "${fieldName}. Shape "${
             field.ref
-          } was not created"`
-        })
-      }
-
-      if (field.type === types.shape && model.modelType === types.shape) {
-        errors.push({
-          model: model.name,
-          error: `Invalid field "${fieldName}". Shapes cannot reference other shapes"`
+          }" was not created"`
         })
       }
     } else {
       // objet type
-      if (isNestedObject(field.type)) {
-        errors.push({
-          model: model.name,
-          error: `Invalid field "${fieldName}". Object types cannot have fields with Object types`
-        })
-      }
+      const nestedErrors = reduce(
+        field.type,
+        (mem, subfield, subfieldName) => {
+          if (typeof subfield.type === 'string') {
+            if (!isValidType(subfield.type)) {
+              errors.push({
+                model: model.name,
+                error: `Invalid field "${fieldName}.${subfieldName}". Invalid type "${
+                  subfield.type
+                }"`
+              })
+            }
+
+            if (!isValidComponentForType(subfield.type, subfield.component)) {
+              errors.push({
+                model: model.name,
+                error: `Invalid field "${fieldName}.${subfieldName}". Type "${
+                  subfield.type
+                }" is not compatible with component "${subfield.component}"`
+              })
+            }
+
+            if (subfield.type === types.shape) {
+              mem.push({
+                model: model.name,
+                error: `Invalid field "${fieldName}.${subfieldName}". Object type field cannot be a shape ref`
+              })
+            }
+          } else {
+            mem.push({
+              model: model.name,
+              error: `Invalid field "${fieldName}.${subfieldName}". Object types field cannot be an Object type`
+            })
+          }
+
+          return mem
+        },
+        [] as IModelValidation[]
+      )
+
+      errors.push(...nestedErrors)
     }
   })
 
@@ -191,6 +219,55 @@ export const modelNameValidation: ModelValidator = model => {
   return errors
 }
 
+export const circularValidation: ModelValidator = (model, modelList) => {
+  const errors: IModelValidation[] = []
+  if (model.modelType !== types.shape) {
+    return errors
+  }
+
+  const traversedModels = new Set<IModel>()
+  const cycles: string[] = []
+
+  const traverse = (currentModel: IModel, path: string) => {
+    // if we already saw a model, then its a cycle, no need to traverse fields
+    // unless the root model has not been resolved yet
+    if (traversedModels.has(currentModel)) {
+      const reg = new RegExp(currentModel.name, 'g')
+      const alreadResolvedCycle = path.match(reg)
+
+      if (alreadResolvedCycle && alreadResolvedCycle.length > 1) {
+        cycles.push(path)
+        return
+      }
+    }
+
+    traversedModels.add(currentModel)
+
+    forEach(currentModel.fields, field => {
+      if (field.type === types.shape) {
+        const refModel = modelList.find(m => m.name === field.ref)
+        if (refModel) {
+          traverse(refModel, `${path}.${field.name} => ${refModel.name}`)
+        }
+      }
+    })
+  }
+
+  traverse(model, model.name)
+  cycles.forEach(cycle => {
+    const lastRef = cycle.split('=>').pop()
+    // only create errors for cycles that start and end with the
+    // current model
+    if (lastRef && lastRef.trim() === model.name) {
+      errors.push({
+        model: model.name,
+        error: `Invalid Model ${model.name}. Found circular references ${cycle}`
+      })
+    }
+  })
+  return errors
+}
+
 export const validateModels = (modelList: IModel[]): IModelValidation[] => {
   return modelList.reduce(
     (result, model) => {
@@ -199,6 +276,7 @@ export const validateModels = (modelList: IModel[]): IModelValidation[] => {
       errors.push(...modelNameValidation(model, modelList))
       errors.push(...dupeModelValidation(model, modelList))
       errors.push(...schemaFieldValidation(model, modelList))
+      errors.push(...circularValidation(model, modelList))
       result.push(...errors)
       return result
     },

@@ -1,4 +1,4 @@
-import { validateModels, transformSchema } from './model'
+import { validateModels } from './model'
 import { IModel, IPreparedSchema } from './types'
 import { systemModels } from './system-models'
 
@@ -9,7 +9,5 @@ export const prepareModels = (models: IModel[]): IPreparedSchema => {
     return { errors, models: [] }
   }
 
-  const finalModels = transformSchema([...systemModels, ...models])
-
-  return { errors, models: finalModels }
+  return { errors, models: [...systemModels, ...models] }
 }

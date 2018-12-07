@@ -21,6 +21,10 @@ export const Asset = new Document(models.asset, {
   size: {
     type: types.string,
     required: true
+  },
+  displayType: {
+    type: types.string,
+    required: true
   }
 })
 

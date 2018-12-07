@@ -1,11 +1,12 @@
 import { IModel } from '../../types'
 import { Document } from '../document'
-import { types, models } from '../../utils'
+import { types, models, components } from '../../utils'
 import {
   modelNameValidation,
   dupeModelValidation,
   validateModels,
-  schemaFieldValidation
+  schemaFieldValidation,
+  circularValidation
 } from '../validate'
 
 describe('validate', () => {
@@ -114,6 +115,107 @@ describe('validate', () => {
     })
   })
 
+  describe('circularValidation', () => {
+    test('checks for direct and indirect cirular deps', () => {
+      const modelList = [
+        ({
+          name: 'Author',
+          modelType: types.shape,
+          fields: {
+            article: {
+              name: 'article',
+              type: types.shape,
+              ref: 'Article'
+            },
+            post: {
+              name: 'post',
+              type: types.shape,
+              ref: 'Post'
+            }
+          }
+        } as unknown) as IModel,
+        ({
+          name: 'Article',
+          modelType: types.shape,
+          fields: {
+            post: {
+              name: 'post',
+              type: types.shape,
+              ref: 'Post'
+            }
+          }
+        } as unknown) as IModel,
+        ({
+          name: 'Post',
+          modelType: types.shape,
+          fields: {
+            author: {
+              name: 'author',
+              type: types.shape,
+              ref: 'Author'
+            }
+          }
+        } as unknown) as IModel
+      ]
+
+      const errors = circularValidation(modelList[0], modelList)
+      expect(errors).toHaveLength(2)
+      errors.forEach(e => expect(e.model).toBe(modelList[0].name))
+    })
+
+    test('creates errors for cycles that start and end with the model', () => {
+      const modelList = [
+        ({
+          name: 'Author',
+          modelType: types.shape,
+          fields: {
+            article: {
+              name: 'article',
+              type: types.shape,
+              ref: 'Article'
+            },
+            post: {
+              name: 'post',
+              type: types.shape,
+              ref: 'Post'
+            }
+          }
+        } as unknown) as IModel,
+        ({
+          name: 'Article',
+          modelType: types.shape,
+          fields: {
+            post: {
+              name: 'post',
+              type: types.shape,
+              ref: 'Post'
+            }
+          }
+        } as unknown) as IModel,
+        ({
+          name: 'Post',
+          modelType: types.shape,
+          fields: {
+            author: {
+              name: 'author',
+              type: types.shape,
+              ref: 'Author'
+            },
+            article: {
+              name: 'article',
+              type: types.shape,
+              ref: 'Article'
+            }
+          }
+        } as unknown) as IModel
+      ]
+
+      const errors = circularValidation(modelList[0], modelList)
+      expect(errors).toHaveLength(2)
+      errors.forEach(e => expect(e.model).toBe(modelList[0].name))
+    })
+  })
+
   describe('validateModels', () => {
     test('runs validations on all models in order', () => {
       const Author = new Document('Author', {
@@ -170,6 +272,166 @@ describe('validate', () => {
           }
         }
       } as unknown) as IModel
+
+      let errors = schemaFieldValidation(invalid, [invalid])
+      let error = errors.find(e => /Invalid type/i.test(e.error))
+      expect(error).toBeTruthy()
+
+      const valid = ({
+        name: 'Author',
+        fields: {
+          name: {
+            type: types.string
+          }
+        }
+      } as unknown) as IModel
+
+      errors = schemaFieldValidation(valid, [valid])
+      error = errors.find(e => /Invalid type/i.test(e.error))
+      expect(error).not.toBeTruthy()
+    })
+
+    test('checks if component is compatible with type', () => {
+      const invalid = ({
+        name: 'Author',
+        fields: {
+          name: {
+            type: types.string,
+            component: components.toggle
+          }
+        }
+      } as unknown) as IModel
+
+      let errors = schemaFieldValidation(invalid, [invalid])
+      let error = errors.find(e => /compatible with component/i.test(e.error))
+      expect(error).toBeTruthy()
+
+      const valid = ({
+        name: 'Author',
+        fields: {
+          name: {
+            type: types.markdown,
+            component: components.markdown
+          }
+        }
+      } as unknown) as IModel
+
+      errors = schemaFieldValidation(valid, [valid])
+      error = errors.find(e => /compatible with component/i.test(e.error))
+      expect(error).not.toBeTruthy()
+    })
+
+    test('checks if shape ref is a real shape', () => {
+      const invalid = ({
+        name: 'Author',
+        fields: {
+          name: {
+            type: types.shape,
+            ref: 'Post'
+          }
+        }
+      } as unknown) as IModel
+
+      let errors = schemaFieldValidation(invalid, [invalid])
+      let error = errors.find(e => /Shape "Post"/i.test(e.error))
+      expect(error).toBeTruthy()
+
+      const valid = ({
+        name: 'Author',
+        fields: {
+          name: {
+            type: types.shape,
+            ref: 'Post'
+          }
+        }
+      } as unknown) as IModel
+
+      const post = ({
+        name: 'Post',
+        modelType: types.shape,
+        fields: {
+          name: {
+            type: types.string
+          }
+        }
+      } as unknown) as IModel
+
+      errors = schemaFieldValidation(valid, [valid, post])
+      error = errors.find(e => /Shape "Post"/i.test(e.error))
+      expect(error).not.toBeTruthy()
+    })
+
+    test('checks if object type has nested object types', () => {
+      const invalid = ({
+        name: 'Author',
+        fields: {
+          bio: {
+            type: {
+              address: {
+                type: {}
+              }
+            }
+          }
+        }
+      } as unknown) as IModel
+
+      let errors = schemaFieldValidation(invalid, [invalid])
+      let error = errors.find(e => /cannot be an Object type/i.test(e.error))
+      expect(error).toBeTruthy()
+
+      const valid = ({
+        name: 'Author',
+        fields: {
+          bio: {
+            type: {
+              address: {
+                type: types.string
+              }
+            }
+          }
+        }
+      } as unknown) as IModel
+
+      errors = schemaFieldValidation(valid, [valid])
+      error = errors.find(e => /cannot be an Object type/i.test(e.error))
+      expect(error).not.toBeTruthy()
+    })
+
+    test('checks if object type has ref type', () => {
+      const invalid = ({
+        name: 'Author',
+        fields: {
+          bio: {
+            type: {
+              address: {
+                type: types.shape,
+                ref: 'Post'
+              }
+            }
+          }
+        }
+      } as unknown) as IModel
+
+      let errors = schemaFieldValidation(invalid, [invalid])
+      let error = errors.find(e => /cannot be a shape ref/i.test(e.error))
+      expect(error).toBeTruthy()
+
+      const valid = ({
+        name: 'Author',
+        fields: {
+          bio: {
+            type: {
+              address: {
+                type: types.string
+              }
+            }
+          }
+        }
+      } as unknown) as IModel
+
+      errors = schemaFieldValidation(valid, [valid])
+      error = errors.find(e => /cannot be a shape ref/i.test(e.error))
+      expect(error).not.toBeTruthy()
     })
   })
 })
