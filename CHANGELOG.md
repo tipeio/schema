@@ -1,3 +1,5 @@
+## [1.2.5](https://github.com/tipeio/schema/compare/v1.2.4...v1.2.5) (2018-12-07)
+
 ## [1.2.4](https://github.com/tipeio/schema/compare/v1.2.3...v1.2.4) (2018-12-07)
 
 
