@@ -135,7 +135,6 @@
     "access": "restricted"
   },
   "dependencies": {
-    "@types/es6-collections": "^0.5.31",
     "error-ex": "^1.3.2",
     "lodash": "^4.17.11"
   }

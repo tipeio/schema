@@ -110,9 +110,9 @@ export const schemaFieldValidation: ModelValidator = (model, modelList) => {
       ) {
         errors.push({
           model: model.name,
-          error: `Invalid field "${fieldName}. Shape "${
+          error: `Invalid field "${fieldName}". Shape "${
             field.ref
-          }" was not created"`
+          }" does not exist`
         })
       }
     } else {
