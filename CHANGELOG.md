@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/tipeio/schema/compare/v1.2.1...v1.2.2) (2018-12-07)
+
+
+### Bug Fixes
+
+* **models:** remove pages ([135f9ef](https://github.com/tipeio/schema/commit/135f9ef))
+
 ## [1.2.1](https://github.com/tipeio/schema/compare/v1.2.0...v1.2.1) (2018-11-16)
 
 
