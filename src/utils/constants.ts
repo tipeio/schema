@@ -9,6 +9,7 @@ import {
 
 export const types: ITypes = {
   string: 'String',
+  markdown: 'Markdown',
   number: 'Number',
   boolean: 'Boolean',
   date: 'Date',
@@ -27,31 +28,30 @@ export const fields = {
 }
 
 export const componentsList: EveryComponent[] = [
-  'range',
   'simpletext',
   'markdown',
+  'numberselect',
   'calendar',
   'toggle',
-  'color',
   'shape',
-  'asset',
-  'document'
+  'asset'
 ]
 
-export const components = componentsList.reduce(
-  (m, c) => {
-    m[c] = c
-    return m
-  },
-  {} as IComponentsMap
-)
+export const components: IComponentsMap = {
+  markdown: 'markdown',
+  simpletext: 'simpletext',
+  calendar: 'calendar',
+  numberselect: 'numberselect',
+  toggle: 'toggle',
+  shape: 'shape'
+}
 
 export const defaultComponents: IComponents = {
-  [types.number]: 'range',
+  [types.number]: 'numberselect',
+  [types.markdown]: 'markdown',
   [types.string]: 'simpletext',
   [types.shape]: 'shape',
   [types.date]: 'calendar',
-  [types.document]: 'document',
   [types.boolean]: 'toggle'
 }
 
@@ -64,10 +64,9 @@ export const validUserTypes: ITypeMap = {
 }
 
 export const validComponentsForTypes: IValidComponentsMap = {
-  [types.string]: [components.markdown, components.simpletext],
-  [types.number]: [components.range],
+  [types.string]: [components.simpletext],
+  [types.markdown]: [components.markdown],
   [types.boolean]: [components.toggle],
   [types.date]: [components.calendar],
-  [types.shape]: [components.shape],
-  [types.document]: [components.document]
+  [types.shape]: [components.shape]
 }

@@ -3,11 +3,12 @@ export interface IField {
   name?: string
   required?: boolean
   array?: boolean
-  component?: Component | RefComponent
+  component?: Component | SystemComponent
   displayName?: string
   ref?: string
   default?: any
   description?: string
+  faker?: string
 }
 
 export interface IFields {
@@ -18,31 +19,38 @@ export interface ITypeMap {
 }
 
 export interface IValidComponentsMap {
-  [type: string]: EveryComponent[]
+  [type: string]: string[]
 }
 
 export interface IComponentsMap {
-  [type: string]: EveryComponent
+  markdown: string
+  simpletext: string
+  calendar: string
+  numberselect: string
+  toggle: string
+  shape: string
 }
 
 export type Component =
   | 'markdown'
   | 'simpletext'
   | 'calendar'
+  | 'numberselect'
   | 'range'
   | 'color'
   | 'toggle'
 
-export type RefComponent = 'asset' | 'document' | 'shape'
+export type SystemComponent = 'asset' | 'shape'
 export interface IComponents {
-  [name: string]: Component | RefComponent
+  [name: string]: Component | SystemComponent
 }
-export type EveryComponent = Component | RefComponent
+export type EveryComponent = Component | SystemComponent
 export type SchemaType =
   | 'String'
   | 'Date'
   | 'Boolean'
   | 'Number'
+  | 'Markdown'
   | 'Shape'
   | 'Document'
 
@@ -72,6 +80,7 @@ export interface ITypes {
   number: 'Number'
   boolean: 'Boolean'
   date: 'Date'
+  markdown: 'Markdown'
   document: 'Document'
   shape: 'Shape'
 }
