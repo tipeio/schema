@@ -276,7 +276,6 @@ export const validateModels = (modelList: IModel[]): IModelValidation[] => {
       errors.push(...modelNameValidation(model, modelList))
       errors.push(...dupeModelValidation(model, modelList))
       errors.push(...schemaFieldValidation(model, modelList))
-      errors.push(...circularValidation(model, modelList))
       result.push(...errors)
       return result
     },
