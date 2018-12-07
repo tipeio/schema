@@ -1,3 +1,3 @@
 export * from './shape'
-export * from './document'
+export * from './page'
 export * from './validate'

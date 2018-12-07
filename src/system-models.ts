@@ -1,7 +1,7 @@
-import { Document } from './model'
+import { Shape } from './model'
 import { models, types } from './utils'
 
-export const Asset = new Document(models.asset, {
+export const Asset = new Shape(models.asset, {
   url: {
     type: types.string,
     required: true

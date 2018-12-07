@@ -1,5 +1,5 @@
 import { IModel } from '../../types'
-import { Document } from '../document'
+import { Page } from '../page'
 import { types, models, components } from '../../utils'
 import {
   modelNameValidation,
@@ -218,11 +218,11 @@ describe('validate', () => {
 
   describe('validateModels', () => {
     test('runs validations on all models in order', () => {
-      const Author = new Document('Author', {
+      const Author = new Page('Author', {
         _name: { type: types.string }
       })
 
-      const Asset = new Document(models.asset, {
+      const Asset = new Page(models.asset, {
         url: { type: types.string, required: true }
       })
 

@@ -13,7 +13,7 @@ export const types: ITypes = {
   number: 'Number',
   boolean: 'Boolean',
   date: 'Date',
-  document: 'Document',
+  page: 'Page',
   shape: 'Shape'
 }
 
