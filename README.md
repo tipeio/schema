@@ -1,2 +1,2 @@
 # schema
-library for developing schemas for Tipe projects
+library for developing schemas for Tipe projects.
