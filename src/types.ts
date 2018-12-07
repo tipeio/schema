@@ -52,7 +52,7 @@ export type SchemaType =
   | 'Number'
   | 'Markdown'
   | 'Shape'
-  | 'Document'
+  | 'Page'
 
 export interface IModel {
   fields: IFields
@@ -81,6 +81,6 @@ export interface ITypes {
   boolean: 'Boolean'
   date: 'Date'
   markdown: 'Markdown'
-  document: 'Document'
+  page: 'Page'
   shape: 'Shape'
 }
