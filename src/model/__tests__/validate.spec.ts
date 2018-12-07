@@ -229,9 +229,9 @@ describe('validate', () => {
       const modelList = [Author, Asset]
       const errors = validateModels(modelList)
 
-      expect(errors).toHaveLength(4)
+      expect(errors).toHaveLength(2)
       expect(errors[0].model).toBe('Author')
-      expect(errors[2].model).toBe(models.asset)
+      expect(errors[1].model).toBe(models.asset)
     })
   })
 
