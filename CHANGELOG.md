@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/tipeio/schema/compare/v1.2.2...v1.2.3) (2018-12-07)
+
+
+### Bug Fixes
+
+* **page:** change doc to page ([bd7cefb](https://github.com/tipeio/schema/commit/bd7cefb))
+
 ## [1.2.2](https://github.com/tipeio/schema/compare/v1.2.1...v1.2.2) (2018-12-07)
 
 
