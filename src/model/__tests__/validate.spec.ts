@@ -5,8 +5,7 @@ import {
   modelNameValidation,
   dupeModelValidation,
   validateModels,
-  schemaFieldValidation,
-  circularValidation
+  schemaFieldValidation
 } from '../validate'
 
 describe('validate', () => {
@@ -112,107 +111,6 @@ describe('validate', () => {
       const errors = dupeModelValidation(model, modelList)
       expect(errors).toHaveLength(1)
       expect(errors[0].error).toMatch(/unique/)
-    })
-  })
-
-  describe('circularValidation', () => {
-    test('checks for direct and indirect cirular deps', () => {
-      const modelList = [
-        ({
-          name: 'Author',
-          modelType: types.shape,
-          fields: {
-            article: {
-              name: 'article',
-              type: types.shape,
-              ref: 'Article'
-            },
-            post: {
-              name: 'post',
-              type: types.shape,
-              ref: 'Post'
-            }
-          }
-        } as unknown) as IModel,
-        ({
-          name: 'Article',
-          modelType: types.shape,
-          fields: {
-            post: {
-              name: 'post',
-              type: types.shape,
-              ref: 'Post'
-            }
-          }
-        } as unknown) as IModel,
-        ({
-          name: 'Post',
-          modelType: types.shape,
-          fields: {
-            author: {
-              name: 'author',
-              type: types.shape,
-              ref: 'Author'
-            }
-          }
-        } as unknown) as IModel
-      ]
-
-      const errors = circularValidation(modelList[0], modelList)
-      expect(errors).toHaveLength(2)
-      errors.forEach(e => expect(e.model).toBe(modelList[0].name))
-    })
-
-    test('creates errors for cycles that start and end with the model', () => {
-      const modelList = [
-        ({
-          name: 'Author',
-          modelType: types.shape,
-          fields: {
-            article: {
-              name: 'article',
-              type: types.shape,
-              ref: 'Article'
-            },
-            post: {
-              name: 'post',
-              type: types.shape,
-              ref: 'Post'
-            }
-          }
-        } as unknown) as IModel,
-        ({
-          name: 'Article',
-          modelType: types.shape,
-          fields: {
-            post: {
-              name: 'post',
-              type: types.shape,
-              ref: 'Post'
-            }
-          }
-        } as unknown) as IModel,
-        ({
-          name: 'Post',
-          modelType: types.shape,
-          fields: {
-            author: {
-              name: 'author',
-              type: types.shape,
-              ref: 'Author'
-            },
-            article: {
-              name: 'article',
-              type: types.shape,
-              ref: 'Article'
-            }
-          }
-        } as unknown) as IModel
-      ]
-
-      const errors = circularValidation(modelList[0], modelList)
-      expect(errors).toHaveLength(2)
-      errors.forEach(e => expect(e.model).toBe(modelList[0].name))
     })
   })
 
