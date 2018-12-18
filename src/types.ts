@@ -1,12 +1,11 @@
+import { SchemaType } from './types'
 export interface IField {
   type: SchemaType | IFields
   apiId?: string
   name?: string
   required?: boolean
   array?: boolean
-  component?: Component | SystemComponent
   ref?: string
-  default?: any
   description?: string
   faker?: string
 }
@@ -14,74 +13,48 @@ export interface IField {
 export interface IFields {
   [fieldName: string]: IField
 }
-export interface ITypeMap {
-  [type: string]: SchemaType
+
+export interface ISchemaTypes {
+  markdown: 'Markdown'
+  simpletext: 'SimpleText'
+  calendar: 'Calendar'
+  number: 'Number'
+  toggle: 'Toggle'
+  asset: 'Asset'
+  shape: 'Shape'
+  [type: string]: string
 }
 
 export interface IValidComponentsMap {
   [type: string]: string[]
 }
 
-export interface IComponentsMap {
-  markdown: string
-  simpletext: string
-  calendar: string
-  numberselect: string
-  toggle: string
-  shape: string
-}
-
-export type Component =
-  | 'markdown'
-  | 'simpletext'
-  | 'calendar'
-  | 'numberselect'
-  | 'range'
-  | 'color'
-  | 'toggle'
-
-export type SystemComponent = 'asset' | 'shape'
-export interface IComponents {
-  [name: string]: Component | SystemComponent
-}
-export type EveryComponent = Component | SystemComponent
 export type SchemaType =
-  | 'String'
-  | 'Date'
-  | 'Boolean'
-  | 'Number'
   | 'Markdown'
+  | 'SimpleText'
+  | 'Calendar'
+  | 'Number'
+  | 'Toggle'
+  | 'Asset'
   | 'Shape'
-  | 'Page'
 
-export interface IModel {
+export interface IShape {
   fields: IFields
   apiId: string
   name: string
-  modelType: string
   normalizeFields(fields: IFields): IFields
 }
-export interface IModelValidation {
-  model: string
+export interface IShapeValidation {
+  shape: string
   error: string
 }
 
-export type ModelValidator = (
-  model: IModel,
-  models: IModel[]
-) => IModelValidation[]
+export type ShapeValidator = (
+  shape: IShape,
+  shapes: IShape[]
+) => IShapeValidation[]
 
 export interface IPreparedSchema {
-  errors: IModelValidation[]
-  models: IModel[]
-}
-
-export interface ITypes {
-  string: 'String'
-  number: 'Number'
-  boolean: 'Boolean'
-  date: 'Date'
-  markdown: 'Markdown'
-  page: 'Page'
-  shape: 'Shape'
+  errors: IShapeValidation[]
+  shapes: IShape[]
 }

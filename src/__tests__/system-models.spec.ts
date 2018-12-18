@@ -1,4 +1,4 @@
-import { Asset } from '../system-models'
+import { Asset } from '../system-shapes'
 import { types } from '../utils/constants'
 
 describe('System Models', () => {

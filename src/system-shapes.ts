@@ -1,7 +1,7 @@
 import { Shape } from './model'
-import { models, types } from './utils'
+import { systemShapes, types } from './utils'
 
-export const Asset = new Shape(models.asset, {
+export const Asset = new Shape(systemShapes.asset, {
   url: {
     type: types.string,
     required: true
