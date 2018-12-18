@@ -1,6 +1,6 @@
-import { IModel } from '../../types'
-import { Page } from '../page'
-import { types, models, components } from '../../utils'
+import { IShape } from '../../types'
+import { Shape } from '../shape'
+import { types, systemShapes } from '../../utils'
 import {
   modelNameValidation,
   dupeModelValidation,
@@ -9,10 +9,10 @@ import {
 } from '../validate'
 
 describe('validate', () => {
-  describe('modelNameValidation', () => {
+  describe('shapeNameValidation', () => {
     test('checks if name is given', () => {
-      const model = {} as IModel
-      const errors = modelNameValidation(model, [model])
+      const shape = {} as IShape
+      const errors = modelNameValidation(shape, [shape])
 
       expect(errors).toHaveLength(1)
       expect(errors[0].error).toMatch(/empty/)
@@ -29,11 +29,11 @@ describe('validate', () => {
         (Symbol as unknown) as string,
         (true as unknown) as string
       ]
-      const model = {} as IModel
+      const shape = {} as IShape
 
       names.forEach(name => {
-        model.name = name
-        const errors = modelNameValidation(model, [model])
+        shape.name = name
+        const errors = modelNameValidation(shape, [shape])
         expect(errors).toHaveLength(1)
         expect(errors[0].error).toMatch(/string/)
       })
@@ -57,11 +57,11 @@ describe('validate', () => {
         'name\nname'
       ]
 
-      const model = {} as IModel
+      const shape = {} as IShape
 
       names.forEach(name => {
-        model.name = name
-        const errors = modelNameValidation(model, [model])
+        shape.name = name
+        const errors = modelNameValidation(shape, [shape])
         expect(errors).toHaveLength(1)
         expect(errors[0].error).toMatch(/a-z/)
       })
@@ -69,46 +69,46 @@ describe('validate', () => {
 
     test('checks if name is reserved name', () => {
       const invalid: string[] = [
-        models.asset,
-        models.meta,
-        models.user,
-        models.asset.toLocaleLowerCase(),
-        models.meta.toLocaleLowerCase(),
-        models.asset.toLocaleLowerCase(),
-        models.asset.toUpperCase(),
-        models.meta.toUpperCase(),
-        models.asset.toUpperCase()
+        systemShapes.asset,
+        systemShapes.meta,
+        systemShapes.user,
+        systemShapes.asset.toLocaleLowerCase(),
+        systemShapes.meta.toLocaleLowerCase(),
+        systemShapes.asset.toLocaleLowerCase(),
+        systemShapes.asset.toUpperCase(),
+        systemShapes.meta.toUpperCase(),
+        systemShapes.asset.toUpperCase()
       ]
 
-      const model = {} as IModel
+      const shape = {} as IShape
 
       invalid.forEach(name => {
-        model.name = name
-        const errors = modelNameValidation(model, [model])
+        shape.name = name
+        const errors = modelNameValidation(shape, [shape])
         expect(errors).toHaveLength(1)
         expect(errors[0].error).toMatch(/Reserved/)
       })
 
       const validNames = [
-        models.asset + 'yooo',
-        models.meta + 'uoi',
-        'sadf' + models.user
+        systemShapes.asset + 'yooo',
+        systemShapes.meta + 'uoi',
+        'sadf' + systemShapes.user
       ]
 
       validNames.forEach(name => {
-        model.name = name
-        const errors = modelNameValidation(model, [model])
+        shape.name = name
+        const errors = modelNameValidation(shape, [shape])
         expect(errors).toHaveLength(0)
       })
     })
   })
 
   describe('dupeModelValidation', () => {
-    test('checks for model dupes', () => {
-      const model = { name: 'Author' } as IModel
-      const modelList = [model, { ...model }]
+    test('checks for shape dupes', () => {
+      const shape = { name: 'Author' } as IShape
+      const modelList = [shape, { ...shape }]
 
-      const errors = dupeModelValidation(model, modelList)
+      const errors = dupeModelValidation(shape, modelList)
       expect(errors).toHaveLength(1)
       expect(errors[0].error).toMatch(/unique/)
     })
@@ -116,31 +116,31 @@ describe('validate', () => {
 
   describe('validateModels', () => {
     test('runs validations on all models in order', () => {
-      const Author = new Page('Author', {
-        _name: { type: types.string }
+      const Author = new Shape('Author', {
+        _name: { type: types.simpletext }
       })
 
-      const Asset = new Page(models.asset, {
-        url: { type: types.string, required: true }
+      const Asset = new Shape(systemShapes.asset, {
+        url: { type: types.simpletext, required: true }
       })
 
       const modelList = [Author, Asset]
       const errors = validateModels(modelList)
 
       expect(errors).toHaveLength(2)
-      expect(errors[0].model).toBe('Author')
-      expect(errors[1].model).toBe(models.asset)
+      expect(errors[0].shape).toBe('Author')
+      expect(errors[1].shape).toBe(systemShapes.asset)
     })
   })
 
-  describe('schemaFieldValidatio', () => {
+  describe('schemaFieldValidation', () => {
     test('checks if name starts with a letter', () => {
       const invalid = ({
         name: 'Author',
         fields: {
           ['_name']: {}
         }
-      } as unknown) as IModel
+      } as unknown) as IShape
 
       const errors = schemaFieldValidation(invalid, [invalid])
       const error = errors.find(e => /first char/i.test(e.error))
@@ -154,7 +154,7 @@ describe('validate', () => {
           ['first_name']: {},
           ['last4']: {}
         }
-      } as unknown) as IModel
+      } as unknown) as IShape
 
       const errors = schemaFieldValidation(invalid, [invalid])
       const error = errors.find(e => /alpha numeric snake_case/i.test(e.error))
@@ -169,7 +169,7 @@ describe('validate', () => {
             type: 'int'
           }
         }
-      } as unknown) as IModel
+      } as unknown) as IShape
 
       let errors = schemaFieldValidation(invalid, [invalid])
       let error = errors.find(e => /Invalid type/i.test(e.error))
@@ -179,43 +179,13 @@ describe('validate', () => {
         name: 'Author',
         fields: {
           name: {
-            type: types.string
+            type: types.simpletext
           }
         }
-      } as unknown) as IModel
+      } as unknown) as IShape
 
       errors = schemaFieldValidation(valid, [valid])
       error = errors.find(e => /Invalid type/i.test(e.error))
-      expect(error).not.toBeTruthy()
-    })
-
-    test('checks if component is compatible with type', () => {
-      const invalid = ({
-        name: 'Author',
-        fields: {
-          name: {
-            type: types.string,
-            component: components.toggle
-          }
-        }
-      } as unknown) as IModel
-
-      let errors = schemaFieldValidation(invalid, [invalid])
-      let error = errors.find(e => /compatible with component/i.test(e.error))
-      expect(error).toBeTruthy()
-
-      const valid = ({
-        name: 'Author',
-        fields: {
-          name: {
-            type: types.markdown,
-            component: components.markdown
-          }
-        }
-      } as unknown) as IModel
-
-      errors = schemaFieldValidation(valid, [valid])
-      error = errors.find(e => /compatible with component/i.test(e.error))
       expect(error).not.toBeTruthy()
     })
 
@@ -228,7 +198,7 @@ describe('validate', () => {
             ref: 'Post'
           }
         }
-      } as unknown) as IModel
+      } as unknown) as IShape
 
       let errors = schemaFieldValidation(invalid, [invalid])
       let error = errors.find(e => /Shape "Post"/i.test(e.error))
@@ -242,17 +212,17 @@ describe('validate', () => {
             ref: 'Post'
           }
         }
-      } as unknown) as IModel
+      } as unknown) as IShape
 
       const post = ({
         name: 'Post',
         modelType: types.shape,
         fields: {
           name: {
-            type: types.string
+            type: types.simpletext
           }
         }
-      } as unknown) as IModel
+      } as unknown) as IShape
 
       errors = schemaFieldValidation(valid, [valid, post])
       error = errors.find(e => /Shape "Post"/i.test(e.error))
@@ -271,7 +241,7 @@ describe('validate', () => {
             }
           }
         }
-      } as unknown) as IModel
+      } as unknown) as IShape
 
       let errors = schemaFieldValidation(invalid, [invalid])
       let error = errors.find(e => /cannot be an Object type/i.test(e.error))
@@ -283,12 +253,12 @@ describe('validate', () => {
           bio: {
             type: {
               address: {
-                type: types.string
+                type: types.simpletext
               }
             }
           }
         }
-      } as unknown) as IModel
+      } as unknown) as IShape
 
       errors = schemaFieldValidation(valid, [valid])
       error = errors.find(e => /cannot be an Object type/i.test(e.error))
@@ -308,7 +278,7 @@ describe('validate', () => {
             }
           }
         }
-      } as unknown) as IModel
+      } as unknown) as IShape
 
       let errors = schemaFieldValidation(invalid, [invalid])
       let error = errors.find(e => /cannot be a shape ref/i.test(e.error))
@@ -320,12 +290,12 @@ describe('validate', () => {
           bio: {
             type: {
               address: {
-                type: types.string
+                type: types.simpletext
               }
             }
           }
         }
-      } as unknown) as IModel
+      } as unknown) as IShape
 
       errors = schemaFieldValidation(valid, [valid])
       error = errors.find(e => /cannot be a shape ref/i.test(e.error))
