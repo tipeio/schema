@@ -6,27 +6,27 @@ describe('System Models', () => {
     test('fields', () => {
       const fields: { [key: string]: { type: string; required: boolean } } = {
         url: {
-          type: types.string,
+          type: types.simpletext,
           required: true
         },
         key: {
-          type: types.string,
+          type: types.simpletext,
           required: true
         },
         name: {
-          type: types.string,
+          type: types.simpletext,
           required: true
         },
         mime: {
-          type: types.string,
+          type: types.simpletext,
           required: true
         },
         size: {
-          type: types.string,
+          type: types.simpletext,
           required: true
         },
         displayType: {
-          type: types.string,
+          type: types.simpletext,
           required: true
         }
       }
