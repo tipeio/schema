@@ -1,10 +1,10 @@
 export interface IField {
   type: SchemaType | IFields
+  apiId?: string
   name?: string
   required?: boolean
   array?: boolean
   component?: Component | SystemComponent
-  displayName?: string
   ref?: string
   default?: any
   description?: string
@@ -56,6 +56,7 @@ export type SchemaType =
 
 export interface IModel {
   fields: IFields
+  apiId: string
   name: string
   modelType: string
   normalizeFields(fields: IFields): IFields

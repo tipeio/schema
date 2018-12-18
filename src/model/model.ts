@@ -4,21 +4,32 @@ import { defaultComponents } from '../utils/constants'
 export abstract class Model implements IModel {
   public fields: IFields
   public name: string
+  public apiId: string
   public modelType: string = ''
 
-  constructor(name: string, fields: IFields) {
-    this.fields = this.normalizeFields(fields)
-    this.name = name
+  constructor(apiId: string, nameOrFields: string | IFields, fields?: IFields) {
+    this.apiId = apiId
+
+    if (typeof nameOrFields === 'string') {
+      this.name = nameOrFields
+      if (!fields) {
+        throw new Error('Must provide fields')
+      }
+      this.fields = this.normalizeFields(fields)
+    } else {
+      this.name = apiId
+      this.fields = this.normalizeFields(nameOrFields)
+    }
   }
 
   public normalizeFields(fields: IFields): IFields {
     return reduce(
       fields,
-      (final, field, name) => {
-        final[name] = {
+      (final, field, apiId) => {
+        final[apiId] = {
           ...field,
-          name,
-          displayName: field.displayName || name,
+          apiId,
+          name: field.name || apiId,
           required: Boolean(field.required),
           array: Boolean(field.array),
           component: field.component || defaultComponents[field.type as string],
