@@ -1,3 +1,25 @@
+# [2.0.0](https://github.com/tipeio/schema/compare/v1.2.5...v2.0.0) (2018-12-19)
+
+
+### Bug Fixes
+
+* **Asset:** use new types ([713566f](https://github.com/tipeio/schema/commit/713566f))
+* **shape:** fix up shape ([4cf942c](https://github.com/tipeio/schema/commit/4cf942c)), closes [#19](https://github.com/tipeio/schema/issues/19) [#18](https://github.com/tipeio/schema/issues/18) [#18](https://github.com/tipeio/schema/issues/18)
+
+
+### Features
+
+* **apiId:** add api id ([c264ee1](https://github.com/tipeio/schema/commit/c264ee1)), closes [#17](https://github.com/tipeio/schema/issues/17)
+
+
+### BREAKING CHANGES
+
+* **shape:** Page has been removed in favor of just shape
+* **shape:** Components have been removed to just use types
+* **shape:** All field types values have changed
+* **shape:** Constants dealing with components have been removed
+* **shape:** System constants have been renamed
+
 ## [1.2.5](https://github.com/tipeio/schema/compare/v1.2.4...v1.2.5) (2018-12-07)
 
 ## [1.2.4](https://github.com/tipeio/schema/compare/v1.2.3...v1.2.4) (2018-12-07)
