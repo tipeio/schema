@@ -33,7 +33,7 @@ export const isNestedObject = (fields: IFields): boolean => {
   return !!results.length
 }
 
-export const schemaFieldValidation: ShapeValidator = (shape, shapes) => {
+export const shapeFieldValidation: ShapeValidator = (shape, shapes) => {
   const shapeFields = Object.keys(shape.fields)
   const errors: IShapeValidation[] = []
 
@@ -66,7 +66,7 @@ export const schemaFieldValidation: ShapeValidator = (shape, shapes) => {
 
       if (
         field.type === types.shape &&
-        !shapes.find(m => m.name === field.ref)
+        !shapes.find(m => m.apiId === field.ref)
       ) {
         errors.push({
           shape: shape.apiId,
@@ -115,7 +115,7 @@ export const schemaFieldValidation: ShapeValidator = (shape, shapes) => {
   return errors
 }
 
-export const dupeModelValidation: ShapeValidator = (shape, shapes) => {
+export const dupeShapeValidation: ShapeValidator = (shape, shapes) => {
   const errors: IShapeValidation[] = []
   const matchingShapes = shapes.filter(
     m => m.name === shape.name || m.apiId === shape.apiId
@@ -134,7 +134,7 @@ export const dupeModelValidation: ShapeValidator = (shape, shapes) => {
   return errors
 }
 
-export const modelNameValidation: ShapeValidator = shape => {
+export const shapeNameValidation: ShapeValidator = shape => {
   const errors: IShapeValidation[] = []
 
   if (!shape.name) {
@@ -174,14 +174,14 @@ export const modelNameValidation: ShapeValidator = shape => {
   return errors
 }
 
-export const validateModels = (shapes: IShape[]): IShapeValidation[] => {
+export const validateShapes = (shapes: IShape[]): IShapeValidation[] => {
   return shapes.reduce(
     (result, shape) => {
       const errors = []
 
-      errors.push(...modelNameValidation(shape, shapes))
-      errors.push(...dupeModelValidation(shape, shapes))
-      errors.push(...schemaFieldValidation(shape, shapes))
+      errors.push(...shapeNameValidation(shape, shapes))
+      errors.push(...dupeShapeValidation(shape, shapes))
+      errors.push(...shapeFieldValidation(shape, shapes))
       result.push(...errors)
       return result
     },

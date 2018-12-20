@@ -1,18 +1,18 @@
-import { IShape } from '../../types'
+import { IShape, SchemaType } from '../../types'
 import { Shape } from '../shape'
 import { types, systemShapes } from '../../utils'
 import {
-  modelNameValidation,
-  dupeModelValidation,
-  validateModels,
-  schemaFieldValidation
+  shapeNameValidation,
+  dupeShapeValidation,
+  validateShapes,
+  shapeFieldValidation
 } from '../validate'
 
 describe('validate', () => {
   describe('shapeNameValidation', () => {
     test('checks if name is given', () => {
       const shape = {} as IShape
-      const errors = modelNameValidation(shape, [shape])
+      const errors = shapeNameValidation(shape, [shape])
 
       expect(errors).toHaveLength(1)
       expect(errors[0].error).toMatch(/empty/)
@@ -33,7 +33,7 @@ describe('validate', () => {
 
       names.forEach(name => {
         shape.name = name
-        const errors = modelNameValidation(shape, [shape])
+        const errors = shapeNameValidation(shape, [shape])
         expect(errors).toHaveLength(1)
         expect(errors[0].error).toMatch(/string/)
       })
@@ -61,7 +61,7 @@ describe('validate', () => {
 
       names.forEach(name => {
         shape.name = name
-        const errors = modelNameValidation(shape, [shape])
+        const errors = shapeNameValidation(shape, [shape])
         expect(errors).toHaveLength(1)
         expect(errors[0].error).toMatch(/a-z/)
       })
@@ -84,7 +84,7 @@ describe('validate', () => {
 
       invalid.forEach(name => {
         shape.name = name
-        const errors = modelNameValidation(shape, [shape])
+        const errors = shapeNameValidation(shape, [shape])
         expect(errors).toHaveLength(1)
         expect(errors[0].error).toMatch(/Reserved/)
       })
@@ -97,7 +97,7 @@ describe('validate', () => {
 
       validNames.forEach(name => {
         shape.name = name
-        const errors = modelNameValidation(shape, [shape])
+        const errors = shapeNameValidation(shape, [shape])
         expect(errors).toHaveLength(0)
       })
     })
@@ -105,17 +105,22 @@ describe('validate', () => {
 
   describe('dupeModelValidation', () => {
     test('checks for shape dupes', () => {
-      const shape = { name: 'Author' } as IShape
-      const modelList = [shape, { ...shape }]
+      const shape = new Shape('Author', {
+        name: {
+          type: types.simpletext
+        }
+      })
 
-      const errors = dupeModelValidation(shape, modelList)
+      const shapes: IShape[] = [shape, { ...shape } as IShape]
+
+      const errors = dupeShapeValidation(shape, shapes)
       expect(errors).toHaveLength(1)
       expect(errors[0].error).toMatch(/unique/)
     })
   })
 
-  describe('validateModels', () => {
-    test('runs validations on all models in order', () => {
+  describe('validateShapes', () => {
+    test('runs validations on all shapes in order', () => {
       const Author = new Shape('Author', {
         _name: { type: types.simpletext }
       })
@@ -124,8 +129,8 @@ describe('validate', () => {
         url: { type: types.simpletext, required: true }
       })
 
-      const modelList = [Author, Asset]
-      const errors = validateModels(modelList)
+      const shapes = [Author, Asset]
+      const errors = validateShapes(shapes)
 
       expect(errors).toHaveLength(2)
       expect(errors[0].shape).toBe('Author')
@@ -135,171 +140,113 @@ describe('validate', () => {
 
   describe('schemaFieldValidation', () => {
     test('checks if name starts with a letter', () => {
-      const invalid = ({
-        name: 'Author',
-        fields: {
-          ['_name']: {}
-        }
-      } as unknown) as IShape
+      const invalid = new Shape('Author', {
+        _name: { type: types.simpletext }
+      })
 
-      const errors = schemaFieldValidation(invalid, [invalid])
+      const errors = shapeFieldValidation(invalid, [invalid])
       const error = errors.find(e => /first char/i.test(e.error))
       expect(error).toBeTruthy()
     })
 
     test('checks if name is alpha numeric snake_case', () => {
-      const invalid = ({
-        name: 'Author',
-        fields: {
-          ['first_name']: {},
-          ['last4']: {}
-        }
-      } as unknown) as IShape
+      const invalid = new Shape('Author', {
+        first_name: { type: types.simpletext },
+        last4: { type: types.number }
+      })
 
-      const errors = schemaFieldValidation(invalid, [invalid])
+      const errors = shapeFieldValidation(invalid, [invalid])
       const error = errors.find(e => /alpha numeric snake_case/i.test(e.error))
       expect(error).not.toBeTruthy()
     })
 
     test('checks if field is a valid type', () => {
-      const invalid = ({
-        name: 'Author',
-        fields: {
-          name: {
-            type: 'int'
-          }
-        }
-      } as unknown) as IShape
+      const invalid = new Shape('Author', {
+        first_name: { type: 'int' as SchemaType }
+      })
 
-      let errors = schemaFieldValidation(invalid, [invalid])
+      let errors = shapeFieldValidation(invalid, [invalid])
       let error = errors.find(e => /Invalid type/i.test(e.error))
       expect(error).toBeTruthy()
 
-      const valid = ({
-        name: 'Author',
-        fields: {
-          name: {
-            type: types.simpletext
-          }
-        }
-      } as unknown) as IShape
+      const valid = new Shape('Author', {
+        first_name: { type: types.simpletext }
+      })
 
-      errors = schemaFieldValidation(valid, [valid])
+      errors = shapeFieldValidation(valid, [valid])
       error = errors.find(e => /Invalid type/i.test(e.error))
       expect(error).not.toBeTruthy()
     })
 
     test('checks if shape ref is a real shape', () => {
-      const invalid = ({
-        name: 'Author',
-        fields: {
-          name: {
-            type: types.shape,
-            ref: 'Post'
-          }
+      const author = new Shape('Author', {
+        name: {
+          type: types.shape,
+          ref: 'Post'
         }
-      } as unknown) as IShape
+      })
 
-      let errors = schemaFieldValidation(invalid, [invalid])
+      let errors = shapeFieldValidation(author, [author])
+
       let error = errors.find(e => /Shape "Post"/i.test(e.error))
       expect(error).toBeTruthy()
 
-      const valid = ({
-        name: 'Author',
-        fields: {
-          name: {
-            type: types.shape,
-            ref: 'Post'
-          }
+      const post = new Shape('Post', {
+        name: {
+          type: types.simpletext
         }
-      } as unknown) as IShape
+      })
 
-      const post = ({
-        name: 'Post',
-        modelType: types.shape,
-        fields: {
-          name: {
-            type: types.simpletext
-          }
-        }
-      } as unknown) as IShape
-
-      errors = schemaFieldValidation(valid, [valid, post])
+      errors = shapeFieldValidation(author, [author, post])
       error = errors.find(e => /Shape "Post"/i.test(e.error))
       expect(error).not.toBeTruthy()
     })
 
     test('checks if object type has nested object types', () => {
-      const invalid = ({
-        name: 'Author',
-        fields: {
-          bio: {
-            type: {
-              address: {
-                type: {}
-              }
+      const invalid = new Shape('Post', {
+        bio: {
+          type: {
+            address: {
+              type: {}
             }
           }
         }
-      } as unknown) as IShape
+      })
 
-      let errors = schemaFieldValidation(invalid, [invalid])
+      let errors = shapeFieldValidation(invalid, [invalid])
       let error = errors.find(e => /cannot be an Object type/i.test(e.error))
       expect(error).toBeTruthy()
 
-      const valid = ({
-        name: 'Author',
-        fields: {
-          bio: {
-            type: {
-              address: {
-                type: types.simpletext
-              }
+      const valid = new Shape('Post', {
+        bio: {
+          type: {
+            address: {
+              type: types.simpletext
             }
           }
         }
-      } as unknown) as IShape
+      })
 
-      errors = schemaFieldValidation(valid, [valid])
+      errors = shapeFieldValidation(valid, [valid])
       error = errors.find(e => /cannot be an Object type/i.test(e.error))
       expect(error).not.toBeTruthy()
     })
 
     test('checks if object type has ref type', () => {
-      const invalid = ({
-        name: 'Author',
-        fields: {
-          bio: {
-            type: {
-              address: {
-                type: types.shape,
-                ref: 'Post'
-              }
+      const invalid = new Shape('Post', {
+        bio: {
+          type: {
+            address: {
+              type: types.shape,
+              ref: 'Post'
             }
           }
         }
-      } as unknown) as IShape
+      })
 
-      let errors = schemaFieldValidation(invalid, [invalid])
-      let error = errors.find(e => /cannot be a shape ref/i.test(e.error))
+      const errors = shapeFieldValidation(invalid, [invalid])
+      const error = errors.find(e => /cannot be a shape ref/i.test(e.error))
       expect(error).toBeTruthy()
-
-      const valid = ({
-        name: 'Author',
-        fields: {
-          bio: {
-            type: {
-              address: {
-                type: types.simpletext
-              }
-            }
-          }
-        }
-      } as unknown) as IShape
-
-      errors = schemaFieldValidation(valid, [valid])
-      error = errors.find(e => /cannot be a shape ref/i.test(e.error))
-      expect(error).not.toBeTruthy()
     })
   })
 })
