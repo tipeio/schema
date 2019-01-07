@@ -28,6 +28,9 @@ export const isPublicType = (type: SchemaType): boolean => {
 export const fieldsHasRefs = (fields: IFields): boolean =>
   some(fields, field => field.type === types.shape)
 
+export const fieldsHaveListTypes = (fields: IFields): boolean =>
+  some(fields, field => Boolean(field.array))
+
 export const fieldsHaveNestedTypes = (fields: IFields): boolean =>
   some(fields, field => isObject(field.type))
 
@@ -52,6 +55,10 @@ const validateFieldType = (type: SchemaType | IFields): boolean => {
     throw new Error(
       'Invalid field. Nested fields cannot have nested field types.'
     )
+  }
+
+  if (isObject(type) && fieldsHaveListTypes(type as IFields)) {
+    throw new Error('Invalid field. Nested fields cannot have arrays.')
   }
 
   return true
