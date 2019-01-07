@@ -163,6 +163,9 @@ export const checkForDupes = (shapes: IShape[]): IShapeValidation[] => {
   const errors: IShapeValidation[] = []
 
   shapes.forEach(shape => {
+    // need to check the entire array to collect all errors
+    // to show devs. Hits must be greater than 1
+    // to account for the current shape itself
     const apiIdMatch = shapes.filter(s => s.apiId === shape.apiId).length > 1
     const nameMatch = shapes.filter(s => s.name === shape.name).length > 1
 
