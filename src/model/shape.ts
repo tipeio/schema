@@ -1,5 +1,5 @@
 import { IFields, IShape } from '../types'
-import { reduce } from 'lodash'
+import { reduce, isObject, isString } from 'lodash'
 export class Shape implements IShape {
   public fields: IFields
   public name: string
@@ -8,15 +8,15 @@ export class Shape implements IShape {
   constructor(apiId: string, nameOrFields: string | IFields, fields?: IFields) {
     this.apiId = apiId
 
-    if (typeof nameOrFields === 'string') {
-      this.name = nameOrFields
+    if (!isObject(nameOrFields)) {
+      this.name = nameOrFields as string
       if (!fields) {
         throw new Error('Must provide fields')
       }
       this.fields = this.normalizeFields(fields)
     } else {
       this.name = apiId
-      this.fields = this.normalizeFields(nameOrFields)
+      this.fields = this.normalizeFields(nameOrFields as IFields)
     }
   }
 
@@ -24,6 +24,10 @@ export class Shape implements IShape {
     return reduce(
       fields,
       (final, field, apiId) => {
+        if (!isString(apiId)) {
+          throw new Error('Field API ID must be a string')
+        }
+
         final[apiId] = {
           ...field,
           apiId,
