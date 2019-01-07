@@ -8,6 +8,9 @@ export class Shape implements IShape {
   constructor(apiId: string, nameOrFields: string | IFields, fields?: IFields) {
     this.apiId = apiId
 
+    // Any non object will be treated as a string, not converted, and passed
+    // to mongoose for validations where it may or may not pass.
+    // Objects need to be formatted
     if (!isObject(nameOrFields)) {
       this.name = nameOrFields as string
       if (!fields) {
@@ -34,10 +37,9 @@ export class Shape implements IShape {
           name: field.name || apiId,
           required: Boolean(field.required),
           array: Boolean(field.array),
-          type:
-            typeof field.type === 'object'
-              ? this.normalizeFields(field.type)
-              : field.type
+          type: isObject(field.type)
+            ? this.normalizeFields(field.type as IFields)
+            : field.type
         }
         return final
       },
