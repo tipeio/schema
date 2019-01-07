@@ -1,3 +1,11 @@
+## [2.0.1](https://github.com/tipeio/schema/compare/v2.0.0...v2.0.1) (2019-01-07)
+
+
+### Bug Fixes
+
+* **validations:** check for list ([d914091](https://github.com/tipeio/schema/commit/d914091)), closes [#23](https://github.com/tipeio/schema/issues/23) [#24](https://github.com/tipeio/schema/issues/24)
+* **validations:** fix wonky validations ([6a5abbb](https://github.com/tipeio/schema/commit/6a5abbb)), closes [#22](https://github.com/tipeio/schema/issues/22)
+
 # [2.0.0](https://github.com/tipeio/schema/compare/v1.2.5...v2.0.0) (2018-12-19)
 
 
