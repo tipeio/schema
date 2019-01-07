@@ -47,6 +47,7 @@ export interface IShape {
 export interface IShapeValidation {
   shape: string
   error: string
+  path?: string
 }
 
 export type ShapeValidator = (

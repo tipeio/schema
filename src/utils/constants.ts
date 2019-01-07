@@ -10,7 +10,7 @@ export const types: ISchemaTypes = {
   shape: 'Shape'
 }
 
-export const systemShapes = {
+export const systemShapes: { [key: string]: string } = {
   asset: 'TipeAsset',
   user: 'TipeUser',
   meta: 'TipeMeta'
