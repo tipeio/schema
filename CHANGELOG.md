@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/tipeio/schema/compare/v2.0.1...v2.0.2) (2019-01-07)
+
+
+### Bug Fixes
+
+* **validations:** fix dupe check ([777b3d9](https://github.com/tipeio/schema/commit/777b3d9))
+
 ## [2.0.1](https://github.com/tipeio/schema/compare/v2.0.0...v2.0.1) (2019-01-07)
 
 
