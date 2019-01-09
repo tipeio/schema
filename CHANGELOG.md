@@ -1,3 +1,10 @@
+## [2.0.3](https://github.com/tipeio/schema/compare/v2.0.2...v2.0.3) (2019-01-09)
+
+
+### Bug Fixes
+
+* **validations:** don't cast to string ([975c253](https://github.com/tipeio/schema/commit/975c253))
+
 ## [2.0.2](https://github.com/tipeio/schema/compare/v2.0.1...v2.0.2) (2019-01-07)
 
 
