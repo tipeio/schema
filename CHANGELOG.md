@@ -1,3 +1,10 @@
+## [2.0.4](https://github.com/tipeio/schema/compare/v2.0.3...v2.0.4) (2019-01-09)
+
+
+### Bug Fixes
+
+* **validations:** allow asset type ([37640d1](https://github.com/tipeio/schema/commit/37640d1))
+
 ## [2.0.3](https://github.com/tipeio/schema/compare/v2.0.2...v2.0.3) (2019-01-09)
 
 
