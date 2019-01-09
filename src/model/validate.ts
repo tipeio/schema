@@ -20,10 +20,6 @@ export const validAPIID = (v: any) => {
 }
 
 export const isPublicType = (type: SchemaType): boolean => {
-  if (type === types.asset) {
-    return false
-  }
-
   return !!Object.keys(types).find((k: string) => types[k] === type)
 }
 
