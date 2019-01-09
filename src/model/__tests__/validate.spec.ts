@@ -40,11 +40,13 @@ describe('validate', () => {
       ]
 
       invalidAPIIds.forEach(apiId => {
-        const author = new Shape(apiId as string, {
+        const author = new Shape('Hello', {
           name: {
             type: types.simpletext
           }
         })
+
+        author.apiId = apiId as string
 
         const errors = validateShape(author)
         expect(errors.length >= 1).toBe(true)
@@ -169,7 +171,7 @@ describe('validate', () => {
         author.fields.name.apiId = apiId as string
 
         const errors = validateShape(author)
-        expect(errors).toHaveLength(2)
+        expect(errors.length >= 2).toBe(true)
       })
     })
 

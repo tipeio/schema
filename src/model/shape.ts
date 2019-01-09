@@ -6,6 +6,10 @@ export class Shape implements IShape {
   public apiId: string
 
   constructor(apiId: string, nameOrFields: string | IFields, fields?: IFields) {
+    if (!isString(apiId)) {
+      throw new Error('Shape API ID must be string')
+    }
+
     this.apiId = apiId
 
     // Any non object will be treated as a string, not converted, and passed

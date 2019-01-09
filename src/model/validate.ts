@@ -1,8 +1,10 @@
 import mongoose from 'mongoose/browser'
 import { systemShapes } from '../utils'
-import { forEach, map, isString, isObject, some, reduce, isEmpty } from 'lodash'
+import { forEach, map, isString, isObject, some } from 'lodash'
 import { types } from '../utils/constants'
 import { SchemaType, IShape, IFields, IShapeValidation } from '../types'
+
+mongoose.Schema.Types.String.cast(false)
 
 const namesRegex = /^[a-z0-9-_ ]*$/i
 const apiIdRegex = /^[a-z][a-z_0-9]*$/i
@@ -134,30 +136,6 @@ export const ShapeSchema = new mongoose.Schema(
   },
   { _id: false }
 )
-/**
- * Mongoose cast pretty much anything to a string.
- * We want values that are not strings to fail. To do that,
- * we can override mongoose toString method to return the
- * original value
- */
-const castString = (v: any) => () => v
-const castFields = (fields: { [key: string]: any }): { [key: string]: any } => {
-  return reduce(
-    fields,
-    (_fields, field, name) => {
-      field.apiId = { toString: castString(field.apiId) }
-      field.name = { toString: castString(field.name) }
-
-      if (isObject(field.type)) {
-        field.type = castFields(field.type)
-      }
-
-      _fields[name] = field
-      return _fields
-    },
-    {} as { [key: string]: any }
-  )
-}
 
 export const checkForDupes = (shapes: IShape[]): IShapeValidation[] => {
   const errors: IShapeValidation[] = []
@@ -190,15 +168,7 @@ export const checkForDupes = (shapes: IShape[]): IShapeValidation[] => {
 }
 
 export const validateShape = (shape: IShape): IShapeValidation[] => {
-  const fields = castFields(shape.fields)
-  const doc = new mongoose.Document(
-    {
-      fields,
-      apiId: { toString: castString(shape.apiId) },
-      name: { toString: castString(shape.name) }
-    },
-    ShapeSchema
-  )
+  const doc = new mongoose.Document(shape, ShapeSchema)
 
   const res = doc.validateSync()
   const errors: IShapeValidation[] = []
