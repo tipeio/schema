@@ -1,7 +1,7 @@
-import { IShape, SchemaType } from '../../types'
+import { SchemaType } from '../../types'
 import { Shape } from '../shape'
 import { types, systemShapes } from '../../utils'
-import { ShapeSchema, validateShape } from '../validate'
+import { validateShape } from '../validate'
 
 describe('validate', () => {
   describe('validations', () => {
@@ -12,7 +12,7 @@ describe('validate', () => {
         }
       })
 
-      const errors = validateShape(author)
+      const errors = validateShape(author, [author])
       expect(errors.length).toBe(2)
     })
 
@@ -48,7 +48,7 @@ describe('validate', () => {
 
         author.apiId = apiId as string
 
-        const errors = validateShape(author)
+        const errors = validateShape(author, [author])
         expect(errors.length >= 1).toBe(true)
       })
 
@@ -68,7 +68,7 @@ describe('validate', () => {
           }
         })
 
-        const errors = validateShape(author)
+        const errors = validateShape(author, [author])
         expect(errors.length).toBe(0)
       })
     })
@@ -81,7 +81,7 @@ describe('validate', () => {
       })
 
       author.name = (null as unknown) as string
-      const errors = validateShape(author)
+      const errors = validateShape(author, [author])
       expect(errors).toHaveLength(1)
     })
 
@@ -101,7 +101,7 @@ describe('validate', () => {
           }
         })
 
-        const errors = validateShape(author)
+        const errors = validateShape(author, [author])
         expect(errors).toHaveLength(1)
       })
 
@@ -120,7 +120,7 @@ describe('validate', () => {
           }
         })
 
-        const errors = validateShape(author)
+        const errors = validateShape(author, [author])
         expect(errors.length).toBe(0)
       })
     })
@@ -134,7 +134,7 @@ describe('validate', () => {
 
       author.fields.name.apiId = (null as unknown) as string
 
-      const errors = validateShape(author)
+      const errors = validateShape(author, [author])
       expect(errors).toHaveLength(2)
     })
 
@@ -170,7 +170,7 @@ describe('validate', () => {
 
         author.fields.name.apiId = apiId as string
 
-        const errors = validateShape(author)
+        const errors = validateShape(author, [author])
         expect(errors.length >= 2).toBe(true)
       })
     })
@@ -184,7 +184,7 @@ describe('validate', () => {
 
       delete author.fields.name.type
 
-      const errors = validateShape(author)
+      const errors = validateShape(author, [author])
       expect(errors).toHaveLength(2)
     })
 
@@ -196,7 +196,30 @@ describe('validate', () => {
         }
       })
 
-      const errors = validateShape(author)
+      const errors = validateShape(author, [author])
+      expect(errors).toHaveLength(2)
+    })
+
+    test('ref must be a real shape APIID', () => {
+      const author = new Shape('Author', {
+        name: {
+          type: types.shape,
+          ref: 'notrealref'
+        }
+      })
+
+      const errors = validateShape(author, [author])
+      expect(errors).toHaveLength(2)
+    })
+
+    test('shape type needs ref', () => {
+      const author = new Shape('Author', {
+        name: {
+          type: types.shape
+        }
+      })
+
+      const errors = validateShape(author, [author])
       expect(errors).toHaveLength(2)
     })
   })

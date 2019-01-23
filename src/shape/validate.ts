@@ -32,6 +32,23 @@ export const fieldsHaveListTypes = (fields: IFields): boolean =>
 export const fieldsHaveNestedTypes = (fields: IFields): boolean =>
   some(fields, field => isObject(field.type))
 
+export const validRef = function(
+  this: any, // fake arg
+  ref: string,
+  shapes: IShape[]
+): boolean {
+  if (ref) {
+    if (!some(shapes, shape => shape.apiId === ref)) {
+      // ref must be a real shape
+      throw new Error(
+        `Invalid field. Ref must be a real shape APIID, got "${ref}"`
+      )
+    }
+  }
+
+  return true
+}
+
 const validateFieldType = (type: SchemaType | IFields): boolean => {
   if (!isString(type) && !isObject(type)) {
     throw new Error(`Invalid field type, got "${type}"`)
@@ -62,76 +79,91 @@ const validateFieldType = (type: SchemaType | IFields): boolean => {
   return true
 }
 
-export const ShapeFieldsSchema = new mongoose.Schema(
-  {
-    type: {
-      type: mongoose.Schema.Types.Mixed,
-      required: true,
-      validate: {
-        validator: validateFieldType,
-        message: (props: any) => props.reason.toString().replace('Error: ', '')
-      }
+export const ShapeFieldsSchema = (shapes: IShape[]) =>
+  new mongoose.Schema(
+    {
+      type: {
+        type: mongoose.Schema.Types.Mixed,
+        required: true,
+        validate: {
+          validator: validateFieldType,
+          message: (props: any) =>
+            props.reason.toString().replace('Error: ', '')
+        }
+      },
+      apiId: {
+        type: String,
+        required: true,
+        validate: {
+          validator: validAPIID,
+          message: () => 'Invalid field API ID'
+        }
+      },
+      name: {
+        type: String,
+        required: true,
+        maxlength: 20,
+        match: namesRegex
+      },
+      required: {
+        type: Boolean,
+        required: true,
+        default: false
+      },
+      array: {
+        type: Boolean,
+        required: true,
+        default: false
+      },
+      ref: {
+        type: String,
+        required() {
+          return ((this.type as unknown) as string) === types.shape
+        },
+        validate: {
+          validator(ref: string) {
+            return validRef(ref, shapes)
+          },
+          message: (props: any) =>
+            props.reason.toString().replace('Error: ', '')
+        }
+      },
+      description: String,
+      faker: String
     },
-    apiId: {
-      type: String,
-      required: true,
-      validate: {
-        validator: validAPIID,
-        message: () => 'Invalid field API ID'
-      }
-    },
-    name: {
-      type: String,
-      required: true,
-      maxlength: 20,
-      match: namesRegex
-    },
-    required: {
-      type: Boolean,
-      required: true,
-      default: false
-    },
-    array: {
-      type: Boolean,
-      required: true,
-      default: false
-    },
-    ref: String,
-    description: String,
-    faker: String
-  },
-  { _id: false }
-)
+    { _id: false }
+  )
 
-export const ShapeSchema = new mongoose.Schema(
-  {
-    apiId: {
-      type: String,
-      required: true,
-      validate: {
-        validator: validAPIID,
-        message(props: { [key: string]: any }) {
-          return `Invalid Shape API ID. Got ${props.value}`
+export const ShapeSchema = (shapes: IShape[]) =>
+  new mongoose.Schema(
+    {
+      apiId: {
+        type: String,
+        required: true,
+        validate: {
+          validator: validAPIID,
+          message(props: { [key: string]: any }) {
+            return `Invalid Shape API ID. Got ${props.value}`
+          }
         }
+      },
+      name: {
+        type: String,
+        required: true,
+        validate: {
+          validator: (v: any) => !notSystemShape.test(v) && namesRegex.test(v),
+          message(props: { [key: string]: any }) {
+            return `Invalid Shape name. Got ${props.value}`
+          }
+        }
+      },
+      fields: {
+        type: Map,
+        of: ShapeFieldsSchema(shapes)
       }
     },
-    name: {
-      type: String,
-      required: true,
-      validate: {
-        validator: (v: any) => !notSystemShape.test(v) && namesRegex.test(v),
-        message(props: { [key: string]: any }) {
-          return `Invalid Shape name. Got ${props.value}`
-        }
-      }
-    },
-    fields: {
-      type: Map,
-      of: ShapeFieldsSchema
-    }
-  },
-  { _id: false }
-)
+    { _id: false }
+  )
 
 export const checkForDupes = (shapes: IShape[]): IShapeValidation[] => {
   const errors: IShapeValidation[] = []
@@ -163,8 +195,11 @@ export const checkForDupes = (shapes: IShape[]): IShapeValidation[] => {
   return errors
 }
 
-export const validateShape = (shape: IShape): IShapeValidation[] => {
-  const doc = new mongoose.Document(shape, ShapeSchema)
+export const validateShape = (
+  shape: IShape,
+  shapes: IShape[]
+): IShapeValidation[] => {
+  const doc = new mongoose.Document(shape, ShapeSchema(shapes))
 
   const res = doc.validateSync()
   const errors: IShapeValidation[] = []
@@ -185,6 +220,9 @@ export const validateShape = (shape: IShape): IShapeValidation[] => {
 export const validateShapes = (shapes: IShape[]) => {
   let errors: IShapeValidation[] = []
 
-  errors = errors.concat(...shapes.map(validateShape), ...checkForDupes(shapes))
+  errors = errors.concat(
+    ...shapes.map(s => validateShape(s, shapes)),
+    ...checkForDupes(shapes)
+  )
   return errors
 }
