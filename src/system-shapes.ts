@@ -1,4 +1,4 @@
-import { Shape } from './model'
+import { Shape } from './shape'
 import { systemShapes, types } from './utils'
 
 export const Asset = new Shape(systemShapes.asset, {

@@ -1,6 +1,6 @@
 import { IShape, IPreparedSchema, IShapeValidation } from './types'
 import { systemModels } from './system-shapes'
-import { validateShapes } from './model'
+import { validateShapes } from './shape'
 
 export const prepareShapes = (shapes: IShape[]): IPreparedSchema => {
   const errors = validateShapes(shapes)
