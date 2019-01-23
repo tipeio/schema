@@ -1,3 +1,11 @@
+## [2.0.5](https://github.com/tipeio/schema/compare/v2.0.4...v2.0.5) (2019-01-23)
+
+
+### Bug Fixes
+
+* **shape:** add ref validation ([eb86aa5](https://github.com/tipeio/schema/commit/eb86aa5)), closes [#27](https://github.com/tipeio/schema/issues/27)
+* **shapes:** remove required field ([ad8a7f2](https://github.com/tipeio/schema/commit/ad8a7f2)), closes [#30](https://github.com/tipeio/schema/issues/30)
+
 ## [2.0.4](https://github.com/tipeio/schema/compare/v2.0.3...v2.0.4) (2019-01-09)
 
 
