@@ -105,11 +105,6 @@ export const ShapeFieldsSchema = (shapes: IShape[]) =>
         maxlength: 20,
         match: namesRegex
       },
-      required: {
-        type: Boolean,
-        required: true,
-        default: false
-      },
       array: {
         type: Boolean,
         required: true,
