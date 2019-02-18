@@ -24,7 +24,10 @@ export const isPublicType = (type: SchemaType): boolean => {
 }
 
 export const fieldsHasRefs = (fields: IFields): boolean =>
-  some(fields, field => field.type === types.shape)
+  some(
+    fields,
+    field => field.type === types.shape || field.type === types.asset
+  )
 
 export const fieldsHaveListTypes = (fields: IFields): boolean =>
   some(fields, field => Boolean(field.array))

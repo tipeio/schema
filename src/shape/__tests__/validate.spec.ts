@@ -222,5 +222,35 @@ describe('validate', () => {
       const errors = validateShape(author, [author])
       expect(errors).toHaveLength(2)
     })
+
+    test('nested fields cannot have refs or assets', () => {
+      const post = new Shape('Post', {
+        details: {
+          type: {
+            author: {
+              type: types.shape,
+              ref: 'Author'
+            }
+          }
+        },
+        images: {
+          type: {
+            header: {
+              type: types.asset
+            }
+          }
+        }
+      })
+
+      const author = new Shape('Author', {
+        name: {
+          type: types.simpletext
+        }
+      })
+
+      const errors = validateShape(post, [post, author])
+
+      expect(errors).toHaveLength(4)
+    })
   })
 })
