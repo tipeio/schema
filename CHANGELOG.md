@@ -1,3 +1,10 @@
+## [2.0.7](https://github.com/tipeio/schema/compare/v2.0.6...v2.0.7) (2019-03-12)
+
+
+### Bug Fixes
+
+* **docs:** fix readme ([c333565](https://github.com/tipeio/schema/commit/c333565))
+
 ## [2.0.6](https://github.com/tipeio/schema/compare/v2.0.5...v2.0.6) (2019-03-12)
 
 
