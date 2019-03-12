@@ -1,3 +1,10 @@
+## [2.0.6](https://github.com/tipeio/schema/compare/v2.0.5...v2.0.6) (2019-03-12)
+
+
+### Bug Fixes
+
+* **pkg.json:** release ([ea23bc6](https://github.com/tipeio/schema/commit/ea23bc6))
+
 ## [2.0.5](https://github.com/tipeio/schema/compare/v2.0.4...v2.0.5) (2019-01-23)
 
 
