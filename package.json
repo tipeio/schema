@@ -133,7 +133,7 @@
     }
   },
   "publishConfig": {
-    "access": "restricted"
+    "access": "public"
   },
   "dependencies": {
     "error-ex": "^1.3.2",
