@@ -12,6 +12,7 @@ npm install @tipe/schema
 Create your first shape by invoking [`new Shape`](guides/Shape.md)
 ### [Types](./src/types.ts)
 Types are used for value types for the API and rendering associated editors on the dashboard.
+
 - [markdown](guides/markdown.md)
 - [simpletext](guides/simpletext.md)
 - [calendar](guides/calendar.md)
