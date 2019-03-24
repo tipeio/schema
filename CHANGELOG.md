@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/tipeio/schema/compare/v2.0.8...v2.1.0) (2019-03-24)
+
+
+### Features
+
+* **richtext:** add richtext type ([0da7aef](https://github.com/tipeio/schema/commit/0da7aef))
+
 ## [2.0.8](https://github.com/tipeio/schema/compare/v2.0.7...v2.0.8) (2019-03-12)
 
 
