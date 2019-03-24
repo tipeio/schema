@@ -1,7 +1,7 @@
 import { ISchemaTypes } from '../types'
 
 export const types: ISchemaTypes = {
-  markdown: 'Markdown',
+  richtext: 'RichText',
   simpletext: 'SimpleText',
   calendar: 'Calendar',
   number: 'Number',
