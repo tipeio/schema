@@ -15,7 +15,7 @@ export interface IFields {
 }
 
 export interface ISchemaTypes {
-  markdown: 'Markdown'
+  richtext: 'RichText'
   simpletext: 'SimpleText'
   calendar: 'Calendar'
   number: 'Number'
@@ -30,7 +30,7 @@ export interface IValidComponentsMap {
 }
 
 export type SchemaType =
-  | 'Markdown'
+  | 'RichText'
   | 'SimpleText'
   | 'Calendar'
   | 'Number'

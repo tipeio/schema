@@ -12,7 +12,7 @@ npm install @tipe/schema
 Create your first shape by invoking [`new Shape`](guides/Shape.md)
 ### [Types](./src/types.ts)
 Types are used for value types for the API and rendering associated editors on the dashboard.
-- [markdown](guides/markdown.md)
+- [richtext](guides/richtext.md)
 - [simpletext](guides/simpletext.md)
 - [calendar](guides/calendar.md)
 - [number](guides/number.md)
@@ -29,7 +29,7 @@ const Post = new Shape('Post', {
     type: types.simpletext
   },
   body: {
-    type: types.markdown
+    type: types.richtext
   },
   author: {
     type: types.shape,
@@ -53,7 +53,7 @@ const PostPage = new Shape('PostsPage', {
         type: types.simpletext
       },
       body: {
-        type: types.markdown
+        type: types.richtext
       }
     }
   },
