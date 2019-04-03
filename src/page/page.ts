@@ -1,7 +1,9 @@
+import pathToRegexp from 'path-to-regexp'
+import { isString } from 'lodash'
+
+import { normalizeFields } from '../utils/normalize-fields'
 import { IFields, IPage, IPageOptions } from '../types'
 import { types } from '../utils/constants'
-import { reduce, isObject, isString } from 'lodash'
-import pathToRegexp from 'path-to-regexp'
 
 export class Page implements IPage {
   public type = 'page'
@@ -19,7 +21,7 @@ export class Page implements IPage {
 
     this.apiId = options.apiId
     this.name = options.name || options.apiId
-    this.fields = this.normalizeFields(options.fields)
+    this.fields = normalizeFields(options.fields)
     this.routeParams = []
     this.isSingleRoute = this.routeIsSingle(options.route)
     this.route = options.route
@@ -57,29 +59,5 @@ export class Page implements IPage {
 
   public routeIsSingle(route: string): boolean {
     return !route.includes('/:')
-  }
-
-  public normalizeFields(fields: IFields): IFields {
-    return reduce(
-      fields,
-      (final, field, apiId) => {
-        if (!isString(apiId)) {
-          throw new Error('Field API ID must be a string')
-        }
-
-        final[apiId] = {
-          ...field,
-          apiId,
-          name: field.name || apiId,
-          required: Boolean(field.required),
-          array: Boolean(field.array),
-          type: isObject(field.type)
-            ? this.normalizeFields(field.type as IFields)
-            : field.type
-        }
-        return final
-      },
-      {} as IFields
-    )
   }
 }

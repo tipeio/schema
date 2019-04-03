@@ -18,7 +18,7 @@ describe('Page Shape', () => {
   })
 
   it('should throw an error with an invalid route', () => {
-    expect(() => {
+    const page = () =>
       new Page({
         fields: {
           bar: {
@@ -29,7 +29,7 @@ describe('Page Shape', () => {
         apiId: 'rpt',
         route: 'sampleRoute/:foo'
       })
-    }).toThrowError(new Error('Invalid Routes Present'))
+    expect(page).toThrowError(new Error('Invalid Routes Present'))
   })
 
   it('should recognize a singular route', () => {

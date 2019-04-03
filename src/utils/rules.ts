@@ -41,8 +41,11 @@ export const validRef = function(
   shapes: IModel[]
 ): boolean {
   if (ref) {
-    if (!some(shapes, shape => shape.apiId === ref && shape.type !== 'page')) {
-      // ref must be a real shape
+    // ref must be a real shape
+    if (!some(shapes, shape => shape.type !== 'page')) {
+      throw new Error(`Invalid field. Ref cannot be of type Page`)
+    }
+    if (!some(shapes, shape => shape.apiId === ref)) {
       throw new Error(
         `Invalid field. Ref must be a real shape APIID, got "${ref}"`
       )

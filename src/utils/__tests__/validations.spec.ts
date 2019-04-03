@@ -242,14 +242,20 @@ describe('validate', () => {
     })
 
     test('A Page should not be able to embed another page', () => {
+      const about1 = new Page({
+        fields: { header: { type: types.simpletext } },
+        name: 'about',
+        apiId: 'about1',
+        route: '/about'
+      })
       const home = new Page({
-        fields: { someField: { type: 'page' } },
+        fields: { header: { type: types.shape, ref: 'about1' } },
         name: 'testName',
-        apiId: 'asdf',
-        route: 'asdf'
+        apiId: 'home1',
+        route: '/home'
       })
 
-      const errors = validateShape(home, [home])
+      const errors = validateShape(home, [home, about1])
       expect(errors).toHaveLength(2)
     })
   })

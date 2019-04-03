@@ -10,7 +10,6 @@
     "ordered-imports": false,
     "only-arrow-functions": false,
     "object-literal-sort-keys": false,
-    "no-console": false,
-    "no-unused-expression": false
+    "no-console": false
   }
 }
