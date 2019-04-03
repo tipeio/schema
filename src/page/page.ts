@@ -22,11 +22,10 @@ export class Page implements IPage {
     this.apiId = options.apiId
     this.name = options.name || options.apiId
     this.fields = normalizeFields(options.fields)
-    this.routeParams = []
     this.isSingleRoute = this.routeIsSingle(options.route)
     this.route = options.route
+    this.routeParams = this.exposeRouteParams(this.route, [])
 
-    this.exposeRouteParams(options.route, this.routeParams)
     const invalidRoutes = this.invalidateRouteParams(this.routeParams)
 
     if (invalidRoutes.length) throw new Error('Invalid Routes Present')
@@ -51,10 +50,13 @@ export class Page implements IPage {
       .map((obj: any) => obj.name)
   }
 
-  public exposeRouteParams(route: string, routeParamsStore: any[]): object[] {
+  public exposeRouteParams(route: string, routeParamsStore: any[]): any[] {
     if (this.isSingleRoute) return routeParamsStore
     pathToRegexp(route, routeParamsStore)
-    return routeParamsStore
+    return routeParamsStore.map(param => {
+      const { name } = param
+      return { name }
+    })
   }
 
   public routeIsSingle(route: string): boolean {
