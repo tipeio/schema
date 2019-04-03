@@ -48,7 +48,6 @@ export interface IShape {
   name: string
   route?: string
   isSingleRoute?: boolean
-  normalizeFields(fields: IFields): IFields
 }
 
 export interface IPage {
@@ -59,7 +58,6 @@ export interface IPage {
   route: string
   routeParams: string[]
   isSingleRoute: boolean
-  normalizeFields(fields: IFields): IFields
 }
 
 export interface IShapeValidation {
