@@ -30,6 +30,7 @@ export interface IValidComponentsMap {
 }
 
 export type SchemaType =
+  | string
   | 'RichText'
   | 'SimpleText'
   | 'Calendar'
@@ -38,16 +39,41 @@ export type SchemaType =
   | 'Asset'
   | 'Shape'
 
+export type IModel = IShape | IPage
+
 export interface IShape {
+  type: string
   fields: IFields
   apiId: string
   name: string
+  route?: string
+  isSingleRoute?: boolean
   normalizeFields(fields: IFields): IFields
 }
+
+export interface IPage {
+  type: string
+  fields: IFields
+  apiId: string
+  name: string
+  route: string
+  routeParams: string[]
+  isSingleRoute: boolean
+  normalizeFields(fields: IFields): IFields
+}
+
 export interface IShapeValidation {
-  shape: string
+  shape?: string
+  page?: string
   error: string
   path?: string
+}
+
+export interface IPageOptions {
+  fields: IFields
+  apiId: string
+  name: string
+  route: string
 }
 
 export type ShapeValidator = (

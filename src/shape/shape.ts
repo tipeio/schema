@@ -1,6 +1,7 @@
 import { IFields, IShape } from '../types'
 import { reduce, isObject, isString } from 'lodash'
 export class Shape implements IShape {
+  public type = 'shape'
   public fields: IFields
   public name: string
   public apiId: string

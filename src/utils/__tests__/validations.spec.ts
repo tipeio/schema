@@ -1,7 +1,8 @@
 import { SchemaType } from '../../types'
-import { Shape } from '../shape'
+import { Shape } from '../../shape'
+import { Page } from '../../page'
 import { types, systemShapes } from '../../utils'
-import { validateShape } from '../validate'
+import { validateShape } from '../validations'
 
 describe('validate', () => {
   describe('validations', () => {
@@ -220,6 +221,35 @@ describe('validate', () => {
       })
 
       const errors = validateShape(author, [author])
+      expect(errors).toHaveLength(2)
+    })
+
+    test('A Page should be able to embed a shape', () => {
+      const Author123 = new Shape('Author123', {
+        name: {
+          type: types.shape
+        }
+      })
+      const home = new Page({
+        fields: { someField: { type: types.shape, ref: 'Author123' } },
+        name: 'testName',
+        apiId: 'asdf',
+        route: 'someplace'
+      })
+
+      const errors = validateShape(home, [Author123])
+      expect(errors).toHaveLength(0)
+    })
+
+    test('A Page should not be able to embed another page', () => {
+      const home = new Page({
+        fields: { someField: { type: 'page' } },
+        name: 'testName',
+        apiId: 'asdf',
+        route: 'asdf'
+      })
+
+      const errors = validateShape(home, [home])
       expect(errors).toHaveLength(2)
     })
   })
