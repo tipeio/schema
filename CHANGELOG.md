@@ -1,3 +1,17 @@
+# [2.2.0](https://github.com/tipeio/schema/compare/v2.1.0...v2.2.0) (2019-04-03)
+
+
+### Bug Fixes
+
+* **cleanup:** Add better refs rule error message ([000fe1f](https://github.com/tipeio/schema/commit/000fe1f))
+* **page route params:** Remove side effects ([0441103](https://github.com/tipeio/schema/commit/0441103))
+* **Page routeParams:** routeParams Array<string> ([79be598](https://github.com/tipeio/schema/commit/79be598))
+
+
+### Features
+
+* **Page:** add Page type ([8c644b6](https://github.com/tipeio/schema/commit/8c644b6)), closes [#qc4j7](https://github.com/tipeio/schema/issues/qc4j7)
+
 # [2.1.0](https://github.com/tipeio/schema/compare/v2.0.8...v2.1.0) (2019-03-24)
 
 
