@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/tipeio/schema/compare/v2.2.0...v2.3.0) (2019-04-04)
+
+
+### Features
+
+* **schema:** prevent shapes referencing shapes ([75676da](https://github.com/tipeio/schema/commit/75676da)), closes [#qc4](https://github.com/tipeio/schema/issues/qc4)
+
 # [2.2.0](https://github.com/tipeio/schema/compare/v2.1.0...v2.2.0) (2019-04-03)
 
 
