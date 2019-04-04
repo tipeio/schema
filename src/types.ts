@@ -25,6 +25,11 @@ export interface ISchemaTypes {
   [type: string]: string
 }
 
+export interface IShapeTypes {
+  shape: 'shape'
+  page: 'page'
+}
+
 export interface IValidComponentsMap {
   [type: string]: string[]
 }

@@ -1,4 +1,4 @@
-import { ISchemaTypes } from '../types'
+import { ISchemaTypes, IShapeTypes } from '../types'
 
 export const types: ISchemaTypes = {
   richtext: 'RichText',
@@ -8,6 +8,11 @@ export const types: ISchemaTypes = {
   toggle: 'Toggle',
   asset: 'Asset',
   shape: 'Shape'
+}
+
+export const shapeTypes: IShapeTypes = {
+  shape: 'shape',
+  page: 'page'
 }
 
 export const systemShapes: { [key: string]: string } = {
