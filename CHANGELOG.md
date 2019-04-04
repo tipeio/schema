@@ -1,3 +1,10 @@
+## [2.3.1](https://github.com/tipeio/schema/compare/v2.3.0...v2.3.1) (2019-04-04)
+
+
+### Bug Fixes
+
+* **export page type:** Add page type export ([b8c55c1](https://github.com/tipeio/schema/commit/b8c55c1))
+
 # [2.3.0](https://github.com/tipeio/schema/compare/v2.2.0...v2.3.0) (2019-04-04)
 
 
