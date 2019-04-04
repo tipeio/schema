@@ -1,4 +1,4 @@
-import { systemShapes, types } from './constants'
+import { systemShapes, shapeTypes, types } from './constants'
 import { forEach, map, isString, isObject, some } from 'lodash'
 import {
   SchemaType,
@@ -55,7 +55,13 @@ export const validRef = function(
   return true
 }
 
-export const validateFieldType = (type: SchemaType | IFields): boolean => {
+export const validateFieldType = (shape: IModel) => (
+  type: SchemaType | IFields
+): boolean => {
+  if (shape.type === shapeTypes.shape && fieldsHasRefs(shape.fields)) {
+    throw new Error(`shape type cannot reference another shape: ${shape.name}`)
+  }
+
   if (!isString(type) && !isObject(type)) {
     throw new Error(`Invalid field type, got "${type}"`)
   }
@@ -65,7 +71,7 @@ export const validateFieldType = (type: SchemaType | IFields): boolean => {
   }
 
   if (isObject(type)) {
-    forEach(type as IFields, t => validateFieldType(t.type))
+    forEach(type as IFields, t => validateFieldType(shape)(t.type))
   }
 
   if (isObject(type) && fieldsHasRefs(type as IFields)) {

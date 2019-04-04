@@ -19,7 +19,7 @@ export const ShapeFieldsSchema = (shape: IModel, shapes: IModel[]) => {
       type: mongoose.Schema.Types.Mixed,
       required: true,
       validate: {
-        validator: validateFieldType,
+        validator: validateFieldType(shape),
         message: (props: any) => props.reason.toString().replace('Error: ', '')
       }
     },

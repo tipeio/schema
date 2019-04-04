@@ -202,10 +202,15 @@ describe('validate', () => {
     })
 
     test('ref must be a real shape APIID', () => {
-      const author = new Shape('Author', {
-        name: {
-          type: types.shape,
-          ref: 'notrealref'
+      const author = new Page({
+        apiId: 'author1',
+        route: 'asdf',
+        name: 'pageName',
+        fields: {
+          something: {
+            type: types.shape,
+            ref: 'something'
+          }
         }
       })
 
@@ -214,9 +219,14 @@ describe('validate', () => {
     })
 
     test('shape type needs ref', () => {
-      const author = new Shape('Author', {
-        name: {
-          type: types.shape
+      const author = new Page({
+        apiId: 'author1',
+        route: 'asdf',
+        name: 'pageName',
+        fields: {
+          something: {
+            type: types.shape
+          }
         }
       })
 
@@ -227,7 +237,7 @@ describe('validate', () => {
     test('A Page should be able to embed a shape', () => {
       const Author123 = new Shape('Author123', {
         name: {
-          type: types.shape
+          type: types.simpletext
         }
       })
       const home = new Page({
