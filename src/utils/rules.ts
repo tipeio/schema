@@ -42,12 +42,13 @@ export const validRef = function(
 ): boolean {
   if (ref) {
     // ref must be a real shape
-    if (!some(shapes, shape => shape.type !== 'page')) {
+    if (some(shapes, shape => shape.apiId === ref && shape.type === 'page')) {
       throw new Error(`Invalid field. Ref cannot be of type Page`)
     }
+
     if (!some(shapes, shape => shape.apiId === ref)) {
       throw new Error(
-        `Invalid field. Ref must be a real shape APIID, got "${ref}"`
+        `Invalid field. Ref must be a real shape API ID, got "${ref}"`
       )
     }
   }
@@ -58,10 +59,6 @@ export const validRef = function(
 export const validateFieldType = (shape: IModel) => (
   type: SchemaType | IFields
 ): boolean => {
-  if (shape.type === shapeTypes.shape && fieldsHasRefs(shape.fields)) {
-    throw new Error(`shape type cannot reference another shape: ${shape.name}`)
-  }
-
   if (!isString(type) && !isObject(type)) {
     throw new Error(`Invalid field type, got "${type}"`)
   }
