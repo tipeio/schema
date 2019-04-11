@@ -1,3 +1,10 @@
+## [2.3.2](https://github.com/tipeio/schema/compare/v2.3.1...v2.3.2) (2019-04-11)
+
+
+### Bug Fixes
+
+* **rules:** remove rules ([eb10439](https://github.com/tipeio/schema/commit/eb10439))
+
 ## [2.3.1](https://github.com/tipeio/schema/compare/v2.3.0...v2.3.1) (2019-04-04)
 
 
