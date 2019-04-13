@@ -1,8 +1,7 @@
 import pathToRegexp from 'path-to-regexp'
-import { isString } from 'lodash'
 
 import { normalizeFields } from '../utils/normalize-fields'
-import { IFields, IPage, IPageOptions } from '../types'
+import { IFields, IPage, IPageOptions, IFieldsConfigs } from '../types'
 import { types } from '../utils/constants'
 
 export class Page implements IPage {
@@ -15,9 +14,9 @@ export class Page implements IPage {
   public multi: boolean
 
   constructor(options: IPageOptions) {
-    if (!isString(options.apiId)) throw new Error('Page API ID must be string')
+    // if (!isString(options.apiId)) throw new Error('Page API ID must be string')
 
-    if (!isString(options.route)) throw new Error('Page route must be string')
+    // if (!isString(options.route)) throw new Error('Page route must be string')
 
     this.apiId = options.apiId
     this.name = options.name || options.apiId

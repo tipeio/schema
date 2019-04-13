@@ -1,5 +1,4 @@
-import { IFields, IShape, IShapeOptions } from '../types'
-import { isString } from 'lodash'
+import { IShape, IShapeOptions, IFieldsConfigs, IFields } from '../types'
 import { normalizeFields } from '../utils/normalize-fields'
 
 export class Shape implements IShape {
@@ -10,10 +9,6 @@ export class Shape implements IShape {
   public multi: boolean
 
   constructor(options: IShapeOptions) {
-    if (!isString(options)) {
-      throw new Error('Shape API ID must be a string')
-    }
-
     this.apiId = options.apiId
     this.name = options.name || options.apiId
     this.fields = normalizeFields(options.fields)

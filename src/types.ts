@@ -4,7 +4,6 @@ export interface IField {
   type: SchemaType | IFields
   apiId?: string
   name?: string
-  required?: boolean
   array?: boolean
   ref?: string
   description?: string
@@ -13,6 +12,10 @@ export interface IField {
 
 export interface IFields {
   [fieldName: string]: IField
+}
+
+export interface IFieldsConfigs {
+  [fieldName: string]: IFieldConfig
 }
 
 export interface ISchemaTypes {
@@ -74,17 +77,17 @@ export interface IShapeValidation {
 }
 
 export interface IPageOptions {
-  fields: IFields
+  fields: IFieldsConfigs
   apiId: string
   name: string
   route: string
 }
 
 export interface IShapeOptions {
-  fields: IFields
+  fields: IFieldsConfigs
   apiId: string
   name: string
-  multi: boolean
+  multi?: boolean
 }
 
 export type ShapeValidator = (
@@ -95,4 +98,25 @@ export type ShapeValidator = (
 export interface IPreparedSchema {
   errors: IShapeValidation[]
   shapes: IShape[]
+}
+
+export interface IFieldConfig extends IFieldMeta {
+  options: IField
+}
+
+export interface IFieldTypeCreator {
+  object(config: IFieldsConfigs): IFieldConfig
+  ref(shape: IShape | string): IFieldConfig
+  text(): IFieldConfig
+  richText(): IFieldConfig
+  toggle(): IFieldConfig
+  number(): IFieldConfig
+  calendar(): IFieldConfig
+  asset(): IFieldConfig
+}
+
+export interface IFieldMeta {
+  name(name: string): IFieldConfig
+  faker(faker: string): IFieldConfig
+  description(description: string): IFieldConfig
 }

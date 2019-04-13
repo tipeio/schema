@@ -83,6 +83,12 @@ export const ShapeSchema = (shape: IModel, shapes: IModel[]) => {
         }
       }
     },
+
+    multi: {
+      type: Boolean,
+      required: true
+    },
+
     fields: {
       type: Map,
       of: ShapeFieldsSchema(shape, shapes)
@@ -100,11 +106,7 @@ export const ShapeSchema = (shape: IModel, shapes: IModel[]) => {
         {
           type: String
         }
-      ],
-      isSingleRoute: {
-        type: Boolean,
-        required: true
-      }
+      ]
     } as any
   }
 
@@ -123,7 +125,7 @@ export const validateShape = (
   if (res && res.errors) {
     errors.push(
       ...map(res.errors, (e, p) => ({
-        shape: shape.apiId,
+        shape: shape.apiId || '<Unknown>',
         error: `${e.message}`,
         path: p
       }))
