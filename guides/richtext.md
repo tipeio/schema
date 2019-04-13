@@ -7,7 +7,7 @@ RichText field type renders an editor for writing richtext on the dashboard
 ```
 new Shape('BlogPost', {
   name: {
-    type: types.simpletext
+    type: types.text
   },
   post: {
     type: types.richtext

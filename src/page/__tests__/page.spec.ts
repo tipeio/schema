@@ -6,7 +6,7 @@ describe('Page Shape', () => {
     const home = new Page({
       fields: {
         foo: {
-          type: types.simpletext
+          type: types.text
         }
       },
       name: 'routeParamTest',
@@ -22,7 +22,7 @@ describe('Page Shape', () => {
       new Page({
         fields: {
           bar: {
-            type: types.simpletext
+            type: types.text
           }
         },
         name: 'routeParamTest',
@@ -36,7 +36,7 @@ describe('Page Shape', () => {
     const home = new Page({
       fields: {
         foo: {
-          type: types.simpletext
+          type: types.text
         }
       },
       name: 'routeParamTest',

@@ -7,13 +7,13 @@ Number field type renders a number input
 ```
 new Shape('Sku', {
   name: {
-    type: types.simpletext
+    type: types.text
   },
   price: {
     type: types.number
   },
   tags: {
-    type: types.simpletext,
+    type: types.text,
     array: true
   }
 })

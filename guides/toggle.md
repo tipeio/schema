@@ -7,7 +7,7 @@ Toggle field type renders a switch editor on the dashboard
 ```
 new Shape('Deals', {
   name: {
-    type: types.simpletext
+    type: types.text
   },
   active: {
     type: types.toggle

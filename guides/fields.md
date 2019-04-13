@@ -9,10 +9,10 @@ To create fields, the `key` of the object represents the field API ID and will a
 ```
 new Shape('Author', 'Author', {
   name: {
-    type: types.simpletext
+    type: types.text
   },
   age: {
-    type: types.simpletext,
+    type: types.text,
     name: 'Birthday' <--- Will display Birthday instead of age on dashboard
   }
 })
@@ -22,7 +22,7 @@ You're able to turn all types into an array for multiple values from server. Wha
 ```
 new Shape('Hotel', {
   name: {
-    type: types.simpletext
+    type: types.text
   },
   images: {
     type: types.asset,
@@ -36,14 +36,14 @@ You're also able to group types together to create a sudo shape. <b>You can't ad
 new Shape('HomePage', {
   heroSection: { <--- Group type
     title: {
-      type: types.simpletext
+      type: types.text
     },
     backgroundImg: {
       type: types.asset,
       name: 'HeroImg'  
     },
     btnTxt: {
-      type: types.simpletext,
+      type: types.text,
       array: true <--- Not allowed in groups
     }
   }

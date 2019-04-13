@@ -2,7 +2,7 @@ import { ISchemaTypes, IShapeTypes } from '../types'
 
 export const types: ISchemaTypes = {
   richtext: 'RichText',
-  simpletext: 'SimpleText',
+  text: 'Text',
   calendar: 'Calendar',
   number: 'Number',
   toggle: 'Toggle',

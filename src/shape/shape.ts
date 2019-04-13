@@ -1,31 +1,22 @@
-import { IFields, IShape } from '../types'
-import { reduce, isObject, isString } from 'lodash'
+import { IFields, IShape, IShapeOptions } from '../types'
+import { isString } from 'lodash'
 import { normalizeFields } from '../utils/normalize-fields'
+
 export class Shape implements IShape {
   public type = 'shape'
   public fields: IFields
   public name: string
   public apiId: string
+  public multi: boolean
 
-  constructor(apiId: string, nameOrFields: string | IFields, fields?: IFields) {
-    if (!isString(apiId)) {
-      throw new Error('Shape API ID must be string')
+  constructor(options: IShapeOptions) {
+    if (!isString(options)) {
+      throw new Error('Shape API ID must be a string')
     }
 
-    this.apiId = apiId
-
-    // Any non object will be treated as a string, not converted, and passed
-    // to mongoose for validations where it may or may not pass.
-    // Objects need to be formatted
-    if (!isObject(nameOrFields)) {
-      this.name = nameOrFields as string
-      if (!fields) {
-        throw new Error('Must provide fields')
-      }
-      this.fields = normalizeFields(fields)
-    } else {
-      this.name = apiId
-      this.fields = normalizeFields(nameOrFields as IFields)
-    }
+    this.apiId = options.apiId
+    this.name = options.name || options.apiId
+    this.fields = normalizeFields(options.fields)
+    this.multi = options.multi || true
   }
 }
