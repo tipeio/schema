@@ -1,4 +1,4 @@
-import { systemShapes, shapeTypes, types } from './constants'
+import { reservedNames, shapeTypes, types } from './constants'
 import { forEach, map, isString, isObject, some } from 'lodash'
 import {
   SchemaType,
@@ -17,7 +17,7 @@ export const reservedNameRegex = (names: { [key: string]: string }): RegExp => {
   return new RegExp(`^(${reservedModels})$`, 'i')
 }
 
-export const notSystemShape = reservedNameRegex(systemShapes)
+export const notSystemShape = reservedNameRegex(reservedNames)
 export const validAPIID = (v: any) => {
   return apiIdRegex.test(v) && !notSystemShape.test(v)
 }

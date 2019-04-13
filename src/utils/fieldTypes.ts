@@ -1,5 +1,5 @@
-import { IFieldTypeCreator, IField, IFieldConfig, IFields } from './types'
-import { types } from './utils/constants'
+import { IFieldTypeCreator, IField, IFieldConfig, IFields } from '../types'
+import { types } from './constants'
 
 export const addMetaFields = (options: IField): IFieldConfig => ({
   options,

@@ -15,7 +15,7 @@ export const shapeTypes: IShapeTypes = {
   page: 'page'
 }
 
-export const systemShapes: { [key: string]: string } = {
+export const reservedNames: { [key: string]: string } = {
   asset: 'TipeAsset',
   user: 'TipeUser',
   meta: 'TipeMeta'

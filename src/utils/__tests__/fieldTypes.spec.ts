@@ -1,6 +1,6 @@
 import { fieldTypes, addMetaFields, createField } from '../fieldTypes'
-import { types } from '../utils/constants'
-import { IFields } from '../types'
+import { types } from '../constants'
+import { IFields } from '../../types'
 
 describe('field types', () => {
   describe('addMetaFields', () => {
