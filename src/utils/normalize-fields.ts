@@ -1,7 +1,23 @@
 import { reduce, isObject, isString } from 'lodash'
-import { IFields } from '../types'
+import { IFieldsConfigs, IFields, IField } from '../types'
 
-export const normalizeFields = (fields: IFields): IFields => {
+export const setField = (field: IField, apiId: string) => ({
+  ...field,
+  apiId,
+  name: field.name || apiId,
+  type: isObject(field.type)
+    ? reduce(
+        field.type as IFields,
+        (all: IFields, f, a) => {
+          all[a] = f
+          return all
+        },
+        {} as IFields
+      )
+    : field.type
+})
+
+export const normalizeFields = (fields: IFieldsConfigs): IFields => {
   return reduce(
     fields,
     (final, field, apiId) => {
@@ -9,16 +25,7 @@ export const normalizeFields = (fields: IFields): IFields => {
         throw new Error('Field API ID must be a string')
       }
 
-      final[apiId] = {
-        ...field,
-        apiId,
-        name: field.name || apiId,
-        required: Boolean(field.required),
-        array: Boolean(field.array),
-        type: isObject(field.type)
-          ? normalizeFields(field.type as IFields)
-          : field.type
-      }
+      final[apiId] = setField(field.options, apiId)
       return final
     },
     {} as IFields

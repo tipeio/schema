@@ -1,30 +1,28 @@
 import { Shape } from './shape'
 import { systemShapes, types } from './utils'
 
-export const Asset = new Shape(systemShapes.asset, {
-  url: {
-    type: types.text,
-    required: true
-  },
-  key: {
-    type: types.text,
-    required: true
-  },
-  name: {
-    type: types.text,
-    required: true
-  },
-  mime: {
-    type: types.text,
-    required: true
-  },
-  size: {
-    type: types.text,
-    required: true
-  },
-  displayType: {
-    type: types.text,
-    required: true
+export const Asset = new Shape({
+  apiId: systemShapes.asset,
+  name: systemShapes.asset,
+  fields: {
+    url: {
+      type: types.text
+    },
+    key: {
+      type: types.text
+    },
+    name: {
+      type: types.text
+    },
+    mime: {
+      type: types.text
+    },
+    size: {
+      type: types.text
+    },
+    displayType: {
+      type: types.text
+    }
   }
 })
 

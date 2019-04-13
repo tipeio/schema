@@ -1,13 +1,11 @@
 import { Page } from '../page'
-import { types } from '../../utils'
+import { fieldTypes } from '../../fieldTypes'
 
 describe('Page Shape', () => {
   it('should expose route params with a valid route', () => {
     const home = new Page({
       fields: {
-        foo: {
-          type: types.text
-        }
+        foo: fieldTypes.text()
       },
       name: 'routeParamTest',
       apiId: 'rpt',
@@ -21,9 +19,7 @@ describe('Page Shape', () => {
     const page = () =>
       new Page({
         fields: {
-          bar: {
-            type: types.text
-          }
+          bar: fieldTypes.text()
         },
         name: 'routeParamTest',
         apiId: 'rpt',
@@ -35,15 +31,13 @@ describe('Page Shape', () => {
   it('should recognize a singular route', () => {
     const home = new Page({
       fields: {
-        foo: {
-          type: types.text
-        }
+        foo: fieldTypes.text()
       },
       name: 'routeParamTest',
       apiId: 'rpt',
       route: 'singleRoute'
     })
 
-    expect(home.isSingleRoute).toBeTruthy()
+    expect(home.multi).toBeTruthy()
   })
 })
