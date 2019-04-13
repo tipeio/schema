@@ -1,5 +1,5 @@
 import { Page } from '../page'
-import { fieldTypes } from '../../fieldTypes'
+import { fieldTypes } from '../../utils/fieldTypes'
 
 describe('Page Shape', () => {
   it('should expose route params with a valid route', () => {

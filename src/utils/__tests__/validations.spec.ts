@@ -1,9 +1,9 @@
 import { SchemaType, IFieldConfig, IShapeOptions } from '../../types'
 import { Shape } from '../../shape'
 import { Page } from '../../page'
-import { systemShapes } from '../../utils'
-import { fieldTypes } from '../../fieldTypes'
-import { validateShape } from '../validations'
+import { reservedNames } from '../constants'
+import { fieldTypes } from '../fieldTypes'
+import { validateOneModel } from '../validations'
 
 describe('validate', () => {
   describe('validations', () => {
@@ -15,7 +15,7 @@ describe('validate', () => {
         }
       } as unknown) as IShapeOptions)
 
-      const errors = validateShape(author, [author])
+      const errors = validateOneModel(author, [author])
       expect(errors.length).toBe(1)
     })
 
@@ -25,7 +25,7 @@ describe('validate', () => {
       }
 
       const invalidAPIIds = [
-        ...Object.keys(systemShapes).map((k: string) => systemShapes[k]),
+        ...Object.keys(reservedNames).map((k: string) => reservedNames[k]),
         '99',
         '__Author',
         '_99',
@@ -53,7 +53,7 @@ describe('validate', () => {
 
         author.apiId = apiId as string
 
-        const errors = validateShape(author, [author])
+        const errors = validateOneModel(author, [author])
         expect(errors.length >= 1).toBe(true)
       })
 
@@ -75,7 +75,7 @@ describe('validate', () => {
           }
         })
 
-        const errors = validateShape(author, [author])
+        const errors = validateOneModel(author, [author])
         expect(errors.length).toBe(0)
       })
     })
@@ -90,13 +90,13 @@ describe('validate', () => {
       })
 
       author.name = (null as unknown) as string
-      const errors = validateShape(author, [author])
+      const errors = validateOneModel(author, [author])
       expect(errors).toHaveLength(1)
     })
 
     test('shape name must have correct format', () => {
       const invalidShapeNames: any[] = [
-        ...Object.keys(systemShapes).map((k: string) => systemShapes[k]),
+        ...Object.keys(reservedNames).map((k: string) => reservedNames[k]),
         '$',
         'my shape name@',
         'Author v.2',
@@ -112,7 +112,7 @@ describe('validate', () => {
           }
         })
 
-        const errors = validateShape(author, [author])
+        const errors = validateOneModel(author, [author])
         expect(errors).toHaveLength(1)
       })
 
@@ -133,7 +133,7 @@ describe('validate', () => {
           }
         })
 
-        const errors = validateShape(author, [author])
+        const errors = validateOneModel(author, [author])
         expect(errors.length).toBe(0)
       })
     })
@@ -149,7 +149,7 @@ describe('validate', () => {
 
       author.fields.name.apiId = (null as unknown) as string
 
-      const errors = validateShape(author, [author])
+      const errors = validateOneModel(author, [author])
       expect(errors).toHaveLength(2)
     })
 
@@ -159,7 +159,7 @@ describe('validate', () => {
       }
 
       const invalidAPIIds = [
-        ...Object.keys(systemShapes).map((k: string) => systemShapes[k]),
+        ...Object.keys(reservedNames).map((k: string) => reservedNames[k]),
         '99',
         '__Author',
         '_99',
@@ -187,7 +187,7 @@ describe('validate', () => {
 
         author.fields.name.apiId = apiId as string
 
-        const errors = validateShape(author, [author])
+        const errors = validateOneModel(author, [author])
         expect(errors.length >= 2).toBe(true)
       })
     })
@@ -203,7 +203,7 @@ describe('validate', () => {
 
       delete author.fields.name.type
 
-      const errors = validateShape(author, [author])
+      const errors = validateOneModel(author, [author])
       expect(errors).toHaveLength(2)
     })
 
@@ -217,7 +217,7 @@ describe('validate', () => {
         }
       })
 
-      const errors = validateShape(author, [author])
+      const errors = validateOneModel(author, [author])
       expect(errors).toHaveLength(2)
     })
 

@@ -113,7 +113,7 @@ export const ShapeSchema = (shape: IModel, shapes: IModel[]) => {
   return new mongoose.Schema(fields, { _id: false })
 }
 
-export const validateShape = (
+export const validateOneModel = (
   shape: IModel,
   shapes: IModel[]
 ): IShapeValidation[] => {
@@ -135,11 +135,11 @@ export const validateShape = (
   return errors
 }
 
-export const validateShapes = (shapes: IModel[]) => {
+export const validateModels = (shapes: IModel[]) => {
   let errors: IShapeValidation[] = []
 
   errors = errors.concat(
-    ...shapes.map(s => validateShape(s, shapes)),
+    ...shapes.map(s => validateOneModel(s, shapes)),
     ...checkForDupes(shapes)
   )
   return errors
