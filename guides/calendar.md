@@ -7,7 +7,7 @@ Calendar field type renders a Calendar editor for displaying dates on the dashbo
 ```
 new Shape('Holiday', {
   name: {
-    type: types.simpletext
+    type: types.text
   },
   date: {
     type: types.calendar

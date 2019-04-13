@@ -12,7 +12,7 @@ export class Page implements IPage {
   public apiId: string
   public route: string
   public routeParams: string[]
-  public isSingleRoute: boolean
+  public multi: boolean
 
   constructor(options: IPageOptions) {
     if (!isString(options.apiId)) throw new Error('Page API ID must be string')
@@ -22,7 +22,7 @@ export class Page implements IPage {
     this.apiId = options.apiId
     this.name = options.name || options.apiId
     this.fields = normalizeFields(options.fields)
-    this.isSingleRoute = this.routeIsSingle(options.route)
+    this.multi = this.routeIsSingle(options.route)
     this.route = options.route
     this.routeParams = this.exposeRouteParams(this.route, [])
     const invalidRoutes = this.invalidateRouteParams(this.routeParams)
@@ -46,8 +46,10 @@ export class Page implements IPage {
   }
 
   public exposeRouteParams(route: string, routeParamsStore: any[]): any[] {
-    if (this.isSingleRoute) return routeParamsStore
+    if (this.multi) return routeParamsStore
+
     pathToRegexp(route, routeParamsStore)
+
     return routeParamsStore.map(param => {
       const { name } = param
       return name

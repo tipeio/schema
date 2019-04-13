@@ -1,16 +1,16 @@
-`simpletext`
+`text`
 =======
 
-Simpletext field type renders a string input editor on the dashboard
+text field type renders a string input editor on the dashboard
 
 ### Example
 ```
 new Shape('Properties', {
   name: {
-    type: types.simpletext
+    type: types.text
   },
   locations: {
-    type: types.simpletext,
+    type: types.text,
     name: 'Addresses',
     array: true
   }
@@ -18,4 +18,4 @@ new Shape('Properties', {
 ```
 
 ### API
-Simpletext type returns a string of any length
+text type returns a string of any length

@@ -7,7 +7,7 @@ Shape type must have a ref property with the API ID of the Shape to reference
 ```
 new Shape('Person', {
   name: {
-    type: types.simpletext
+    type: types.text
   },
   favFood: {
     name: 'Favorite Food',
@@ -18,7 +18,7 @@ new Shape('Person', {
 
 new Shape('Food', {
   name: {
-    type: types.simpletext
+    type: types.text
   },
   calories: {
     type: types.number

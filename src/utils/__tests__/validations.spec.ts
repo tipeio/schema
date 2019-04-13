@@ -9,7 +9,7 @@ describe('validate', () => {
     test('shape api id is required', () => {
       const author = new Shape('', {
         name: {
-          type: types.simpletext
+          type: types.text
         }
       })
 
@@ -43,7 +43,7 @@ describe('validate', () => {
       invalidAPIIds.forEach(apiId => {
         const author = new Shape('Hello', {
           name: {
-            type: types.simpletext
+            type: types.text
           }
         })
 
@@ -65,7 +65,7 @@ describe('validate', () => {
       validAPIIds.forEach(apiId => {
         const author = new Shape(apiId, {
           name: {
-            type: types.simpletext
+            type: types.text
           }
         })
 
@@ -77,7 +77,7 @@ describe('validate', () => {
     test('shape name is required', () => {
       const author = new Shape('Author', {
         name: {
-          type: types.simpletext
+          type: types.text
         }
       })
 
@@ -98,7 +98,7 @@ describe('validate', () => {
       invalidShapeNames.forEach(name => {
         const author = new Shape('Author', name, {
           name: {
-            type: types.simpletext
+            type: types.text
           }
         })
 
@@ -117,7 +117,7 @@ describe('validate', () => {
       validShapeNames.forEach(name => {
         const author = new Shape('Author', name, {
           name: {
-            type: types.simpletext
+            type: types.text
           }
         })
 
@@ -129,7 +129,7 @@ describe('validate', () => {
     test('field api id is required', () => {
       const author = new Shape('Author', {
         name: {
-          type: types.simpletext
+          type: types.text
         }
       })
 
@@ -165,7 +165,7 @@ describe('validate', () => {
       invalidAPIIds.forEach(apiId => {
         const author = new Shape('Author', {
           name: {
-            type: types.simpletext
+            type: types.text
           }
         })
 
@@ -237,7 +237,7 @@ describe('validate', () => {
     test('A Page should be able to embed a shape', () => {
       const Author123 = new Shape('Author123', {
         name: {
-          type: types.simpletext
+          type: types.text
         }
       })
       const home = new Page({
@@ -253,7 +253,7 @@ describe('validate', () => {
 
     test('A Page should not be able to embed another page', () => {
       const about1 = new Page({
-        fields: { header: { type: types.simpletext } },
+        fields: { header: { type: types.text } },
         name: 'about',
         apiId: 'about1',
         route: '/about'

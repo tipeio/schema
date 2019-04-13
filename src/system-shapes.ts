@@ -3,27 +3,27 @@ import { systemShapes, types } from './utils'
 
 export const Asset = new Shape(systemShapes.asset, {
   url: {
-    type: types.simpletext,
+    type: types.text,
     required: true
   },
   key: {
-    type: types.simpletext,
+    type: types.text,
     required: true
   },
   name: {
-    type: types.simpletext,
+    type: types.text,
     required: true
   },
   mime: {
-    type: types.simpletext,
+    type: types.text,
     required: true
   },
   size: {
-    type: types.simpletext,
+    type: types.text,
     required: true
   },
   displayType: {
-    type: types.simpletext,
+    type: types.text,
     required: true
   }
 })

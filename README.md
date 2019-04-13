@@ -13,7 +13,7 @@ Create your first shape by invoking [`new Shape`](guides/Shape.md)
 ### [Types](./src/types.ts)
 Types are used for value types for the API and rendering associated editors on the dashboard.
 - [richtext](guides/richtext.md)
-- [simpletext](guides/simpletext.md)
+- [text](guides/text.md)
 - [calendar](guides/calendar.md)
 - [number](guides/number.md)
 - [toggle](guides/toggle.md)
@@ -26,7 +26,7 @@ import { Shape, types } from '@type/schema'
 
 const Post = new Shape('Post', {
   title: {
-    type: types.simpletext
+    type: types.text
   },
   body: {
     type: types.richtext
@@ -39,7 +39,7 @@ const Post = new Shape('Post', {
 
 const Author = new Shape('Author', {
   name: {
-    type: types.simpletext
+    type: types.text
   },
   leadingAuthor: {
     type: types.toggle
@@ -50,7 +50,7 @@ const PostPage = new Shape('PostsPage', {
   header: {
     type: {
       title: {
-        type: types.simpletext
+        type: types.text
       },
       body: {
         type: types.richtext

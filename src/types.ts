@@ -1,4 +1,5 @@
 import { SchemaType } from './types'
+
 export interface IField {
   type: SchemaType | IFields
   apiId?: string
@@ -16,7 +17,7 @@ export interface IFields {
 
 export interface ISchemaTypes {
   richtext: 'RichText'
-  simpletext: 'SimpleText'
+  text: 'Text'
   calendar: 'Calendar'
   number: 'Number'
   toggle: 'Toggle'
@@ -37,7 +38,7 @@ export interface IValidComponentsMap {
 export type SchemaType =
   | string
   | 'RichText'
-  | 'SimpleText'
+  | 'Text'
   | 'Calendar'
   | 'Number'
   | 'Toggle'
@@ -52,7 +53,7 @@ export interface IShape {
   apiId: string
   name: string
   route?: string
-  isSingleRoute?: boolean
+  multi: boolean
 }
 
 export interface IPage {
@@ -62,7 +63,7 @@ export interface IPage {
   name: string
   route: string
   routeParams: string[]
-  isSingleRoute: boolean
+  multi: boolean
 }
 
 export interface IShapeValidation {
@@ -77,6 +78,13 @@ export interface IPageOptions {
   apiId: string
   name: string
   route: string
+}
+
+export interface IShapeOptions {
+  fields: IFields
+  apiId: string
+  name: string
+  multi: boolean
 }
 
 export type ShapeValidator = (
