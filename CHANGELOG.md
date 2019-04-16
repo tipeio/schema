@@ -1,3 +1,17 @@
+# [2.4.0](https://github.com/tipeio/schema/compare/v2.3.2...v2.4.0) (2019-04-16)
+
+
+### Bug Fixes
+
+* **fieldTypes:** add fieldTypes ([397c2b7](https://github.com/tipeio/schema/commit/397c2b7))
+* **page:** fix route ([cecdf9e](https://github.com/tipeio/schema/commit/cecdf9e))
+* **types:** make types better ([9f395f2](https://github.com/tipeio/schema/commit/9f395f2))
+
+
+### Features
+
+* **url:** add url ([7689c2c](https://github.com/tipeio/schema/commit/7689c2c))
+
 ## [2.3.2](https://github.com/tipeio/schema/compare/v2.3.1...v2.3.2) (2019-04-11)
 
 
