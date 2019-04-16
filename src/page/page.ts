@@ -1,7 +1,7 @@
 import pathToRegexp from 'path-to-regexp'
-
+import { isString } from 'lodash'
 import { normalizeFields } from '../utils/normalize-fields'
-import { IFields, IPage, IPageOptions, IFieldsConfigs } from '../types'
+import { IFields, IPage, IPageOptions } from '../types'
 import { types } from '../utils/constants'
 
 export class Page implements IPage {
@@ -14,16 +14,14 @@ export class Page implements IPage {
   public multi: boolean
 
   constructor(options: IPageOptions) {
-    // if (!isString(options.apiId)) throw new Error('Page API ID must be string')
-
-    // if (!isString(options.route)) throw new Error('Page route must be string')
+    if (!isString(options.route)) throw new Error('Page route must be string')
 
     this.apiId = options.apiId
     this.name = options.name || options.apiId
     this.fields = normalizeFields(options.fields)
-    this.multi = this.routeIsSingle(options.route)
+    this.multi = this.multiRoute(options.route)
     this.route = options.route
-    this.routeParams = this.exposeRouteParams(this.route, [])
+    this.routeParams = this.exposeRouteParams(this.route)
     const invalidRoutes = this.invalidateRouteParams(this.routeParams)
 
     if (invalidRoutes.length) throw new Error('Invalid Routes Present')
@@ -44,18 +42,20 @@ export class Page implements IPage {
     )
   }
 
-  public exposeRouteParams(route: string, routeParamsStore: any[]): any[] {
-    if (this.multi) return routeParamsStore
+  public exposeRouteParams(route: string): any[] {
+    const params: any[] = []
 
-    pathToRegexp(route, routeParamsStore)
+    if (!this.multi) return params
 
-    return routeParamsStore.map(param => {
+    pathToRegexp(route, params)
+
+    return params.map(param => {
       const { name } = param
       return name
     })
   }
 
-  public routeIsSingle(route: string): boolean {
-    return !route.includes('/:')
+  public multiRoute(route: string): boolean {
+    return route.includes('/:')
   }
 }
