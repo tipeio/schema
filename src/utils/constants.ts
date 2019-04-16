@@ -1,6 +1,6 @@
-import { ISchemaTypes, IShapeTypes } from '../types'
+import { IModelFieldTypes, IModelTypes } from '../types'
 
-export const types: ISchemaTypes = {
+export const types: IModelFieldTypes = {
   richtext: 'RichText',
   text: 'Text',
   calendar: 'Calendar',
@@ -10,7 +10,7 @@ export const types: ISchemaTypes = {
   shape: 'Shape'
 }
 
-export const shapeTypes: IShapeTypes = {
+export const modelTypes: IModelTypes = {
   shape: 'shape',
   page: 'page'
 }

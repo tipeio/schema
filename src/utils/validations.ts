@@ -1,7 +1,7 @@
 import mongoose from 'mongoose/browser'
 import { map } from 'lodash'
 import { types } from '../utils/constants'
-import { IModel, IShape, IShapeValidation } from '../types'
+import { IModel, IModelValidation } from '../types'
 import {
   validateFieldType,
   validAPIID,
@@ -13,13 +13,13 @@ import {
 
 mongoose.Schema.Types.String.cast(false)
 
-export const ShapeFieldsSchema = (shape: IModel, shapes: IModel[]) => {
+export const ModelFieldSchema = (model: IModel, models: IModel[]) => {
   const fields = {
     type: {
       type: mongoose.Schema.Types.Mixed,
       required: true,
       validate: {
-        validator: validateFieldType(shape),
+        validator: validateFieldType(model),
         message: (props: any) => props.reason.toString().replace('Error: ', '')
       }
     },
@@ -49,7 +49,7 @@ export const ShapeFieldsSchema = (shape: IModel, shapes: IModel[]) => {
       },
       validate: {
         validator(ref: string) {
-          return validRef(ref, shapes)
+          return validRef(ref, models)
         },
         message: (props: any) => props.reason.toString().replace('Error: ', '')
       }
@@ -61,7 +61,7 @@ export const ShapeFieldsSchema = (shape: IModel, shapes: IModel[]) => {
   return new mongoose.Schema(fields, { _id: false })
 }
 
-export const ShapeSchema = (shape: IModel, shapes: IModel[]) => {
+export const ModelSchema = (model: IModel, models: IModel[]) => {
   let fields = {
     apiId: {
       type: String,
@@ -91,11 +91,11 @@ export const ShapeSchema = (shape: IModel, shapes: IModel[]) => {
 
     fields: {
       type: Map,
-      of: ShapeFieldsSchema(shape, shapes)
+      of: ModelFieldSchema(model, models)
     }
   }
 
-  if (shape.type === 'page') {
+  if (model.type === 'page') {
     fields = {
       ...fields,
       route: {
@@ -114,18 +114,19 @@ export const ShapeSchema = (shape: IModel, shapes: IModel[]) => {
 }
 
 export const validateOneModel = (
-  shape: IModel,
-  shapes: IModel[]
-): IShapeValidation[] => {
-  const doc = new mongoose.Document(shape, ShapeSchema(shape, shapes))
+  model: IModel,
+  models: IModel[]
+): IModelValidation[] => {
+  const doc = new mongoose.Document(model, ModelSchema(model, models))
 
   const res = doc.validateSync()
-  const errors: IShapeValidation[] = []
+  const errors: IModelValidation[] = []
 
   if (res && res.errors) {
     errors.push(
       ...map(res.errors, (e, p) => ({
-        shape: shape.apiId || '<Unknown>',
+        contentType: model.type,
+        model: model.apiId || '<Unknown>',
         error: `${e.message}`,
         path: p
       }))
@@ -135,12 +136,12 @@ export const validateOneModel = (
   return errors
 }
 
-export const validateModels = (shapes: IModel[]) => {
-  let errors: IShapeValidation[] = []
+export const validateAllModels = (models: IModel[]) => {
+  let errors: IModelValidation[] = []
 
   errors = errors.concat(
-    ...shapes.map(s => validateOneModel(s, shapes)),
-    ...checkForDupes(shapes)
+    ...models.map(m => validateOneModel(m, models)),
+    ...checkForDupes(models)
   )
   return errors
 }

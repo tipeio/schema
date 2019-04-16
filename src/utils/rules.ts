@@ -1,12 +1,11 @@
-import { reservedNames, shapeTypes, types } from './constants'
+import { reservedNames, types } from './constants'
 import { forEach, map, isString, isObject, some } from 'lodash'
 import {
   SchemaType,
   IModel,
-  IShape,
-  IPage,
+  IModels,
   IFields,
-  IShapeValidation
+  IModelValidation
 } from '../types'
 
 export const namesRegex = /^[a-z0-9-_ ]*$/i
@@ -88,28 +87,30 @@ export const validateFieldType = (shape: IModel) => (
   return true
 }
 
-export const checkForDupes = (shapes: IShape[]): IShapeValidation[] => {
-  const errors: IShapeValidation[] = []
+export const checkForDupes = (models: IModels[]): IModelValidation[] => {
+  const errors: IModelValidation[] = []
 
-  shapes.forEach(shape => {
+  models.forEach(model => {
     // need to check the entire array to collect all errors
     // to show devs. Hits must be greater than 1
     // to account for the current shape itself
-    const apiIdMatch = shapes.filter(s => s.apiId === shape.apiId).length > 1
-    const nameMatch = shapes.filter(s => s.name === shape.name).length > 1
+    const apiIdMatch = models.filter(s => s.apiId === model.apiId).length > 1
+    const nameMatch = models.filter(s => s.name === model.name).length > 1
 
     if (apiIdMatch) {
       errors.push({
-        shape: shape.apiId,
-        error: `Duplicate Shape API ID ${shape.apiId}`,
+        contentType: model.type,
+        model: model.apiId,
+        error: `Duplicate Shape API ID ${model.apiId}`,
         path: 'apiId'
       })
     }
 
     if (nameMatch) {
       errors.push({
-        shape: shape.apiId,
-        error: `Duplicate Shape name ${shape.name}`,
+        contentType: model.type,
+        model: model.apiId,
+        error: `Duplicate name ${model.name}`,
         path: 'name'
       })
     }
