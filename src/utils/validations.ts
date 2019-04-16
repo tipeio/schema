@@ -1,5 +1,6 @@
 import mongoose from 'mongoose/browser'
-import { map } from 'lodash'
+import { map, isString } from 'lodash'
+import validator from 'validator'
 import { types } from '../utils/constants'
 import { IModel, IModelValidation } from '../types'
 import {
@@ -145,3 +146,6 @@ export const validateAllModels = (models: IModel[]) => {
   )
   return errors
 }
+
+export const validatePreviewUrl = (url: string) =>
+  isString(url) && validator.isURL(url)
