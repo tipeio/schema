@@ -38,6 +38,6 @@ describe('Page Shape', () => {
       route: 'singleRoute'
     })
 
-    expect(home.multi).toBeTruthy()
+    expect(home.multi).toBe(false)
   })
 })
