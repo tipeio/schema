@@ -18,7 +18,7 @@ export interface IFieldsConfigs {
   [fieldName: string]: IFieldConfig
 }
 
-export interface ISchemaTypes {
+export interface IModelFieldTypes {
   richtext: 'RichText'
   text: 'Text'
   calendar: 'Calendar'
@@ -29,7 +29,7 @@ export interface ISchemaTypes {
   [type: string]: string
 }
 
-export interface IShapeTypes {
+export interface IModelTypes {
   shape: 'shape'
   page: 'page'
 }
@@ -48,9 +48,9 @@ export type SchemaType =
   | 'Asset'
   | 'Shape'
 
-export type IModel = IShape | IPage
+export type IModel = IModels | IPage
 
-export interface IShape {
+export interface IModels {
   type: string
   fields: IFields
   apiId: string
@@ -69,9 +69,9 @@ export interface IPage {
   multi: boolean
 }
 
-export interface IShapeValidation {
-  shape?: string
-  page?: string
+export interface IModelValidation {
+  contentType: string
+  model: string
   error: string
   path?: string
 }
@@ -91,13 +91,13 @@ export interface IShapeOptions {
 }
 
 export type ShapeValidator = (
-  shape: IShape,
-  shapes: IShape[]
-) => IShapeValidation[]
+  shape: IModels,
+  shapes: IModels[]
+) => IModelValidation[]
 
 export interface IPreparedSchema {
-  errors: IShapeValidation[]
-  shapes: IShape[]
+  errors: IModelValidation[]
+  shapes: IModels[]
 }
 
 export interface IFieldConfig extends IFieldMeta {
@@ -106,7 +106,7 @@ export interface IFieldConfig extends IFieldMeta {
 
 export interface IFieldTypeCreator {
   object(config: IFieldsConfigs): IFieldConfig
-  ref(shape: IShape | string): IFieldConfig
+  ref(shape: IModel | string): IFieldConfig
   text(): IFieldConfig
   richText(): IFieldConfig
   toggle(): IFieldConfig
@@ -119,4 +119,8 @@ export interface IFieldMeta {
   name(name: string): IFieldConfig
   faker(faker: string): IFieldConfig
   description(description: string): IFieldConfig
+}
+
+export interface ITipeSchema {
+  [apiId: string]: IModel
 }

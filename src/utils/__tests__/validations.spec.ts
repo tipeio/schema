@@ -221,74 +221,70 @@ describe('validate', () => {
       expect(errors).toHaveLength(2)
     })
 
-    // test('ref must be a real shape APIID', () => {
-    //   const author = new Page({
-    //     apiId: 'author1',
-    //     route: 'asdf',
-    //     name: 'pageName',
-    //     fields: {
-    //       something: fieldTypes.ref('something')
-    //     }
-    //   })
+    test('ref must be a real shape APIID', () => {
+      const author = new Page({
+        apiId: 'author1',
+        route: 'asdf',
+        name: 'pageName',
+        fields: {
+          something: fieldTypes.ref('something')
+        }
+      })
 
-    //   const errors = validateShape(author, [author])
-    //   expect(errors).toHaveLength(2)
-    // })
+      const errors = validateOneModel(author, [author])
+      expect(errors).toHaveLength(2)
+    })
 
-    // test('shape type needs ref', () => {
-    //   const author = new Page({
-    //     apiId: 'author1',
-    //     route: 'asdf',
-    //     name: 'pageName',
-    //     fields: {
-    //       something: {
-    //         type: types.shape
-    //       }
-    //     }
-    //   })
+    test('ref type needs ref', () => {
+      const author = new Page({
+        apiId: 'author1',
+        route: 'asdf',
+        name: 'pageName',
+        fields: {
+          something: fieldTypes.ref('')
+        }
+      })
 
-    //   const errors = validateShape(author, [author])
-    //   expect(errors).toHaveLength(2)
-    // })
+      const errors = validateOneModel(author, [author])
+      expect(errors).toHaveLength(2)
+    })
 
-    // test('A Page should be able to embed a shape', () => {
-    //   const Author123 = new Shape({
-    //     name: 'Author123',
-    //     apiId: 'Author123',
-    //     fields: {
-    //       name: {
-    //         type: types.text
-    //       }
-    //     }
-    //   })
+    test('A Page should be able to embed a shape', () => {
+      const Author = new Shape({
+        name: 'Author123',
+        apiId: 'Author123',
+        fields: {
+          name: fieldTypes.text()
+        }
+      })
 
-    //   const home = new Page({
-    //     fields: { someField: { type: types.shape, ref: 'Author123' } },
-    //     name: 'testName',
-    //     apiId: 'asdf',
-    //     route: 'someplace'
-    //   })
+      const home = new Page({
+        fields: { someField: fieldTypes.ref(Author) },
+        name: 'testName',
+        apiId: 'asdf',
+        route: 'someplace'
+      })
 
-    //   const errors = validateShape(home, [Author123])
-    //   expect(errors).toHaveLength(0)
-    // })
+      const errors = validateOneModel(home, [Author])
+      expect(errors).toHaveLength(0)
+    })
 
-    // test('A Page should not be able to embed another page', () => {
-    //   const about1 = new Page({
-    //     fields: { header: { type: types.text } },
-    //     name: 'about',
-    //     apiId: 'about1',
-    //     route: '/about'
-    //   })
-    //   const home = new Page({
-    //     fields: { header: { type: types.shape, ref: 'about1' } },
-    //     name: 'testName',
-    //     apiId: 'home1',
-    //     route: '/home'
-    //   })
+    test('A Page should not be able to embed another page', () => {
+      const about1 = new Page({
+        fields: { header: fieldTypes.text() },
+        name: 'about',
+        apiId: 'about1',
+        route: '/about'
+      })
+      const home = new Page({
+        fields: { header: fieldTypes.ref('about1') },
+        name: 'testName',
+        apiId: 'home1',
+        route: '/home'
+      })
 
-    //   const errors = validateShape(home, [home, about1])
-    //   expect(errors).toHaveLength(2)
-    // })
+      const errors = validateOneModel(home, [home, about1])
+      expect(errors).toHaveLength(2)
+    })
   })
 })

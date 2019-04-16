@@ -1,20 +1,21 @@
-import { IShape, IPreparedSchema, IShapeValidation } from './types'
+import { IModel, ITipeSchema } from './types'
 import { systemModels } from './utils/systemModels'
-import { validateModels } from './utils/validations'
+import { validateAllModels } from './utils/validations'
 
-export const prepareShapes = (shapes: IShape[]): IPreparedSchema => {
-  const errors = validateModels(shapes)
+export const createTipeSchema = (models: IModel[]) => {
+  const errors = validateAllModels(models)
 
   if (errors.length) {
-    return { errors, shapes: [] }
+    return { errors, schema: {} as ITipeSchema }
   }
 
-  return { errors: [], shapes: [...systemModels, ...shapes] }
-}
-
-export const prepareModels = (shapes: IShape[]): IPreparedSchema => {
-  console.warn(
-    '[Deprecated warning]. prepareModels is being depricated, use "prepareShapes()"'
+  const schema: ITipeSchema = [...systemModels, ...models].reduce(
+    (s, model) => {
+      s[model.apiId] = model
+      return s
+    },
+    {} as ITipeSchema
   )
-  return prepareShapes(shapes)
+
+  return { errors: [], schema }
 }

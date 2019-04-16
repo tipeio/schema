@@ -1,7 +1,7 @@
-import { IShape, IShapeOptions, IFieldsConfigs, IFields } from '../types'
+import { IModels, IShapeOptions, IFieldsConfigs, IFields } from '../types'
 import { normalizeFields } from '../utils/normalize-fields'
 
-export class Shape implements IShape {
+export class Shape implements IModels {
   public type = 'shape'
   public fields: IFields
   public name: string
