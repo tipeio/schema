@@ -48,9 +48,9 @@ export type SchemaType =
   | 'Asset'
   | 'Shape'
 
-export type IModel = IModels | IPage
+export type IModel = IShape | IPage
 
-export interface IModels {
+export interface IShape {
   type: string
   fields: IFields
   apiId: string
@@ -90,23 +90,13 @@ export interface IShapeOptions {
   multi?: boolean
 }
 
-export type ShapeValidator = (
-  shape: IModels,
-  shapes: IModels[]
-) => IModelValidation[]
-
-export interface IPreparedSchema {
-  errors: IModelValidation[]
-  shapes: IModels[]
-}
-
 export interface IFieldConfig extends IFieldMeta {
   options: IField
 }
 
 export interface IFieldTypeCreator {
   object(config: IFieldsConfigs): IFieldConfig
-  ref(shape: IModel | string): IFieldConfig
+  ref(shape: IShape | string): IFieldConfig
   text(): IFieldConfig
   richText(): IFieldConfig
   toggle(): IFieldConfig

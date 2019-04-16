@@ -1,12 +1,6 @@
 import { reservedNames, types } from './constants'
 import { forEach, map, isString, isObject, some } from 'lodash'
-import {
-  SchemaType,
-  IModel,
-  IModels,
-  IFields,
-  IModelValidation
-} from '../types'
+import { SchemaType, IModel, IFields, IModelValidation } from '../types'
 
 export const namesRegex = /^[a-z0-9-_ ]*$/i
 export const apiIdRegex = /^[a-z][a-z_0-9]*$/i
@@ -87,7 +81,7 @@ export const validateFieldType = (shape: IModel) => (
   return true
 }
 
-export const checkForDupes = (models: IModels[]): IModelValidation[] => {
+export const checkForDupes = (models: IModel[]): IModelValidation[] => {
   const errors: IModelValidation[] = []
 
   models.forEach(model => {
