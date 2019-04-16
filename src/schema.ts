@@ -1,12 +1,24 @@
 import { IModel, ITipeSchema } from './types'
 import { systemModels } from './utils/systemModels'
-import { validateAllModels } from './utils/validations'
+import { validateAllModels, validatePreviewUrl } from './utils/validations'
 
-export const createTipeSchema = (models: IModel[]) => {
+export const createTipeSchema = (config: {
+  models: IModel[]
+  previewUrl?: string
+}) => {
+  const { models, previewUrl } = config
   const errors = validateAllModels(models)
 
   if (errors.length) {
     return { errors, schema: {} as ITipeSchema }
+  }
+
+  if (previewUrl) {
+    const validurl = validatePreviewUrl(previewUrl)
+
+    if (!validurl) {
+      throw new Error('Invalid Preview URL')
+    }
   }
 
   const schema: ITipeSchema = [...systemModels, ...models].reduce(
@@ -17,5 +29,5 @@ export const createTipeSchema = (models: IModel[]) => {
     {} as ITipeSchema
   )
 
-  return { errors: [], schema }
+  return { errors: [], schema, previewUrl }
 }
