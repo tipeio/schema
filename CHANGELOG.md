@@ -1,3 +1,10 @@
+## [2.4.1](https://github.com/tipeio/schema/compare/v2.4.0...v2.4.1) (2019-04-16)
+
+
+### Bug Fixes
+
+* **types:** exports ([96bf9e2](https://github.com/tipeio/schema/commit/96bf9e2))
+
 # [2.4.0](https://github.com/tipeio/schema/compare/v2.3.2...v2.4.0) (2019-04-16)
 
 
