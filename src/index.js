@@ -1,0 +1,1 @@
+exports.validateTemplates = require('./validator')
