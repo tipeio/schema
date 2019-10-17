@@ -50,7 +50,7 @@ const check = v.compile({
   }
 })
 
-exports.validateTemplates = templates => {
+const validateTemplates = templates => {
   // if Array (from api), just validate
   if (Array.isArray(templates)) {
     return templates.map(template => check(template))
@@ -69,4 +69,8 @@ exports.validateTemplates = templates => {
     })
     return check(formattedTemplate)
   })
+}
+
+module.exports = {
+  validateTemplates
 }
