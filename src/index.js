@@ -1,5 +1,6 @@
-const { validateTemplates } = require('./validator')
+const { validateTemplate, validateTemplates } = require('./validator')
 
 module.exports = {
+  validateTemplate,
   validateTemplates
 }

@@ -51,6 +51,9 @@ const check = v.compile({
   }
 })
 
+const validateTemplate = template =>
+  flatten(check(template))
+
 const validateTemplates = templates => {
   // if Array (from api), just validate
   if (Array.isArray(templates)) {
@@ -92,5 +95,6 @@ const validateTemplates = templates => {
 }
 
 module.exports = {
-  validateTemplates
+  validateTemplates,
+  validateTemplate
 }
