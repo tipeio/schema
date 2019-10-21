@@ -1,6 +1,7 @@
 const Validator = require('fastest-validator')
 const { templateFormatter } = require('./templateFormatter')
 const map = require('lodash.map')
+const flatten = require('lodash.flatten')
 
 const v = new Validator()
 
@@ -53,21 +54,40 @@ const check = v.compile({
 const validateTemplates = templates => {
   // if Array (from api), just validate
   if (Array.isArray(templates)) {
-    return templates.map(template => check(template))
+    return flatten(
+      templates
+        .map(template => check(template))
+        .filter(e => e !== true)
+        .map(error => {
+          return {
+            code: 200,
+            message: `Template format is incorrect. ${error.message} at field "${error.field}"`
+          }
+        })
+    )
   }
 
-  // if Object (from the cli), format the template
-  return Object.keys(templates).map(templateId => {
-    // template needs fields
-    if (!templates[templateId].fields) {
-      return { field: `fields`, message: `Template is missing fields`}
-    }
+  return flatten(
+    Object.keys(templates)
+      .map(templateId => {
+        // template needs fields
+        if (!templates[templateId].fields) {
+          return { field: `fields`, message: `Template is missing fields` }
+        }
 
-    let formattedTemplate = templateFormatter({
-      ...templates[templateId],
-      id: templateId
-    })
-    return check(formattedTemplate)
+        // if Object (from the cli), format the template
+        let formattedTemplate = templateFormatter({
+          ...templates[templateId],
+          id: templateId
+        })
+        return check(formattedTemplate)
+      })
+      .filter(e => e !== true)
+  ).map(error => {
+    return {
+      code: 200,
+      message: `Template format is incorrect. ${error.message} at field "${error.field}"`
+    }
   })
 }
 
