@@ -1,10 +1,9 @@
-import { Shape } from '../shape'
 import { reservedNames } from '.'
 import { fieldTypes } from './fieldTypes'
 
-export const Asset = new Shape({
-  apiId: reservedNames.asset,
+export const Asset = {
   name: reservedNames.asset,
+  apiId: reservedNames.asset,
   fields: {
     url: fieldTypes.text(),
     key: fieldTypes.text(),
@@ -13,6 +12,6 @@ export const Asset = new Shape({
     size: fieldTypes.text(),
     displayType: fieldTypes.text()
   }
-})
+}
 
 export const systemModels = [Asset]

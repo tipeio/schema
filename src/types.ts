@@ -22,7 +22,7 @@ export interface IModelFieldTypes {
   code: 'Code'
   text: 'Text'
   toggle: 'Toggle'
-  image: 'Image'
+  asset: 'Asset'
   html: 'Html'
   markdown: 'Markdown'
   button: 'Button'
@@ -42,7 +42,7 @@ export type SchemaType =
   | 'Code'
   | 'Text'
   | 'Toggle'
-  | 'Image'
+  | 'Asset'
   | 'Html'
   | 'Markdown'
   | 'Button'
@@ -79,7 +79,7 @@ export interface IFieldTypeCreator {
   ref(shape: IPage | string): IFieldConfig
   text(): IFieldConfig
   toggle(): IFieldConfig
-  image(): IFieldConfig
+  asset(): IFieldConfig
   code(): IFieldConfig
   html(): IFieldConfig
   markdown(): IFieldConfig

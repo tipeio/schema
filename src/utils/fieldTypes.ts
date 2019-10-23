@@ -45,7 +45,7 @@ export const fieldTypes: IFieldTypeCreator = {
 
     return createField({
       ref: ref as string,
-      type: types.page
+      type: types.ref
     })
   },
   text() {
@@ -58,8 +58,8 @@ export const fieldTypes: IFieldTypeCreator = {
       type: types.toggle
     })
   },
-  image() {
-    return createField({ type: types.image })
+  asset() {
+    return createField({ type: types.asset })
   },
   code() {
     return createField({ type: types.code })

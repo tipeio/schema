@@ -46,7 +46,7 @@ export const ModelFieldSchema = (model: IModel, models: IModel[]) => {
     ref: {
       type: String,
       required() {
-        return ((this.type as unknown) as string) === types.shape
+        return ((this.type as unknown) as string) === types.ref
       },
       validate: {
         validator(ref: string) {
@@ -63,14 +63,14 @@ export const ModelFieldSchema = (model: IModel, models: IModel[]) => {
 }
 
 export const ModelSchema = (model: IModel, models: IModel[]) => {
-  let fields = {
+  const fields = {
     apiId: {
       type: String,
       required: true,
       validate: {
         validator: validAPIID,
         message(props: { [key: string]: any }) {
-          return `Invalid Shape API ID. Got ${props.value}`
+          return `Invalid Page API ID. Got ${props.value}`
         }
       }
     },
@@ -80,7 +80,7 @@ export const ModelSchema = (model: IModel, models: IModel[]) => {
       validate: {
         validator: (v: any) => !notSystemShape.test(v) && namesRegex.test(v),
         message(props: { [key: string]: any }) {
-          return `Invalid Shape name. Got ${props.value}`
+          return `Invalid Page name. Got ${props.value}`
         }
       }
     },
@@ -94,21 +94,6 @@ export const ModelSchema = (model: IModel, models: IModel[]) => {
       type: Map,
       of: ModelFieldSchema(model, models)
     }
-  }
-
-  if (model.type === 'page') {
-    fields = {
-      ...fields,
-      route: {
-        type: String,
-        required: true
-      },
-      routeParams: [
-        {
-          type: String
-        }
-      ]
-    } as any
   }
 
   return new mongoose.Schema(fields, { _id: false })

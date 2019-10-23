@@ -3,7 +3,7 @@ import { IModelFieldTypes, IModelTypes } from '../types'
 export const types: IModelFieldTypes = {
   text: 'Text',
   toggle: 'Toggle',
-  image: 'Image',
+  asset: 'Asset',
   ref: 'Page',
   code: 'Code',
   html: 'Html',

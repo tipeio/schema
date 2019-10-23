@@ -11,7 +11,7 @@ new Shape('Person', {
   },
   favFood: {
     name: 'Favorite Food',
-    types: types.shape,
+    types: types.ref,
     ref: 'Food'
   }
 })

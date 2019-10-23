@@ -54,20 +54,18 @@ describe('field types', () => {
   describe('types', () => {
     test('ref', () => {
       const field = fieldTypes.ref('Author')
-      expect(field.options.type).toBe(types.shape)
+      expect(field.options.type).toBe(types.ref)
       expect(field.options.ref).toBe('Author')
     })
 
     test('object', () => {
       const field = fieldTypes.object({
-        name: fieldTypes.text(),
-        age: fieldTypes.number()
+        name: fieldTypes.text()
       })
       expect(typeof field.options.type).toBe('object')
       const type = field.options.type as IFields
 
       expect(type.name.type).toBe(types.text)
-      expect(type.age.type).toBe(types.number)
     })
 
     test('text', () => {
@@ -80,19 +78,29 @@ describe('field types', () => {
       expect(field.options.type).toBe(types.toggle)
     })
 
-    test('number', () => {
-      const field = fieldTypes.number()
-      expect(field.options.type).toBe(types.number)
+    test('markdown', () => {
+      const field = fieldTypes.markdown()
+      expect(field.options.type).toBe(types.markdown)
     })
 
-    test('calendar', () => {
-      const field = fieldTypes.calendar()
-      expect(field.options.type).toBe(types.calendar)
+    test('html', () => {
+      const field = fieldTypes.html()
+      expect(field.options.type).toBe(types.html)
     })
 
     test('asset', () => {
       const field = fieldTypes.asset()
       expect(field.options.type).toBe(types.asset)
+    })
+
+    test('code', () => {
+      const field = fieldTypes.code()
+      expect(field.options.type).toBe(types.code)
+    })
+
+    test('button', () => {
+      const field = fieldTypes.button()
+      expect(field.options.type).toBe(types.button)
     })
   })
 })

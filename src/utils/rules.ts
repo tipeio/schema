@@ -20,7 +20,7 @@ export const isPublicType = (type: SchemaType): boolean => {
 }
 
 export const fieldsHasRefs = (fields: IFields): boolean =>
-  some(fields, field => field.type === types.shape)
+  some(fields, field => field.type === types.ref)
 
 export const fieldsHaveListTypes = (fields: IFields): boolean =>
   some(fields, field => Boolean(field.array))
@@ -34,11 +34,6 @@ export const validRef = function(
   shapes: IModel[]
 ): boolean {
   if (ref) {
-    // ref must be a real shape
-    if (some(shapes, shape => shape.apiId === ref && shape.type === 'page')) {
-      throw new Error(`Invalid field. Ref cannot be of type Page`)
-    }
-
     if (!some(shapes, shape => shape.apiId === ref)) {
       throw new Error(
         `Invalid field. Ref must be a real shape API ID, got "${ref}"`
