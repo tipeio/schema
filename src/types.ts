@@ -19,18 +19,17 @@ export interface IFieldsConfigs {
 }
 
 export interface IModelFieldTypes {
-  richtext: 'RichText'
+  code: 'Code'
   text: 'Text'
-  calendar: 'Calendar'
-  number: 'Number'
   toggle: 'Toggle'
-  asset: 'Asset'
-  shape: 'Shape'
+  image: 'Image'
+  html: 'Html'
+  markdown: 'Markdown'
+  button: 'Button'
   [type: string]: string
 }
 
 export interface IModelTypes {
-  shape: 'shape'
   page: 'page'
 }
 
@@ -40,32 +39,20 @@ export interface IValidComponentsMap {
 
 export type SchemaType =
   | string
-  | 'RichText'
+  | 'Code'
   | 'Text'
-  | 'Calendar'
-  | 'Number'
   | 'Toggle'
-  | 'Asset'
-  | 'Shape'
-
-export type IModel = IShape | IPage
-
-export interface IShape {
-  type: string
-  fields: IFields
-  apiId: string
-  name: string
-  route?: string
-  multi: boolean
-}
+  | 'Image'
+  | 'Html'
+  | 'Markdown'
+  | 'Button'
+export type IModel = IPage
 
 export interface IPage {
   type: string
   fields: IFields
   apiId: string
   name: string
-  route: string
-  routeParams: string[]
   multi: boolean
 }
 
@@ -80,14 +67,7 @@ export interface IPageOptions {
   fields: IFieldsConfigs
   apiId: string
   name: string
-  route: string
-}
-
-export interface IShapeOptions {
-  fields: IFieldsConfigs
-  apiId: string
-  name: string
-  multi?: boolean
+  multi: boolean
 }
 
 export interface IFieldConfig extends IFieldMeta {
@@ -96,13 +76,14 @@ export interface IFieldConfig extends IFieldMeta {
 
 export interface IFieldTypeCreator {
   object(config: IFieldsConfigs): IFieldConfig
-  ref(shape: IShape | string): IFieldConfig
+  ref(shape: IPage | string): IFieldConfig
   text(): IFieldConfig
-  richText(): IFieldConfig
   toggle(): IFieldConfig
-  number(): IFieldConfig
-  calendar(): IFieldConfig
-  asset(): IFieldConfig
+  image(): IFieldConfig
+  code(): IFieldConfig
+  html(): IFieldConfig
+  markdown(): IFieldConfig
+  button(): IFieldConfig
 }
 
 export interface IFieldMeta {

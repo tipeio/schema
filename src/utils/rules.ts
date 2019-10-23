@@ -65,7 +65,7 @@ export const validateFieldType = (shape: IModel) => (
   }
 
   if (isObject(type) && fieldsHasRefs(type as IFields)) {
-    throw new Error('Invalid field. Nested fields cannot have shape types')
+    throw new Error('Invalid field. Nested fields cannot have page types')
   }
 
   if (isObject(type) && fieldsHaveNestedTypes(type as IFields)) {

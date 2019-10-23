@@ -36,7 +36,6 @@ export const fieldTypes: IFieldTypeCreator = {
       type: fields
     })
   },
-  // arrayOf() {},
   ref(shape) {
     let ref = shape
 
@@ -46,7 +45,7 @@ export const fieldTypes: IFieldTypeCreator = {
 
     return createField({
       ref: ref as string,
-      type: types.shape
+      type: types.page
     })
   },
   text() {
@@ -54,23 +53,24 @@ export const fieldTypes: IFieldTypeCreator = {
       type: types.text
     })
   },
-  richText() {
-    return createField({
-      type: types.richtext
-    })
-  },
   toggle() {
     return createField({
       type: types.toggle
     })
   },
-  number() {
-    return createField({ type: types.number })
+  image() {
+    return createField({ type: types.image })
   },
-  calendar() {
-    return createField({ type: types.calendar })
+  code() {
+    return createField({ type: types.code })
   },
-  asset() {
-    return createField({ type: types.asset })
+  html() {
+    return createField({ type: types.html })
+  },
+  button() {
+    return createField({ type: types.button })
+  },
+  markdown() {
+    return createField({ type: types.markdown })
   }
 }
