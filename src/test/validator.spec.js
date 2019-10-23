@@ -60,4 +60,23 @@ describe('Validator', () => {
 
     expect(validation).toHaveLength(1)
   })
+
+  it('passes list of refs', () => {
+    const templateWithRefs = {
+      id: 'about',
+      name:'about',
+      fields: [{id: 'title', name: 'title', type: 'text'}],
+      refs: {
+        feature1: {
+          name: 'feature',
+          list: true,
+          type: 'feature'
+        }
+      }
+    }
+    const _templates = templates
+    _templates.about = templateWithRefs
+    const validation = validateTemplates(_templates)
+    expect(validation).toEqual([])
+  })
 })
