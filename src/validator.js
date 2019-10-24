@@ -47,8 +47,7 @@ const check = v.compile({
     optional: true,
     items: {
       type: 'object',
-      list: { type: 'boolean', optional: true},
-      props: { ...fieldSchema, type: { type: 'string' } }
+      props: { ...fieldSchema, list: { type: 'boolean', optional: true}, type: { type: 'string' } }
     }
   }
 })
