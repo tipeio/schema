@@ -13,7 +13,8 @@ const fieldTypes = [
   { name: 'image' },
   { name: 'markdown' },
   { name: 'code' },
-  { name: 'boolean' }
+  { name: 'boolean' },
+  { name: 'html' }
 ]
 
 const fieldSchema = {
