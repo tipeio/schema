@@ -1,3 +1,17 @@
+# [3.1.0](https://github.com/tipeio/schema/compare/v3.0.0...v3.1.0) (2019-10-24)
+
+
+### Bug Fixes
+
+* **list:** moved to props ([3408cb8](https://github.com/tipeio/schema/commit/3408cb87532d2a2743c53a53d90f65638b77f11d))
+* **validator:** added html type ([b7a5ac9](https://github.com/tipeio/schema/commit/b7a5ac99c3396474bd9ac9255a501d51d8e4570d))
+* **validator:** removed field list ([f83fc56](https://github.com/tipeio/schema/commit/f83fc56178873e8da195c85d022cc45950f016c8))
+
+
+### Features
+
+* **schema:** list for refs ([0c45c2f](https://github.com/tipeio/schema/commit/0c45c2fbd1544b04438180c24b8af6e4ad4f6550))
+
 # [3.0.0](https://github.com/tipeio/schema/compare/v2.4.1...v3.0.0) (2019-10-23)
 
 
