@@ -1,3 +1,10 @@
+# [3.2.0](https://github.com/tipeio/schema/compare/v3.1.0...v3.2.0) (2019-11-05)
+
+
+### Features
+
+* **skuId:** handled sku ids ([367388d](https://github.com/tipeio/schema/commit/367388da4fc19c42d3357aa7c5fd2898b1d814ec))
+
 # [3.1.0](https://github.com/tipeio/schema/compare/v3.0.0...v3.1.0) (2019-10-24)
 
 
