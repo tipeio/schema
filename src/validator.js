@@ -33,6 +33,7 @@ const check = v.compile({
   disabled: { type: 'boolean', optional: true },
   description: { type: 'string', optional: true },
   multi: { type: 'boolean', optional: true },
+  skuId: { type: 'string', optional: true },
   fields: {
     type: 'array',
     min: 1,

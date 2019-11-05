@@ -79,4 +79,20 @@ describe('Validator', () => {
     const validation = validateTemplates(_templates)
     expect(validation).toEqual([])
   })
+  it('passes sku id', () => {
+    const templateWithRefs = {
+      id: 'about',
+      name:'about',
+      skuId: 'skuId',
+      fields: [{id: 'title', name: 'title', type: 'text'}],
+      refs: {
+        
+      }
+    }
+    const _templates = templates
+    _templates.about = templateWithRefs
+    const validation = validateTemplates(_templates)
+    expect(validation).toEqual([])
+  })
 })
+
