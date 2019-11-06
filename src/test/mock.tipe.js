@@ -63,6 +63,11 @@ module.exports = {
           type: 'button',
           mock: ['Shop code, not content']
         },
+        pricingCta: {
+          name: 'pricing cta',
+          type: 'select',
+          values: ['Starter', 'Pro']
+        },
         liveContentHeader: {
           name: 'live content header',
           type: 'text',

@@ -14,13 +14,15 @@ const fieldTypes = [
   { name: 'markdown' },
   { name: 'code' },
   { name: 'boolean' },
-  { name: 'html' }
+  { name: 'html' },
+  { name: 'select' }
 ]
 
 const fieldSchema = {
   id: { type: 'string', pattern: idPattern },
   name: { type: 'string', pattern: namePattern },
   type: { type: 'string', enum: map(fieldTypes, 'name') },
+  values: { type: 'array', optional: true, items: { type: 'string' }},
   description: { type: 'string', optional: true },
   disabled: { type: 'boolean', optional: true }
 }
