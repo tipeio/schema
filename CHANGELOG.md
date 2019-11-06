@@ -1,3 +1,10 @@
+# [3.3.0](https://github.com/tipeio/schema/compare/v3.2.0...v3.3.0) (2019-11-06)
+
+
+### Features
+
+* **fieldSchema:** Select field type ([27816ef](https://github.com/tipeio/schema/commit/27816effc2faee6fe7f540495020ea32cfa0afb4))
+
 # [3.2.0](https://github.com/tipeio/schema/compare/v3.1.0...v3.2.0) (2019-11-05)
 
 
