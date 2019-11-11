@@ -22,6 +22,7 @@ const fieldSchema = {
   name: { type: 'string', pattern: namePattern },
   type: { type: 'string', enum: map(fieldTypes, 'name') },
   mocks: { type: 'array', optional: true, items: { type: 'string' }},
+  values: { type: 'array', optional: true, items: { type: 'string' }},
   list: { type: 'boolean', optional: true},
   description: { type: 'string', optional: true },
   disabled: { type: 'boolean', optional: true }

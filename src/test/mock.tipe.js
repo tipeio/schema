@@ -67,7 +67,8 @@ module.exports = {
         },
         pricingCta: {
           name: 'pricing cta',
-          type: 'select'
+          type: 'select',
+          values: ['Starter', 'Pro']
         },
         liveContentHeader: {
           name: 'live content header',
