@@ -2,9 +2,11 @@ module.exports = {
   templates: {
     home: {
       name: 'Home',
+      id: 'home',
       fields: {
         signup: {
           name: 'sign up button text',
+          list: true,
           type: 'button'
         },
         signin: {
@@ -61,12 +63,11 @@ module.exports = {
         shipCta: {
           name: 'ship cta',
           type: 'button',
-          mock: ['Shop code, not content']
+          mocks: ['Shop code, not content']
         },
         pricingCta: {
           name: 'pricing cta',
-          type: 'select',
-          values: ['Starter', 'Pro']
+          type: 'select'
         },
         liveContentHeader: {
           name: 'live content header',
@@ -114,6 +115,7 @@ module.exports = {
       refs: {
         featureSet1: {
           name: 'feature set 1',
+          list: true,
           type: 'feature'
         },
         featureSet2: {
@@ -170,6 +172,7 @@ module.exports = {
     },
     devDocs: {
       name: 'Dev Documentation',
+      id: 'devDocs',
       fields: {
         title: {
           name: 'Title',

@@ -19,10 +19,10 @@ const fieldTypes = [
 ]
 
 const fieldSchema = {
-  id: { type: 'string', pattern: idPattern },
   name: { type: 'string', pattern: namePattern },
   type: { type: 'string', enum: map(fieldTypes, 'name') },
-  values: { type: 'array', optional: true, items: { type: 'string' }},
+  mocks: { type: 'array', optional: true, items: { type: 'string' }},
+  list: { type: 'boolean', optional: true},
   description: { type: 'string', optional: true },
   disabled: { type: 'boolean', optional: true }
 }
@@ -35,7 +35,7 @@ const check = v.compile({
   disabled: { type: 'boolean', optional: true },
   description: { type: 'string', optional: true },
   multi: { type: 'boolean', optional: true },
-  skuId: { type: 'string', optional: true },
+  skuIds: { type: 'array', items: {type: 'string'}, optional: true },
   fields: {
     type: 'array',
     min: 1,

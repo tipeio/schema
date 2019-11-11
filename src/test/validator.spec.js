@@ -7,12 +7,16 @@ describe('Validator', () => {
       {
         id: 'home',
         name: 'home',
-        fields: [{ id: 'title', name: 'title', type: 'text' }]
+        fields: {
+          name: {name: 'title', type: 'text' }
+        }
       },
       {
         id: 'about',
         name: 'about',
-        fields: [{ id: 'title', name: 'title' }]
+        fields: {
+          title: { type: 'text', name: 'title' }
+        }
       }
     ]
 
@@ -65,7 +69,9 @@ describe('Validator', () => {
     const templateWithRefs = {
       id: 'about',
       name:'about',
-      fields: [{id: 'title', name: 'title', type: 'text'}],
+      fields: {
+        title: {name: 'title', type: 'text'}
+      },
       refs: {
         feature1: {
           name: 'feature',
@@ -83,8 +89,10 @@ describe('Validator', () => {
     const templateWithRefs = {
       id: 'about',
       name:'about',
-      skuId: 'skuId',
-      fields: [{id: 'title', name: 'title', type: 'text'}],
+      skuIds: ['skuId'],
+      fields: {
+        title: {name: 'title', type: 'text'}
+      },
       refs: {
         
       }
