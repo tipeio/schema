@@ -1,3 +1,10 @@
+## [3.3.1](https://github.com/tipeio/schema/compare/v3.3.0...v3.3.1) (2019-11-11)
+
+
+### Bug Fixes
+
+* **validator:** update validations ([041f279](https://github.com/tipeio/schema/commit/041f2794e33cc6c719c800569776468a1c2ac11f))
+
 # [3.3.0](https://github.com/tipeio/schema/compare/v3.2.0...v3.3.0) (2019-11-06)
 
 
