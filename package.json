@@ -35,7 +35,7 @@
     ]
   },
   "dependencies": {
-    "fastest-validator": "^0.6.18",
+    "fastest-validator": "^0.6.19",
     "global": "^4.4.0",
     "lodash.flatten": "^4.4.0",
     "lodash.map": "^4.6.0"
