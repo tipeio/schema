@@ -112,5 +112,18 @@ describe('Validator', () => {
     const validation = validateTemplates(_templates)
     expect(validation[0].code).toEqual(200)
   })
+  it('should error if field type is Select with no values in Values array', () => {
+    const templateWithSelect = {
+      id: 'about',
+      name:'about',
+      fields: {
+        title: {name: 'title', type: 'select', values: []}
+      }
+    }
+    const _templates = templates
+    _templates.about = templateWithSelect
+    const validation = validateTemplates(_templates)
+    expect(validation[0].code).toEqual(200)
+  })
 })
 
