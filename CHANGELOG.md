@@ -1,3 +1,16 @@
+# [3.4.0](https://github.com/tipeio/schema/compare/v3.3.1...v3.4.0) (2019-11-12)
+
+
+### Bug Fixes
+
+* **tests:** updated tests ([ee2a04e](https://github.com/tipeio/schema/commit/ee2a04ebf84131a5c01ccc4d15d875dfdfbe7b5d))
+* **validator:** changed refs validations ([4803fe5](https://github.com/tipeio/schema/commit/4803fe5754cdff705b1b1d1c8274da25db71e71a))
+
+
+### Features
+
+* **validations:** better validations for template fields ([edcc94c](https://github.com/tipeio/schema/commit/edcc94cca7cdbe958fda61e9e1089a59a8584526))
+
 ## [3.3.1](https://github.com/tipeio/schema/compare/v3.3.0...v3.3.1) (2019-11-11)
 
 
