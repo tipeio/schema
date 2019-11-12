@@ -3,7 +3,25 @@ const { templateFormatter } = require('./templateFormatter')
 const map = require('lodash.map')
 const flatten = require('lodash.flatten')
 
-const v = new Validator()
+const v = new Validator({
+  messages: {
+    // Register our new error message text
+    invalidSelect: "The '{expected}' field must have string values in Values array!",
+    invalidFieldsFormat: "Your template fields are incorrectly formatted!"
+  }
+})
+
+v.add('tipeField', fields => {
+  if (!Array.isArray(fields)) {
+    return v.makeError('invalidFieldsFormat', null, 'fields')
+  }
+  const invalidFields = fields.filter(_f => _f.type === 'select' && (!_f.values || _f.values.length < 1))
+  if(invalidFields.length > 0) {
+    const field = invalidFields.pop()
+    return v.makeError('invalidSelect', field.id)
+  }
+  return true
+})
 
 const namePattern = /^[a-z0-9-_ ]*$/i
 const idPattern = /^[a-z][a-z_0-9]*$/i
@@ -20,9 +38,12 @@ const fieldTypes = [
 
 const fieldSchema = {
   name: { type: 'string', pattern: namePattern },
-  type: { type: 'string', enum: map(fieldTypes, 'name') },
-  mocks: { type: 'array', optional: true, items: { type: 'string' }},
-  values: { type: 'array', optional: true, items: { type: 'string' }},
+  type: {
+    type: 'tipeField',
+    enum: map(fieldTypes, 'name')
+  },
+  mocks: { type: 'array', optional: true, items: 'string' },
+  values: { type: 'array', optional: true, items: 'string' },
   list: { type: 'boolean', optional: true},
   description: { type: 'string', optional: true },
   disabled: { type: 'boolean', optional: true }
@@ -39,14 +60,14 @@ const refSchema = {
 // TODO: add custom error messages for diff error types
 const check = v.compile({
   $$strict: true,
-  id: { type: 'string', pattern: idPattern },
-  name: { type: 'string', pattern: namePattern },
+  id: { type: 'string', pattern: idPattern, min: 3, max: 60 },
+  name: { type: 'string', pattern: namePattern,  min: 3, max: 60 },
   disabled: { type: 'boolean', optional: true },
   description: { type: 'string', optional: true },
   multi: { type: 'boolean', optional: true },
-  skuIds: { type: 'array', items: {type: 'string'}, optional: true },
+  skuIds: { type: 'array', items: 'string', optional: true },
   fields: {
-    type: 'array',
+    type: 'tipeField',
     min: 1,
     items: {
       type: 'object',
@@ -73,7 +94,8 @@ const validateTemplates = templates => {
       templates
         .map(template => check(template))
         .filter(e => e !== true)
-        .map(error => {
+        .map(e => {
+          const error = Array.isArray(e) ? e.pop() : e
           return {
             code: 200,
             message: `Template format is incorrect. ${error.message} at field "${error.field}"`
@@ -98,7 +120,8 @@ const validateTemplates = templates => {
         return check(formattedTemplate)
       })
       .filter(e => e !== true)
-  ).map(error => {
+  ).map(e => {
+    const error = Array.isArray(e) ? e.pop() : e
     return {
       code: 200,
       message: `Template format is incorrect. ${error.message} at field "${error.field}"`
