@@ -28,6 +28,14 @@ const fieldSchema = {
   disabled: { type: 'boolean', optional: true }
 }
 
+const refSchema = {
+  name: { type: 'string', pattern: namePattern },
+  type: { type: 'string' },
+  list: { type: 'boolean', optional: true},
+  description: { type: 'string', optional: true },
+  disabled: { type: 'boolean', optional: true }
+}
+
 // TODO: add custom error messages for diff error types
 const check = v.compile({
   $$strict: true,
@@ -50,7 +58,7 @@ const check = v.compile({
     optional: true,
     items: {
       type: 'object',
-      props: { ...fieldSchema, list: { type: 'boolean', optional: true}, type: { type: 'string' } }
+      props: refSchema
     }
   }
 })
